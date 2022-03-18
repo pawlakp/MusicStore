@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Moq;
 using Ninject;
 using MusicStore.Domain.Entities;
+using MusicStore.Domain.Concrete;
 using MusicStore.Domain.Abstract;
 
 namespace MusicStore.WebUI.Infrastructure
@@ -32,14 +33,8 @@ namespace MusicStore.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            Mock<IAlbumRepository> mock = new Mock<IAlbumRepository>();
-            mock.Setup(m => m.Album).Returns(new List<Album>
-            {
-                new Album { Name = "Egzotyka", Price = 25},
-                new Album {Name = "Ezoteryka", Price = 50}
-            });
-
-            kernel.Bind<IAlbumRepository>().ToConstant(mock.Object);
+          
+            kernel.Bind<IAlbumRepository>().To<EFAlbumRepository>();
         }
     }
 }

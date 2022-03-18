@@ -8,14 +8,14 @@ namespace MusicStore.Domain.Entities
 {
     public class Album
     {
-        public int AlbumId { get; set; }
-        public string Name { get; set; }
-        public int ArtistId { get; set; }
-        public int LabelId { get; set; }
-        public string Year { get; set; }
-        public int GenreId { get; set; }
-        public int CountryId { get; set; }
-        public decimal Price { get; set; }
+        public int id { get; set; }
+        public string album_name { get; set; }
+        public int artist_id { get; set; }
+        public int music_label_id { get; set; }
+        public string year_production { get; set; }
+        public int genre_id { get; set; }
+        public int country_id { get; set; }
+        public decimal price { get; set; }
 
     }
 }
