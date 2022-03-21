@@ -34,7 +34,7 @@ namespace MusicStore.WebUI.Infrastructure
         private void AddBindings()
         {
           
-            kernel.Bind<IAlbumRepository>().To<EFAlbumRepository>();
+            kernel.Bind<IProductsRepository>().To<EFProjectRepository>();
         }
     }
 }

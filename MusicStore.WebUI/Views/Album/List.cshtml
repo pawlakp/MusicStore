@@ -1,15 +1,14 @@
-﻿@using MusicStore.Domain.Entities
-@model IEnumerable<Album>
+﻿@model MusicStore.WebUI.Models.AlbumListViewModel
 
 @{
     ViewBag.Title = "Albumy";
 }
 
-@foreach (var p in Model)
+@foreach (var p in Model.Albums)
             {
-                <div>
-                    <h3> @p.album_name</h3>
-                    <h4> @p.price </h4>
-                </div>
-            }
+            @Html.Partial("AlbumSummary", p);
+}
+<div class="btn-group pull-right">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page=x}))
+</div>
 

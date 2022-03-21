@@ -11,6 +11,7 @@ namespace MusicStore.Domain.Concrete
     public class EfDbContext : DbContext
     {
         public DbSet<Album> Albums { get; set; }
+        public DbSet<Artist> Artist { get; set; }
     }
     
 }

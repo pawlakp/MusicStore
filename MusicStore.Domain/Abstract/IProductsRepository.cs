@@ -7,8 +7,9 @@ using MusicStore.Domain.Entities;
 
 namespace MusicStore.Domain.Abstract
 {
-    public interface IAlbumRepository
+    public interface IProductsRepository
     {
         IEnumerable<Album> Album { get; }
+        IEnumerable<Artist> Artist { get; }
     }
 }
