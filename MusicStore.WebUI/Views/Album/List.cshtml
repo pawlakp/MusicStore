@@ -4,7 +4,7 @@
     ViewBag.Title = "Albumy";
 }
 
-@foreach (var p in Model.Albums)
+@foreach (var p in Model.AlbumsWithArtists)
             {
             @Html.Partial("AlbumSummary", p);
 }

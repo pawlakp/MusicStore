@@ -76,6 +76,7 @@
     <Compile Include="Concrete\EFProjectRepository.cs" />
     <Compile Include="Concrete\EfDbContext.cs" />
     <Compile Include="Entities\Album.cs" />
+    <Compile Include="Entities\AlbumsWithArtist.cs" />
     <Compile Include="Entities\Artist.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

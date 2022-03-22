@@ -12,6 +12,8 @@ namespace MusicStore.WebUI.Models
         public PagingInfo PagingInfo { get; set; }
         public IEnumerable<Artist> Artist { get; set; }
 
+        public IEnumerable<AlbumsWithArtist> AlbumsWithArtists { get; set; }
+
       
 
 

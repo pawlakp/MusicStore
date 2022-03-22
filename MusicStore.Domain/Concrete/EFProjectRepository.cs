@@ -24,11 +24,26 @@ namespace MusicStore.Domain.Concrete
             
         }
 
-        public string GetArtist(int artistId)
+        public IEnumerable<AlbumsWithArtist> AlbumsWithArtist
         {
-            Artist dbEntry = (Artist)context.Albums.Where(x => x.ArtistId == artistId);
-            return dbEntry.Name;
-            
+
+            get
+            {
+                List<Artist> artist = context.Artist.ToList();
+                List<Album> albums = context.Albums.ToList();
+
+
+                var productRecord = from e in albums
+                                    join x in artist on e.ArtistId equals x.ArtistId into table1
+                                    from x in table1.ToList()
+                                    select new AlbumsWithArtist
+                                    {
+                                        album = e,
+                                        artist = x
+                                    };
+
+                return productRecord;
+            }
         }
     }
 }

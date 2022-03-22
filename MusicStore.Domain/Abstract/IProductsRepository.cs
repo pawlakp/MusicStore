@@ -11,5 +11,6 @@ namespace MusicStore.Domain.Abstract
     {
         IEnumerable<Album> Album { get; }
         IEnumerable<Artist> Artist { get; }
+        IEnumerable<AlbumsWithArtist> AlbumsWithArtist { get; }
     }
 }

@@ -28,12 +28,12 @@ namespace MusicStore.WebUI.Controllers
             AlbumListViewModel model = new AlbumListViewModel
             {
                 
-                Albums = repository.Album.OrderBy(p => p.AlbumId).Skip((page - 1) * PageSize).Take(PageSize),
+                AlbumsWithArtists = repository.AlbumsWithArtist.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = repository.Album.Count()
+                    TotalItems = repository.AlbumsWithArtist.Count()
                 },
                
                

@@ -1,9 +1,9 @@
-﻿@model MusicStore.Domain.Entities.Album
+﻿@model MusicStore.Domain.Entities.AlbumsWithArtist
 
 <div class="well">
     <h3>
-        <strong>@Model.Name</strong>
-        <span class="pull-right label label-primary">@Model.Price.ToString("c")</span>
+        <strong>@Model.album.Name</strong>
+        <span class="pull-right label label-primary">@Model.album.Price.ToString("c")</span>
     </h3>
-    <span class="lead">@Model.ArtistId</span>
+    <span class="lead">@Model.artist.Name</span>
 </div>
