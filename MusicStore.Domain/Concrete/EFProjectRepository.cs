@@ -24,8 +24,13 @@ namespace MusicStore.Domain.Concrete
             get { return context.Artist; }
             
         }
+        public IEnumerable<Genre> Genre
+        {
+            get { return context.Genre; }
 
-        public IEnumerable<AlbumsWithArtist> AlbumsWithArtist
+        }
+
+        public IEnumerable<AlbumAllDetails> AlbumsWithArtist
         {
 
             get
@@ -37,7 +42,7 @@ namespace MusicStore.Domain.Concrete
                 var productRecord = from e in albums
                                     join x in artist on e.ArtistId equals x.ArtistId into table1
                                     from x in table1.ToList()
-                                    select new AlbumsWithArtist
+                                    select new AlbumAllDetails
                                     {
                                         album = e,
                                         artist = x
@@ -48,7 +53,7 @@ namespace MusicStore.Domain.Concrete
         }
 
         //metoda asychroniczna 
-        public async Task<IEnumerable<AlbumsWithArtist>> GetAlbumsWithArtists()
+        public async Task<IEnumerable<AlbumAllDetails>> GetAlbumsWithArtists()
         {
 
             List<Artist> artist = await Task.FromResult(context.Artist.ToList());
@@ -58,7 +63,7 @@ namespace MusicStore.Domain.Concrete
             var productRecord = from e in albums
                                 join x in artist on e.ArtistId equals x.ArtistId into table1
                                 from x in table1.ToList()
-                                select new AlbumsWithArtist
+                                select new AlbumAllDetails
                                 {
                                     album = e,
                                     artist = x
@@ -67,6 +72,9 @@ namespace MusicStore.Domain.Concrete
             return productRecord;
 
         }
+
+        public async Task<IEnumerable<Genre>> GetGenreAsync() => await Task.FromResult(context.Genre.ToList());
     }
 }
+
 

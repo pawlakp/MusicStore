@@ -30,12 +30,12 @@ namespace MusicStore.WebUI.Controllers
         //    AlbumListViewModel model = new AlbumListViewModel
         //    {
 
-        //        AlbumsWithArtists = repository.AlbumsWithArtist.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
+        //        AlbumsWithArtists = repository.AlbumAllDetails.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
         //        PagingInfo = new PagingInfo
         //        {
         //            CurrentPage = page,
         //            ItemsPerPage = PageSize,
-        //            TotalItems = repository.AlbumsWithArtist.Count()
+        //            TotalItems = repository.AlbumAllDetails.Count()
         //        },
 
 
@@ -49,7 +49,7 @@ namespace MusicStore.WebUI.Controllers
         //asynchronicznie 
         public async Task<ViewResult> List(int page = 1)
         {
-            IEnumerable<AlbumsWithArtist> apiModel = await repository.GetAlbumsWithArtists();
+            IEnumerable<AlbumAllDetails> apiModel = await repository.GetAlbumsWithArtists();
             AlbumListViewModel model = new AlbumListViewModel
             {
 
@@ -69,7 +69,11 @@ namespace MusicStore.WebUI.Controllers
             return View(model);
         }
 
-
+        public async Task<ViewResult> AllGenre()
+        {
+            var apiModel = await repository.GetGenreAsync();
+            return View(apiModel);
+        }
 
     }
 }

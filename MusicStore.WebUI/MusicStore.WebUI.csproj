@@ -154,6 +154,7 @@
     <Content Include="Scripts\jquery-1.9.0.min.map" />
     <Content Include="Views\Shared\AlbumSummary.cshtml" />
     <Content Include="Views\Test.cshtml" />
+    <Content Include="Views\Album\AllGenre.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
