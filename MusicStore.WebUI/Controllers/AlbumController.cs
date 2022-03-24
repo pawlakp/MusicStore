@@ -6,7 +6,8 @@ using System.Web.Mvc;
 using MusicStore.Domain.Abstract;
 using MusicStore.Domain.Entities;
 using MusicStore.Domain.Concrete;
-using MusicStore.WebUI.Models;  
+using MusicStore.WebUI.Models;
+using System.Threading.Tasks;
 
 namespace MusicStore.WebUI.Controllers
 {
@@ -23,28 +24,53 @@ namespace MusicStore.WebUI.Controllers
             this.repository = albumRepository;
         }
 
-        public ViewResult List(int page = 1 )
+        //synchornicznie 
+        //public ViewResult List(int page = 1)
+        //{
+        //    AlbumListViewModel model = new AlbumListViewModel
+        //    {
+
+        //        AlbumsWithArtists = repository.AlbumsWithArtist.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
+        //        PagingInfo = new PagingInfo
+        //        {
+        //            CurrentPage = page,
+        //            ItemsPerPage = PageSize,
+        //            TotalItems = repository.AlbumsWithArtist.Count()
+        //        },
+
+
+
+        //    };
+
+
+        //    return View(model);
+        //}
+
+        //asynchronicznie 
+        public async Task<ViewResult> List(int page = 1)
         {
+            IEnumerable<AlbumsWithArtist> apiModel = await repository.GetAlbumsWithArtists();
             AlbumListViewModel model = new AlbumListViewModel
             {
-                
-                AlbumsWithArtists = repository.AlbumsWithArtist.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
+
+                AlbumsWithArtists = apiModel.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = repository.AlbumsWithArtist.Count()
+                    TotalItems = apiModel.Count()
                 },
-               
-               
-                
+
+
+
             };
-           
-                    
+
+
             return View(model);
         }
 
-       
+
+
     }
 }
 

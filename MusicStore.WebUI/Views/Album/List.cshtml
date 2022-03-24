@@ -3,12 +3,35 @@
 @{
     ViewBag.Title = "Albumy";
 }
-
-@foreach (var p in Model.AlbumsWithArtists)
-            {
+@*<div class="container">
+        @foreach (var p in Model.AlbumsWithArtists)
+        {
             @Html.Partial("AlbumSummary", p);
-}
-<div class="btn-group pull-right">
-    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new {page=x}))
-</div>
+        }
+        <div class="btn-group pull-right">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
+        </div>
+    </div>*@
+
+
+    @foreach (var p in Model.AlbumsWithArtists)
+    {
+        @Html.Partial("AlbumSummary", p);
+    }
+
+
+        <nav>
+            <ul class="pagination flex-wrap">
+                @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+                {
+                    <li class="@(i == Model.PagingInfo.CurrentPage ? "page-item active" : "page-item")">
+                        <a class="page-link" href="@Url.Action("List", new { page = i })">@i</a>
+                    </li>
+
+                }
+            </ul>
+        </nav>
+
+
+ 
 

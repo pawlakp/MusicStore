@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using MusicStore.Domain.Entities;
 
@@ -14,7 +15,10 @@ namespace MusicStore.WebUI.Models
 
         public IEnumerable<AlbumsWithArtist> AlbumsWithArtists { get; set; }
 
-      
+        public Task<IEnumerable<AlbumsWithArtist>> GetAlbumsWithArtists {get; set; }
+
+
+
 
 
     }

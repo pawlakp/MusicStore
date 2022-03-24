@@ -12,5 +12,8 @@ namespace MusicStore.Domain.Abstract
         IEnumerable<Album> Album { get; }
         IEnumerable<Artist> Artist { get; }
         IEnumerable<AlbumsWithArtist> AlbumsWithArtist { get; }
+
+        Task<IEnumerable<AlbumsWithArtist>> GetAlbumsWithArtists();
+        //interfejs metody asynchronicznej
     }
 }
