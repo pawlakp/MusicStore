@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MusicStore.Domain.Entities
 {
-    public class AlbumAllDetails
+    public class Genre
     {
-        public Album album { get; set; }
-        public Artist artist { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }   
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MusicStore.Domain.Abstract;
 using MusicStore.Domain.Entities;
 
+
 namespace MusicStore.Domain.Concrete
 {
     public class EFProjectRepository : IProductsRepository
@@ -23,8 +24,13 @@ namespace MusicStore.Domain.Concrete
             get { return context.Artist; }
             
         }
+        public IEnumerable<Genre> Genre
+        {
+            get { return context.Genre; }
 
-        public IEnumerable<AlbumsWithArtist> AlbumsWithArtist
+        }
+
+        public IEnumerable<AlbumAllDetails> AlbumsWithArtist
         {
 
             get
@@ -36,7 +42,7 @@ namespace MusicStore.Domain.Concrete
                 var productRecord = from e in albums
                                     join x in artist on e.ArtistId equals x.ArtistId into table1
                                     from x in table1.ToList()
-                                    select new AlbumsWithArtist
+                                    select new AlbumAllDetails
                                     {
                                         album = e,
                                         artist = x
@@ -45,6 +51,60 @@ namespace MusicStore.Domain.Concrete
                 return productRecord;
             }
         }
+
+        //metoda asychroniczna 
+        public async Task<IEnumerable<AlbumAllDetails>> GetAlbumsWithArtists()
+        {
+
+            List<Artist> artist = await Task.FromResult(context.Artist.ToList());
+            List<Album> albums = await Task.FromResult(context.Albums.ToList());
+
+
+            var productRecord = from e in albums
+                                join x in artist on e.ArtistId equals x.ArtistId into table1
+                                from x in table1.ToList()
+                                select new AlbumAllDetails
+                                {
+                                    album = e,
+                                    artist = x
+                                };
+
+            return productRecord;
+
+        }
+
+        public async Task<IEnumerable<Genre>> GetGenreAsync() => await Task.FromResult(context.Genre.ToList());
+
+        public async Task<IEnumerable<AlbumAllDetails>> GetFiltredAlbums(int genre)
+        {
+
+            List<Artist> artist = await Task.FromResult(context.Artist.ToList());
+            List<Album> albums = await Task.FromResult(context.Albums.ToList());
+
+
+            var productRecord = from e in albums where e.GenreId == genre
+                                join x in artist on e.ArtistId equals x.ArtistId into table1
+                                from x in table1.ToList()
+                                select new AlbumAllDetails
+                                {
+                                    album = e,
+                                    artist = x
+                                };
+
+            return productRecord;
+
+        }
+
+        public async Task<string> GetGenreName(int id)
+        {
+            var genre = await Task.FromResult(context.Genre.ToList());
+
+            string name = genre.Where(p=> p.Id==id).First().Name;
+
+            return name;
+            
+        }
     }
 }
+
 
