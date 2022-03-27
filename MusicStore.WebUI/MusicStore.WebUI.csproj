@@ -136,6 +136,7 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AlbumController.cs" />
+    <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -155,6 +156,8 @@
     <Content Include="Views\Shared\AlbumSummary.cshtml" />
     <Content Include="Views\Test.cshtml" />
     <Content Include="Views\Album\AllGenre.cshtml" />
+    <Content Include="Views\Album\FiltrByGenre.cshtml" />
+    <Content Include="Views\Nav\Menu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

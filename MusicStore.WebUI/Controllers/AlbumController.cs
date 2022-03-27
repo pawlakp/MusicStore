@@ -69,6 +69,34 @@ namespace MusicStore.WebUI.Controllers
             return View(model);
         }
 
+        public async Task<ViewResult> FiltrByGenre(string genre, int page = 1)
+        {
+            var genres = await repository.GetGenreAsync();
+            int genreid = genres.First(p=> p.Name.Contains(genre)).Id;
+            IEnumerable<AlbumAllDetails> apiModel = await repository.GetFiltredAlbums(genreid);
+
+            AlbumListViewModel model = new AlbumListViewModel
+            {
+
+                AlbumsWithArtists = apiModel
+                .OrderBy(p => p.album.ArtistId)
+                .Skip((page - 1) * PageSize)
+                .Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = apiModel.Count()
+                },
+
+                CurrentGenre = genre,
+
+            };
+
+
+            return View(model);
+        }
+
         public async Task<ViewResult> AllGenre()
         {
             var apiModel = await repository.GetGenreAsync();

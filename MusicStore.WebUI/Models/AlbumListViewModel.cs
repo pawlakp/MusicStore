@@ -20,6 +20,9 @@ namespace MusicStore.WebUI.Models
         public Task<IEnumerable<AlbumAllDetails>> GetAlbumsWithArtists {get; set; }
         public Task<IEnumerable<Genre>> GetGenreAsync { get; set; }
 
+        public string CurrentGenre { get; set; }
+
+
 
 
 

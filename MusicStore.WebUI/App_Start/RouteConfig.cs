@@ -12,19 +12,32 @@ namespace MusicStore.WebUI
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
-            
-            routes.MapRoute(
-              name: null,
-              url: "Strona{page}",
-              defaults: new { controller = "Album", action = "List" }
-          );
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Album", action = "List", id = UrlParameter.Optional }
-            );
+                   null,
+                   "",
+                   new { controller = "Album", action = "List", page = 1 }
+               );
+
+            routes.MapRoute(
+                  null,
+                  "Strona{page}",
+                  new { controller = "Album", action = "List" },
+                  new {page =@"\d+"}
+             );
+
+              
+
+            routes.MapRoute(null, "{genre}", new
+            {
+                controller = "Album",
+                action = "FiltrByGenre",
+                page = 1
+            });
+
+            routes.MapRoute(null, "{genre}/Strona{page}", new { controller = "Album", action = "FiltrByGenre" }, new { page = @"\d+" });
+
+            routes.MapRoute(null, "{controller}/{action}");
         }
     }
 }
