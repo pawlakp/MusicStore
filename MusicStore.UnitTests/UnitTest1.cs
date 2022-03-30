@@ -35,7 +35,7 @@ namespace MusicStore.UnitTests
 
             //test
 
-           AlbumListViewModel result = (AlbumListViewModel)albumController.List(2).Model;
+            AlbumListViewModel result = (AlbumListViewModel)albumController.List(2);
 
             Album[] albumArray = result.Albums.ToArray();
             Assert.IsTrue(albumArray.Length == 2);
@@ -92,7 +92,7 @@ namespace MusicStore.UnitTests
             };
 
             //działanie
-            AlbumListViewModel result = (AlbumListViewModel)controller.List(2).Model;
+            AlbumListViewModel result = (AlbumListViewModel)controller.List(2);
 
             //asercje
             PagingInfo pagingInfo = result.PagingInfo;
@@ -103,6 +103,8 @@ namespace MusicStore.UnitTests
 
 
         }
+
+
     }
 
    

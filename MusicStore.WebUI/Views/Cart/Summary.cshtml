@@ -1,0 +1,11 @@
+﻿@model MusicStore.Domain.Entities.Cart
+
+<form class="d-flex">
+    <span class="navbar-text">
+        <b>Twój koszyk:</b>
+        @Model.ComputeTotalValue().ToString("c")
+    </span>
+    @Html.ActionLink("Zamów", "Index", "Cart",
+             new { returnUrl = Request.Url.PathAndQuery },
+             new { @class = "btn btn-outline-success" })
+    </form>
