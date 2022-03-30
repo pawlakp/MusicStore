@@ -1,17 +1,16 @@
 ﻿@model IEnumerable<MusicStore.Domain.Entities.Genre>
 
 @Html.ActionLink("Home", "List", "Album", null, new {@class = "list-group-item list-group-item-action" })
+    @foreach(var link in Model)
+                {
+                    @Html.RouteLink(link.Name, new
+               {
+                   controller = "Album",
+                   action = "FiltrByGenre",
+                   genre = link.Name,
+                   page = 1
+               }, new { @class = "list-group-item list-group-item-action"
+               + (link.Name == ViewBag.SelectedGenre? "list-group-item list-group-item-action active" : "")
+               })
+                }
 
-
-@foreach(var link in Model)
-            {
-                @Html.RouteLink(link.Name, new
-           {
-               controller = "Album",
-               action = "FiltrByGenre",
-               genre = link.Name,
-               page = 1
-           }, new { @class = "list-group-item list-group-item-action"
-           + (link.Name == ViewBag.SelectedGenre? "list-group-item list-group-item-action active" : "")
-           })
-            }

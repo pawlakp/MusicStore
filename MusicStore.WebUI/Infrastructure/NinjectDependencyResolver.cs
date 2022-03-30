@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
 using Moq;
 using Ninject;
 using MusicStore.Domain.Entities;
@@ -35,6 +36,16 @@ namespace MusicStore.WebUI.Infrastructure
         {
           
             kernel.Bind<IProductsRepository>().To<EFProjectRepository>();
+            
+            //wstrzyknięcie  EmailSettings do konstruktora EmailOrderProcessor gdy jest tworzony nowy egzemplarz 
+            //w odpowiedzi na żądanie interfejsu IOrderProcessor
+            EmailSettings emailSettings = new EmailSettings
+            {
+                WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
+            };
+
+            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
+                .WithConstructorArgument("settings", emailSettings);
         }
     }
 }

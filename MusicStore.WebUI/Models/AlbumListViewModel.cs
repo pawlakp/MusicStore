@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 using MusicStore.Domain.Entities;
 
 namespace MusicStore.WebUI.Models
@@ -22,11 +23,10 @@ namespace MusicStore.WebUI.Models
 
         public string CurrentGenre { get; set; }
 
-
-
-
-
-
+        public static explicit operator AlbumListViewModel(Task<ViewResult> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

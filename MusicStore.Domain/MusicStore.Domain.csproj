@@ -72,13 +72,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IOrderProcessor.cs" />
     <Compile Include="Abstract\IProductsRepository.cs" />
     <Compile Include="Concrete\EFProjectRepository.cs" />
     <Compile Include="Concrete\EfDbContext.cs" />
+    <Compile Include="Concrete\EmailOrderProcessor.cs" />
     <Compile Include="Entities\Album.cs" />
     <Compile Include="Entities\AlbumAllDetails.cs" />
     <Compile Include="Entities\Artist.cs" />
+    <Compile Include="Entities\Cart.cs" />
     <Compile Include="Entities\Genre.cs" />
+    <Compile Include="Entities\ShippingDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
