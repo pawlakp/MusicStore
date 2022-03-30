@@ -11,3 +11,5 @@ MusicStore ASP.NET MVC project
 1. adding async method to interface for Albums
 2. add load genre from database (**AddGenreLoad**)
 3. add filtr by genre, edit routing and configure bootstrap (**FiltrByGenre, completeRouting**)
+##  0.0.0.4
+1. full funcionality Shopping Cart
