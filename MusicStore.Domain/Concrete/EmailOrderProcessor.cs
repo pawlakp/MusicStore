@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
 using MusicStore.Domain.Entities;
 using MusicStore.Domain.Abstract;
 
 namespace MusicStore.Domain.Concrete
 {
+    //konfiguracja adresu email wysyłkowego
     public class EmailSettings
     {
         public string MailToAddress = "zamowienia@przyklad.pl";
@@ -25,6 +25,7 @@ namespace MusicStore.Domain.Concrete
 
     }
 
+    //implementacja interfejsu oraz wysyłania maili 
     public class EmailOrderProcessor : IOrderProcessor
     {
         private EmailSettings emailSettings;

@@ -1,0 +1,27 @@
+﻿@model MusicStore.Domain.Entities.Accounts
+@{
+    ViewBag.Title = "Index";
+}
+<form class="d-flex">
+    @*<span class="navbar-text">
+            <b>Twój koszyk:</b>
+            @Model.ComputeTotalValue().ToString("c")
+        </span>*@
+
+    @if (Session["Login"] != null)
+    {
+        @*@Html.ActionLink("Twoje konto", "Index", "Account",
+             new { returnUrl = Request.Url.PathAndQuery },
+             new { @class = "btn btn-outline-success" })*@
+        @Html.ActionLink("Twoje konto", "UserPanel", "Account",
+            new { id = Session["Id"] },
+            new { @class = "btn btn-outline-success" })
+    }
+    else
+    {
+        @Html.ActionLink("Zaloguj", "Login", "Account",
+        new { returnUrl = Request.Url.PathAndQuery },
+        new { @class = "btn btn-outline-success" })
+    }
+
+</form>

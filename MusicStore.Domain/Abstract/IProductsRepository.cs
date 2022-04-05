@@ -16,10 +16,13 @@ namespace MusicStore.Domain.Abstract
 
 
         //interfejs metody asynchronicznej
-        Task<IEnumerable<AlbumAllDetails>> GetAlbumsWithArtists();
-        Task<IEnumerable<AlbumAllDetails>> GetFiltredAlbums(int genre);
-        Task<IEnumerable<Genre>> GetGenreAsync();
-        Task<string> GetGenreName(int genre);
+        Task<List<Album>> AllAlbumAsync();
+        Task<List<Artist>> AllArtistAsync();
+        Task<List<Genre>> GetGenreAsync();
+        Task<IEnumerable<AlbumAllDetails>> GetAlbumWithArtistAsync();
+        Task<IEnumerable<AlbumAllDetails>> GetFiltredAlbumAsync(int genre);
+        IEnumerable<Genre> GetGenre();
+        Task<string> GenreNameAsync(int genre);
        
 
 

@@ -72,11 +72,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IAccountsRepository.cs" />
     <Compile Include="Abstract\IOrderProcessor.cs" />
     <Compile Include="Abstract\IProductsRepository.cs" />
+    <Compile Include="Concrete\EFAccountsRepository.cs" />
     <Compile Include="Concrete\EFProjectRepository.cs" />
     <Compile Include="Concrete\EfDbContext.cs" />
     <Compile Include="Concrete\EmailOrderProcessor.cs" />
+    <Compile Include="Entities\Accounts.cs" />
     <Compile Include="Entities\Album.cs" />
     <Compile Include="Entities\AlbumAllDetails.cs" />
     <Compile Include="Entities\Artist.cs" />

@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace MusicStore.UnitTests
 {
+
+    //testy jednostkowe koszyka
     [TestClass]
     public class CartTest
     {

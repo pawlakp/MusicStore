@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,13 +12,17 @@ namespace MusicStore.Domain.Concrete
 {
     public class EFProjectRepository : IProductsRepository
     {
+        //pobieranie danych z bazy + implementacja interfejsu Products
         private EfDbContext context = new EfDbContext();
 
-       
+
+        public async Task<List<Album>> AllAlbumAsync() => await context.Albums.ToListAsync().ConfigureAwait(false);
+        public async Task<List<Artist>> AllArtistAsync() => await context.Artist.ToListAsync().ConfigureAwait(false);
+
         public IEnumerable<Album> Album
         {
             get { return context.Albums; }
-            
+
         }
         public IEnumerable<Artist> Artist
         {
@@ -30,6 +35,13 @@ namespace MusicStore.Domain.Concrete
 
         }
 
+        public IEnumerable<Accounts> Accounts
+        {
+            get { return context.Accounts;  }
+        }
+
+
+        //pobieranie danych albumu wraz z artystą
         public IEnumerable<AlbumAllDetails> AlbumsWithArtist
         {
 
@@ -53,11 +65,11 @@ namespace MusicStore.Domain.Concrete
         }
 
         //metoda asychroniczna 
-        public async Task<IEnumerable<AlbumAllDetails>> GetAlbumsWithArtists()
+        public async Task<IEnumerable<AlbumAllDetails>> GetAlbumWithArtistAsync()
         {
 
-            List<Artist> artist = await Task.FromResult(context.Artist.ToList());
-            List<Album> albums = await Task.FromResult(context.Albums.ToList());
+            List<Artist> artist = await AllArtistAsync();
+            List<Album> albums = await AllAlbumAsync();
 
 
             var productRecord = from e in albums
@@ -73,13 +85,16 @@ namespace MusicStore.Domain.Concrete
 
         }
 
-        public async Task<IEnumerable<Genre>> GetGenreAsync() => await Task.FromResult(context.Genre.ToList());
+        //pobieranie danych gatunków muzycznych
+        public async Task<List<Genre>> GetGenreAsync() => await context.Genre.ToListAsync().ConfigureAwait(false);
+        public IEnumerable<Genre> GetGenre() => context.Genre;
 
-        public async Task<IEnumerable<AlbumAllDetails>> GetFiltredAlbums(int genre)
+        //pobieranie albumu według określonego gatunku
+        public async Task<IEnumerable<AlbumAllDetails>> GetFiltredAlbumAsync(int genre)
         {
 
-            List<Artist> artist = await Task.FromResult(context.Artist.ToList());
-            List<Album> albums = await Task.FromResult(context.Albums.ToList());
+            List<Artist> artist = await AllArtistAsync();
+            List<Album> albums = await AllAlbumAsync();
 
 
             var productRecord = from e in albums where e.GenreId == genre
@@ -95,9 +110,10 @@ namespace MusicStore.Domain.Concrete
 
         }
 
-        public async Task<string> GetGenreName(int id)
+        //pobranie nazwy danego gatunku 
+        public async Task<string> GenreNameAsync(int id)
         {
-            var genre = await Task.FromResult(context.Genre.ToList());
+            var genre = await GetGenreAsync();
 
             string name = genre.Where(p=> p.Id==id).First().Name;
 

@@ -17,11 +17,10 @@ namespace MusicStore.WebUI.Controllers
             this.repository = repo; 
         }
 
-        public async Task<PartialViewResult> Menu(string genre)
+        public PartialViewResult Menu(string genre)
         {
             ViewBag.SelectedGenre = genre;
-            var model = await repository.GetGenreAsync();
-            return PartialView(model);
+            return PartialView(repository.GetGenre());
         }
     }
 }
