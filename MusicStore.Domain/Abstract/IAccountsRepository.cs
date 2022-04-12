@@ -15,7 +15,9 @@ namespace MusicStore.Domain.Abstract
         Task<List<Accounts>> GetAllAsync();
         Task<Accounts> GetAsync(int id);
         Task<Accounts> LoginAsync(string name, string password);
-        void AddAccount(Accounts account);
+        Task AddAccount(Accounts account);
+        Task DeleteUser(int id);
+        Task ChangePassword(int id);
 
 
 

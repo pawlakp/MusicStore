@@ -86,6 +86,8 @@
     <Compile Include="Entities\Cart.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\ShippingDetails.cs" />
+    <Compile Include="Entities\Song.cs" />
+    <Compile Include="Exceptions\AlbumsException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

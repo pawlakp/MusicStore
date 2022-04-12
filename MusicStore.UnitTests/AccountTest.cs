@@ -22,28 +22,32 @@ namespace MusicStore.UnitTests
         {
             //przygotowanie
             Mock<IAccountsRepository> mock = new Mock<IAccountsRepository>();
+            Accounts user = new Accounts()
+            {
+                Login = "admin",
+                Password = "admin"
+            };
             var b = await mock.Object.LoginAsync("", "");
-
             //test
             Assert.IsNull(b);
 
         }
         [TestMethod]
-        public void Can_Get_Account()
+        public async Task Can_Get_Account()
         {
             //przygotowanie
             Mock<IAccountsRepository> mock = new Mock<IAccountsRepository>();
-            Accounts accounts = new Accounts
+            Accounts user = new Accounts
            {
-               Id = 10,
-               Login = "User1"
+                Id=1,
+               Login = "admin",
+               Password= "admin"
            };
-            mock.Object.AddAccount(accounts);
-            var b = mock.Object.GetAsync(10);
+            mock.Setup(x => x.GetAsync(user.Id)).Returns(Task.FromResult(user));  
+            
+            var c = await mock.Object.GetAsync(1);
 
-
-            //Test pobrania konta
-            Assert.IsNotNull(b);
+            Assert.AreEqual(user,c);
 
         }
         [TestMethod]
@@ -51,14 +55,15 @@ namespace MusicStore.UnitTests
         {
             //przygotowanie
             Mock<IAccountsRepository> mock = new Mock<IAccountsRepository>();
-            //Accounts accounts = new Accounts
-            //{
-            //    Id = 10,
-            //    Login = "User1"
-            //};
-            
+            Accounts accounts = new Accounts
+            {
+                Id = 10,
+                Login = "User1",
+                Password = "User1"
+            };
+            mock.Setup(x=> x.LoginAsync(accounts.Login,accounts.Password)).Returns(Task.FromResult(accounts));
+            mock.Setup(x => x.GetAsync(10)).Returns(Task.FromResult(accounts));
             var b = await mock.Object.GetAsync(11);
-
 
             //Test pobrania konta
             Assert.IsNull(b);

@@ -11,11 +11,14 @@
     @if (Session["Login"] != null)
     {
         @*@Html.ActionLink("Twoje konto", "Index", "Account",
-             new { returnUrl = Request.Url.PathAndQuery },
-             new { @class = "btn btn-outline-success" })*@
+            new { returnUrl = Request.Url.PathAndQuery },
+            new { @class = "btn btn-outline-success" })*@
         @Html.ActionLink("Twoje konto", "UserPanel", "Account",
             new { id = Session["Id"] },
             new { @class = "btn btn-outline-success" })
+        @Html.ActionLink("Wyloguj", "Logout", "Account",
+           null,
+           new { @class = "btn btn-outline-success" })
     }
     else
     {

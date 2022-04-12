@@ -9,9 +9,11 @@ using MusicStore.Domain.Entities;
 using MusicStore.Domain.Concrete;
 using MusicStore.WebUI.Models;
 using System.Threading.Tasks;
+using System.Web.Security;
 
 namespace MusicStore.WebUI.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         private IAccountsRepository repository;
@@ -48,7 +50,7 @@ namespace MusicStore.WebUI.Controllers
                 var check =  apiModel.FirstOrDefault(s => s.Login == account.Login);
                 if (check == null)
                 {
-                    repository.AddAccount(account);
+                    await repository.AddAccount(account);
                     return RedirectToAction("Index");
                 }
                 else
@@ -68,9 +70,7 @@ namespace MusicStore.WebUI.Controllers
             return View();
         }
 
-
-
-        [HttpPost]
+        [HttpPost, ActionName("Login")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(string login, string password)
         {
@@ -83,7 +83,16 @@ namespace MusicStore.WebUI.Controllers
                     //add session
                     Session["Login"] = data.Login;
                     Session["Id"] = data.Id;
-                    return View("UserPanel",data);
+                    if (data.IsAdmin == true)
+                    {
+                        FormsAuthentication.SetAuthCookie(data.Login, false);
+                        return RedirectToAction("Index", "Admin", data);
+                    }
+                    else
+                    {
+                        FormsAuthentication.SetAuthCookie(data.Login, false);
+                        return RedirectToAction("Index", "Client", data);
+                    }
                 }
                 else
                 {
@@ -94,16 +103,19 @@ namespace MusicStore.WebUI.Controllers
             return View();
         }
 
-
         public async Task<ActionResult> UserPanel(int id)
         {
-            return View(await repository.GetAsync(id));
+            var user = await repository.GetAsync(id);
+            if (user.IsAdmin) return RedirectToAction("Index", "Admin", user);
+            else return RedirectToAction("Index", "Client", user);
         }
+
 
 
         public ActionResult Logout()
         {
             Session.Clear();//remove session
+            FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
 

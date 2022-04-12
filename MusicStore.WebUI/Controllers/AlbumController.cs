@@ -15,55 +15,24 @@ namespace MusicStore.WebUI.Controllers
     {
        private IProductsRepository repository;
         public int PageSize = 4;
-        //public actionresult index()
-        //{
-        //    return view();
-        //}
+   
         public AlbumController(IProductsRepository albumRepository)
         {
             this.repository = albumRepository;
         }
 
-        //synchornicznie 
-        //public ViewResult List(int page = 1)
-        //{
-        //    AlbumListViewModel model = new AlbumListViewModel
-        //    {
-
-        //        AlbumsWithArtists = repository.AlbumAllDetails.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
-        //        PagingInfo = new PagingInfo
-        //        {
-        //            CurrentPage = page,
-        //            ItemsPerPage = PageSize,
-        //            TotalItems = repository.AlbumAllDetails.Count()
-        //        },
-
-
-
-        //    };
-
-
-        //    return View(model);
-        //}
-
-        //asynchronicznie 
         public async Task<ViewResult> List(int page = 1)
         {
-            IEnumerable<AlbumAllDetails> apiModel = await repository.GetAlbumWithArtistAsync();
+            var apiModel = await repository.GetAlbumWithArtistAsync();
             AlbumListViewModel model = new AlbumListViewModel
-
             {
-
-                AlbumsWithArtists = apiModel.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
+                AlbumsWithArtists =  apiModel.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
                     TotalItems = apiModel.Count()
                 },
-
-
-
             };
 
 

@@ -16,6 +16,7 @@ namespace MusicStore.Domain.Entities
         public int GenreId { get; set; }
         public int CountryId { get; set; }
         public decimal Price { get; set; }
+        public int GraphicId { get; set; }
         
 
     }

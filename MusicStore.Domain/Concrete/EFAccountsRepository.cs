@@ -7,6 +7,9 @@ using System.Security.Cryptography;
 using MusicStore.Domain.Abstract;
 using MusicStore.Domain.Entities;
 using System.Data.Entity;
+using System.Threading;
+using System.Data.Entity.Infrastructure;
+
 
 namespace MusicStore.Domain.Concrete
 {
@@ -18,13 +21,13 @@ namespace MusicStore.Domain.Concrete
         public async Task<List<Accounts>> GetAllAsync() => await context.Accounts.ToListAsync().ConfigureAwait(false);
        
         
-        public async void AddAccount(Accounts account)
+        public async Task AddAccount(Accounts account)
         {
                 
                // var pass = GetMD5(account.Password);
                 account.Password = GetMD5(account.Password);
                 context.Accounts.Add(account);
-                await context.SaveChangesAsync().ConfigureAwait(false);               
+                await context.SaveChangesAsync();              
         }
 
         public async Task<Accounts> LoginAsync(string name, string password)
@@ -32,7 +35,6 @@ namespace MusicStore.Domain.Concrete
             var db = await GetAllAsync();
             //var pass = GetMD5(password);
             var user =  db.Where(s => s.Login == name && s.Password == GetMD5(password)).FirstOrDefault();
-          
             if (user != null)
             {
                 return user;
@@ -57,6 +59,27 @@ namespace MusicStore.Domain.Concrete
             {
                 return null;
             }
+        }
+
+        public async Task DeleteUser(int id)
+        {
+            var user = await context.Accounts.FindAsync(id);
+            if (user != null)
+            {
+                context.Accounts.Remove(user);
+            }
+            
+            await context.SaveChangesAsync();
+        }
+        public async Task ChangePassword(int id)
+        {
+            var user = await context.Accounts.FindAsync(id);
+            if (user != null)
+            {
+                user.IsPasswordChangeRequired= true;    
+            }
+
+            await context.SaveChangesAsync();
         }
 
 
