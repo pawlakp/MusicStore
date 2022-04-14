@@ -9,6 +9,7 @@ namespace MusicStore.Domain.Abstract
 {
     public interface IOrderProcessor
     {
+        //interfejs koszyka
         void ProcessOrder(Cart cart, ShippingDetails shippingDetails);
     }
 }

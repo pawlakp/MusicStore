@@ -35,7 +35,7 @@ namespace MusicStore.WebUI.Controllers
         public async Task<RedirectToRouteResult> AddToCart(Cart cart, int productId, string returnUrl)
         {
 
-            var apiModel = await repository.GetAlbumsWithArtists();
+            var apiModel = await repository.GetAlbumWithArtistAsync();
             AlbumAllDetails album = apiModel.FirstOrDefault(p => p.album.AlbumId == productId);
 
             if (album != null)
@@ -49,7 +49,7 @@ namespace MusicStore.WebUI.Controllers
 
         public async Task<RedirectToRouteResult> RemoveFromCart(Cart cart, int productId, string returnUrl)
         {
-            var apiModel = await repository.GetAlbumsWithArtists();
+            var apiModel = await repository.GetAlbumWithArtistAsync();
             AlbumAllDetails album = apiModel.FirstOrDefault(p => p.album.AlbumId == productId);
 
             if (album != null)

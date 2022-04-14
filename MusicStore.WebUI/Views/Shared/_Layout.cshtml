@@ -51,7 +51,8 @@
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
-                @Html.Action("Summary","Cart")
+                @Html.Action("Summary", "Cart")
+                @Html.Action("Welcome", "Account")
             </div>
         </nav>
     </header>
@@ -61,11 +62,11 @@
                 <div class="col-2 col-xs-3">
                     <div class="list-group">
                         @*<a href="#" class="list-group-item list-group-item-action active" aria-current="true">*@
-                            @Html.Action("Menu","Nav")
+                        @Html.Action("Menu", "Nav")
                         @*</a>*@
                         @*<a href="#" class="list-group-item list-group-item-action">A second link item</a>
-                        <a href="#" class="list-group-item list-group-item-action">A third link item</a>
-                        <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>*@
+                            <a href="#" class="list-group-item list-group-item-action">A third link item</a>
+                            <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>*@
                     </div>
                 </div>
                 <div class="col-md-auto col-lg-8">
@@ -73,11 +74,30 @@
                 </div>
             </div>
         </main>
-  </div>
+    </div>
 
 
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        $(document).ready(function () {
+            var a = 0;
+            $("#btn1").click(function () {
+                if (a < 1) {
+                    $("#NameLabel").append("<div id='LabelName'>Podaj nazwę wytwórni<input class='form-control' type='text' id='LabelName' name='LabelName'></div>");
+                    a = 2;
+
+                }
+                else{
+                    $("#LabelName").remove()
+                    a = 0;
+                }
+        });
+    });
+    </script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+
 </body>
 </html>
 

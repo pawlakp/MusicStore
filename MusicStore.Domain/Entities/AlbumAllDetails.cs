@@ -11,5 +11,7 @@ namespace MusicStore.Domain.Entities
         public Album album { get; set; }
         public Artist artist { get; set; }
         public Genre genre { get; set; }
+        public Label label { get; set; }
+        
     }
 }

@@ -46,6 +46,8 @@ namespace MusicStore.WebUI.Infrastructure
 
             kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
                 .WithConstructorArgument("settings", emailSettings);
+
+            kernel.Bind<IAccountsRepository>().To<EFAccountsRepository>();
         }
     }
 }

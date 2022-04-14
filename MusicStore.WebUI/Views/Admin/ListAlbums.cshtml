@@ -1,0 +1,66 @@
+﻿@model MusicStore.WebUI.Models.AlbumListViewModel
+
+@{
+    ViewBag.Title = "ListAlbums";
+}
+
+<h2>ListAlbums</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.AlbumsWithArtists);*@
+            Hej
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.artist.Name)*@
+            hej
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.album.AlbumId)*@
+            hej
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.album.Year)*@
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.album.GenreId)*@
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.album.CountryId)*@
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.album.Price)*@
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.album.GraphicId)*@
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.AlbumsWithArtists)
+    {
+        @Html.Partial("AlbumList", item);
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.album.AlbumId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.album.AlbumId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.album.AlbumId })
+        </td>*@
+    }
+
+</table>
+
+<nav>
+    <ul class="pagination flex-wrap">
+        @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+        {
+            <li class="@(i == Model.PagingInfo.CurrentPage ? "page-item active" : "page-item")">
+                <a class="page-link" href="@Url.Action("ListAlbums", new { page = i })">@i</a>
+            </li>
+
+        }
+    </ul>
+</nav>

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MusicStore.Domain.Entities.Accounts>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Login)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAdmin)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPasswordChangeRequired)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Login)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Password)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IsAdmin)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IsPasswordChangeRequired)
+    </td>
+    <td>
+        @Html.ActionLink("Zmień hasło", "ChangePassword", new { id = item.Id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "DeleteUser", new { id = item.Id }) |
+    </td>
+</tr>
+}
+
+</table>

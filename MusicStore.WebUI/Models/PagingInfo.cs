@@ -15,5 +15,7 @@ namespace MusicStore.WebUI.Models
         {
             get { return (int)Math.Ceiling((decimal)TotalItems / ItemsPerPage); }
         }
+
+
     }
 }

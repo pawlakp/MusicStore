@@ -15,54 +15,24 @@ namespace MusicStore.WebUI.Controllers
     {
        private IProductsRepository repository;
         public int PageSize = 4;
-        //public actionresult index()
-        //{
-        //    return view();
-        //}
+   
         public AlbumController(IProductsRepository albumRepository)
         {
             this.repository = albumRepository;
         }
 
-        //synchornicznie 
-        //public ViewResult List(int page = 1)
-        //{
-        //    AlbumListViewModel model = new AlbumListViewModel
-        //    {
-
-        //        AlbumsWithArtists = repository.AlbumAllDetails.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
-        //        PagingInfo = new PagingInfo
-        //        {
-        //            CurrentPage = page,
-        //            ItemsPerPage = PageSize,
-        //            TotalItems = repository.AlbumAllDetails.Count()
-        //        },
-
-
-
-        //    };
-
-
-        //    return View(model);
-        //}
-
-        //asynchronicznie 
         public async Task<ViewResult> List(int page = 1)
         {
-            IEnumerable<AlbumAllDetails> apiModel = await repository.GetAlbumsWithArtists();
+            var apiModel = await repository.GetAlbumWithArtistAsync();
             AlbumListViewModel model = new AlbumListViewModel
             {
-
-                AlbumsWithArtists = apiModel.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
+                AlbumsWithArtists =  apiModel.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
                     TotalItems = apiModel.Count()
                 },
-
-
-
             };
 
 
@@ -71,9 +41,9 @@ namespace MusicStore.WebUI.Controllers
 
         public async Task<ViewResult> FiltrByGenre(string genre, int page = 1)
         {
-            var genres = await repository.GetGenreAsync();
+            var genres = await repository.AllGenreAsync();
             int genreid = genres.First(p=> p.Name.Contains(genre)).Id;
-            IEnumerable<AlbumAllDetails> apiModel = await repository.GetFiltredAlbums(genreid);
+            IEnumerable<AlbumAllDetails> apiModel = await repository.GetFiltredAlbumAsync(genreid);
 
             AlbumListViewModel model = new AlbumListViewModel
             {
@@ -99,7 +69,7 @@ namespace MusicStore.WebUI.Controllers
 
         public async Task<ViewResult> AllGenre()
         {
-            var apiModel = await repository.GetGenreAsync();
+            var apiModel = await repository.AllGenreAsync();
             return View(apiModel);
         }
 
