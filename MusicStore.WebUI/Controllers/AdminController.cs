@@ -210,7 +210,7 @@ namespace MusicStore.WebUI.Controllers
                Name = product.AlbumName,
                Price = product.Price,
                GraphicId = product.GraphicId,
-               ArtistId = product.ArtistId,
+               ArtistId = await products.GetArtistId(product.ArtistName),
                CountryId = product.Country,
                GenreId = product.Genre,
                Year = product.Year,
