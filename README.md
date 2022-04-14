@@ -13,3 +13,6 @@ MusicStore ASP.NET MVC project
 3. add filtr by genre, edit routing and configure bootstrap (**FiltrByGenre, completeRouting**)
 ##  0.0.0.4
 1. full funcionality Shopping Cart
+##  0.0.0.5
+1. admin: management user and albums
+2. user: add client and adress
