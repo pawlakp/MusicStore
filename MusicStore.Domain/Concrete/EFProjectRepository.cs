@@ -154,7 +154,6 @@ namespace MusicStore.Domain.Concrete
             product.Name = album.Name;
             product.Price = album.Price;
             product.GraphicId = album.GraphicId;
-            product.ArtistId = album.ArtistId;
             product.CountryId = album.CountryId;
             product.GenreId = album.GenreId;
             product.Year = album.Year;

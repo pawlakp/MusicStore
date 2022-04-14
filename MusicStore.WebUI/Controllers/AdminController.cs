@@ -201,6 +201,25 @@ namespace MusicStore.WebUI.Controllers
             return View(product);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> EditAlbum(ProductModelDto product)
+        {
+            Album album = new Album
+            {
+               AlbumId = product.AlbumId,
+               Name = product.AlbumName,
+               Price = product.Price,
+               GraphicId = product.GraphicId,
+               ArtistId = product.ArtistId,
+               CountryId = product.Country,
+               GenreId = product.Genre,
+               Year = product.Year,
+               LabelId = product.LabelId
+        };
+            await products.EditAlbumAsync(album);
+            return RedirectToAction("ListAlbums");
+        }
+
         
         public async Task<ActionResult> DeleteAlbum(int id)
         {
