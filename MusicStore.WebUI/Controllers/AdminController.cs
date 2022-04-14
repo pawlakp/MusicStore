@@ -19,6 +19,7 @@ namespace MusicStore.WebUI.Controllers
     {
         private IAccountsRepository account;
         private IProductsRepository products;
+        public int PageSize = 10;
         // GET: Admin
 
         public AdminController(IAccountsRepository accountsRepository, IProductsRepository productsRepository)
@@ -26,7 +27,7 @@ namespace MusicStore.WebUI.Controllers
             this.account = accountsRepository;
             this.products = productsRepository;
         }
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             return View();
         }
@@ -40,7 +41,7 @@ namespace MusicStore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateUser(Accounts konto)
         {
-            var apiModel = await this.account.GetAllAsync();
+            var apiModel = await this.account.AllAccountsAsync();
             if (ModelState.IsValid)
             {
                 var check = apiModel.FirstOrDefault(s => s.Login == konto.Login);
@@ -74,53 +75,82 @@ namespace MusicStore.WebUI.Controllers
 
         }
 
-        public async Task<ActionResult> List()
+        public async Task<ActionResult> ListUsers()
         {
-            var list = await account.GetAllAsync();
+            var list = await account.AllAccountsAsync();
             return View(list.AsEnumerable());
+        }
+        public async Task<ActionResult> ListAlbums(int page = 1)
+        {
+            //var list = await products.GetAlbumWithArtistAsync();
+            //return View(list.AsEnumerable());
+            var apiModel = await products.GetAlbumWithArtistAsync();
+            AlbumListViewModel model = new AlbumListViewModel
+            {
+                AlbumsWithArtists = apiModel.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = apiModel.Count()
+                },
+            };
+
+
+            return View(model);
         }
 
         public async Task<ActionResult> AddAlbum()
         { 
             
             ProductModelDto model = new ProductModelDto {
-                Genres = await products.GetGenreAsync(),
+                Genres = await products.AllGenreAsync(),
+                Labels = await products.AllLabelAsync(),
             };
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<string> AddAlbum(ProductModelDto product, string LabelName)
+        public async Task<ActionResult> AddAlbum(ProductModelDto product, string LabelName)
         {
-            //var apiModel = await this.account.GetAllAsync();
+            var apiModel = await this.account.AllAccountsAsync();
 
-            //    if (ModelState.IsValid)
-            //    {
-            //    Album helpAlbum = new Album
-            //    {
-            //        Name = product.AlbumName,
-            //        AlbumId = product.AlbumId,
-            //        LabelId = product.LabelId,
-            //        Year = product.Year,
-            //        GenreId = product.GenreId,
-            //        CountryId = product.CountryId,
-            //        Price = product.Price,
-            //        GraphicId = product.GraphicId
-            //    };
-            //    Artist helpArtist = new Artist { 
-            //        Name = product.ArtistName
-            //    };
-            //    await this.products.AddAlbumAsync(new AlbumAllDetails
-            //    {
-            //        album = helpAlbum,
-            //        artist = helpArtist
+            if (ModelState.IsValid)
+            {
+                Album helpAlbum = new Album
+                {
+                    Name = product.AlbumName,
+                    AlbumId = product.AlbumId,
+                    LabelId = product.LabelId,
+                    Year = product.Year,
+                    GenreId = product.Genre,
+                    CountryId = product.Country,
+                    Price = product.Price,
+                    GraphicId = product.GraphicId
+                };
+                Artist helpArtist = new Artist
+                {
+                    Name = product.ArtistName
+                };
+                await this.products.AddAlbumAsync(new AlbumAllDetails
+                {
+                    album = helpAlbum,
+                    artist = helpArtist
 
-            //    });
-            //}
+                });
+                return RedirectToAction("AddSong", product);
+            }
+            else
+            {
 
-            //return RedirectToAction("AddSong", product);
-            return LabelName;
+                product = new ProductModelDto
+                {
+                    Genres = await products.AllGenreAsync(),
+                    Labels = await products.AllLabelAsync(),
+                };
+                return View(product);
+            }
 
         }
         public async Task<ActionResult> AddSong(ProductModelDto product)
@@ -148,6 +178,38 @@ namespace MusicStore.WebUI.Controllers
 
 
         }
+
+        public async Task<ActionResult> EditAlbum(int id)
+        {
+            var album = await products.GetAlbumAsync(id);
+            Artist artist = await products.GetArtist(album.ArtistId);
+            ProductModelDto product = new ProductModelDto()
+            {
+                AlbumId = album.AlbumId,
+                AlbumName = album.Name,
+                Genre = album.GenreId,
+                Country = album.CountryId,
+                LabelId = album.LabelId,
+                ArtistId = album.ArtistId,
+                Price = album.Price,
+                Year = album.Year,
+                NumberOfSongs = 10,
+                Genres = await products.AllGenreAsync(),
+                Labels = await products.AllLabelAsync(),
+                ArtistName = artist.Name,
+            };
+            return View(product);
+        }
+
+        
+        public async Task<ActionResult> DeleteAlbum(int id)
+        {
+            await products.DeleteAlbumAsync(id);
+            return RedirectToAction("ListAlbums");
+        }
+
+
+
  
 
     }

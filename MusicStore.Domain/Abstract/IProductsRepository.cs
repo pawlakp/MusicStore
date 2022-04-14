@@ -15,18 +15,21 @@ namespace MusicStore.Domain.Abstract
         //interfejs metody asynchronicznej
         Task<List<Album>> AllAlbumAsync();
         Task<List<Artist>> AllArtistAsync();
-        Task<List<Genre>> GetGenreAsync();
+        Task<List<Genre>> AllGenreAsync();
         Task<IEnumerable<AlbumAllDetails>> GetAlbumWithArtistAsync();
         Task<IEnumerable<AlbumAllDetails>> GetFiltredAlbumAsync(int genre);
         Task<string> GenreNameAsync(int genre);
         Task AddAlbumAsync(AlbumAllDetails album);
         Task<Album> GetAlbumAsync(int id);
-
-         Task<int> GetArtistId(string Name);
+        Task<Artist> GetArtist(int id);
+        Task<int> GetArtistId(string Name);
         Task<bool> AddSongsAsync(List<Song> songs);
         Task<List<Song>> AllSongAsync();
-        Task<List<string>> GetGenresNames();
-        Task<List<int>> GetGenresId();
+        Task<List<Label>> AllLabelAsync();
+        Task DeleteAlbumAsync(int id);
+        Task EditAlbumAsync(Album album);
+        //Task<List<string>> GetLabelsNames();
+        //Task<List<int>> GetLabelsId();
 
 
 

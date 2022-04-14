@@ -43,9 +43,9 @@ namespace MusicStore.UnitTests
                Login = "admin",
                Password= "admin"
            };
-            mock.Setup(x => x.GetAsync(user.Id)).Returns(Task.FromResult(user));  
+            mock.Setup(x => x.GetAccountAsync(user.Id)).Returns(Task.FromResult(user));  
             
-            var c = await mock.Object.GetAsync(1);
+            var c = await mock.Object.GetAccountAsync(1);
 
             Assert.AreEqual(user,c);
 
@@ -62,8 +62,8 @@ namespace MusicStore.UnitTests
                 Password = "User1"
             };
             mock.Setup(x=> x.LoginAsync(accounts.Login,accounts.Password)).Returns(Task.FromResult(accounts));
-            mock.Setup(x => x.GetAsync(10)).Returns(Task.FromResult(accounts));
-            var b = await mock.Object.GetAsync(11);
+            mock.Setup(x => x.GetAccountAsync(10)).Returns(Task.FromResult(accounts));
+            var b = await mock.Object.GetAccountAsync(11);
 
             //Test pobrania konta
             Assert.IsNull(b);

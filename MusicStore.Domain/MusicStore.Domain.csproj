@@ -80,11 +80,14 @@
     <Compile Include="Concrete\EfDbContext.cs" />
     <Compile Include="Concrete\EmailOrderProcessor.cs" />
     <Compile Include="Entities\Accounts.cs" />
+    <Compile Include="Entities\Adress.cs" />
     <Compile Include="Entities\Album.cs" />
     <Compile Include="Entities\AlbumAllDetails.cs" />
     <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Cart.cs" />
+    <Compile Include="Entities\Client.cs" />
     <Compile Include="Entities\Genre.cs" />
+    <Compile Include="Entities\Label.cs" />
     <Compile Include="Entities\ShippingDetails.cs" />
     <Compile Include="Entities\Song.cs" />
     <Compile Include="Exceptions\AlbumsException.cs" />

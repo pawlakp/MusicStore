@@ -1,0 +1,34 @@
+﻿@model MusicStore.Domain.Entities.AlbumAllDetails
+
+<tr>
+    <td>
+        @Html.DisplayFor(item => item.album.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(item => item.artist.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(item => item.album.LabelId)
+    </td>
+    <td>
+        @Html.DisplayFor(item => item.album.Year)
+    </td>
+    <td>
+        @Html.DisplayFor(item => item.album.GenreId)
+    </td>
+    <td>
+        @Html.DisplayFor(item => item.album.CountryId)
+    </td>
+    <td>
+        @Html.DisplayFor(item => item.album.Price)
+    </td>
+
+    <td>
+        @Html.DisplayFor(item => item.album.GraphicId)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "EditAlbum", new { id = Model.album.AlbumId }) |
+        @Html.ActionLink("Details", "DetailsAlbum", new { id = Model.album.AlbumId }) |
+        @Html.ActionLink("Delete", "DeleteAlbum", new { id = Model.album.AlbumId })
+    </td>
+</tr>

@@ -1,0 +1,27 @@
+﻿@model MusicStore.Domain.Entities.Client
+@{
+    ViewBag.Title = "Index";
+}
+
+@Html.ActionLink("Biblioteka", "Library", "Client",
+   new { returnUrl = Request.Url.PathAndQuery },
+   new { @class = "btn btn-outline-success" })
+@Html.ActionLink("Lista życzeń", "Wishlist", "Client",
+   new { returnUrl = Request.Url.PathAndQuery },
+   new { @class = "btn btn-outline-success" })
+@Html.ActionLink("Twoje zamówienia", "Orders", "Client",
+   new { returnUrl = Request.Url.PathAndQuery },
+   new { @class = "btn btn-outline-success" })
+@Html.ActionLink("Twój gust", "Preferences", "Client",
+   new { returnUrl = Request.Url.PathAndQuery },
+   new { @class = "btn btn-outline-success" })
+@Html.ActionLink("Ustawienia", "Settings", "Client",
+   new { returnUrl = Request.Url.PathAndQuery },
+   new { @class = "btn btn-outline-success" })
+
+@Html.ActionLink("Twoje dane", "DetailsAdress", "Client",
+   new {id = @Model.Id, returnUrl = Request.Url.PathAndQuery },
+   new { @class = "btn btn-outline-success" })
+
+
+

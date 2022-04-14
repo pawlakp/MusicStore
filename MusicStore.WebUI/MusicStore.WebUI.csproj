@@ -152,7 +152,7 @@
     <Compile Include="Infrastructure\Binders\CartModelBinder.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
-    <Compile Include="Models\AccountViewModel.cs" />
+    <Compile Include="Models\ClientModelDto.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\AlbumListViewModel.cs" />
     <Compile Include="Models\ProductModelDto.cs" />
@@ -181,12 +181,20 @@
     <Content Include="Views\Account\UserPanel.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\CreateUser.cshtml" />
-    <Content Include="Views\Admin\List.cshtml" />
+    <Content Include="Views\Admin\ListUsers.cshtml" />
     <Content Include="Views\Admin\DeleteUser.cshtml" />
     <Content Include="Views\Admin\AddAlbum.cshtml" />
     <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.6.0.min.map" />
     <Content Include="Views\Admin\AddSong.cshtml" />
+    <Content Include="Views\Admin\ListAlbums.cshtml" />
+    <Content Include="Views\Shared\AlbumList.cshtml" />
+    <Content Include="Views\Admin\EditAlbum.cshtml" />
+    <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Client\Create.cshtml" />
+    <Content Include="Views\Client\AddAdress.cshtml" />
+    <Content Include="Views\Client\DetailsAdress.cshtml" />
+    <Content Include="Views\Client\EditAdress.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -196,7 +204,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Client\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MusicStore.Domain\MusicStore.Domain.csproj">

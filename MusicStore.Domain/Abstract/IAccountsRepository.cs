@@ -12,13 +12,21 @@ namespace MusicStore.Domain.Abstract
         //interfejs kont użytkowników 
         IEnumerable<Accounts> Accounts { get;}
 
-        Task<List<Accounts>> GetAllAsync();
-        Task<Accounts> GetAsync(int id);
+        Task<List<Accounts>> AllAccountsAsync();
+        Task<Accounts> GetAccountAsync(int id);
         Task<Accounts> LoginAsync(string name, string password);
+        Task<List<Client>> AllClientsAsync();
         Task AddAccount(Accounts account);
         Task DeleteUser(int id);
         Task ChangePassword(int id);
-
+        Task<bool> IsClientExist(int id);
+        Task CreateAccount(Client client);
+        Task<Client> GetClient(Client user);
+        Task<Client> GetClient(int id);
+        Task CreateAdress(Adress adress);
+        Task EditAdress(Adress adress);
+        Task<Adress> GetAdressesAsync(int id);
+        Task<List<Adress>> AllAdressesAsync();
 
 
     }

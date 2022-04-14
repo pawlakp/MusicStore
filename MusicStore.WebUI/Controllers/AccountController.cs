@@ -44,7 +44,7 @@ namespace MusicStore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(Accounts account)
         {
-            var apiModel = await repository.GetAllAsync();
+            var apiModel = await repository.AllAccountsAsync();
             if (ModelState.IsValid)
             {
                 var check =  apiModel.FirstOrDefault(s => s.Login == account.Login);
@@ -91,7 +91,7 @@ namespace MusicStore.WebUI.Controllers
                     else
                     {
                         FormsAuthentication.SetAuthCookie(data.Login, false);
-                        return RedirectToAction("Index", "Client", data);
+                        return RedirectToAction("AfterLogin", "Client", data);
                     }
                 }
                 else
@@ -105,7 +105,7 @@ namespace MusicStore.WebUI.Controllers
 
         public async Task<ActionResult> UserPanel(int id)
         {
-            var user = await repository.GetAsync(id);
+            var user = await repository.GetAccountAsync(id);
             if (user.IsAdmin) return RedirectToAction("Index", "Admin", user);
             else return RedirectToAction("Index", "Client", user);
         }

@@ -41,7 +41,7 @@ namespace MusicStore.WebUI.Controllers
 
         public async Task<ViewResult> FiltrByGenre(string genre, int page = 1)
         {
-            var genres = await repository.GetGenreAsync();
+            var genres = await repository.AllGenreAsync();
             int genreid = genres.First(p=> p.Name.Contains(genre)).Id;
             IEnumerable<AlbumAllDetails> apiModel = await repository.GetFiltredAlbumAsync(genreid);
 
@@ -69,7 +69,7 @@ namespace MusicStore.WebUI.Controllers
 
         public async Task<ViewResult> AllGenre()
         {
-            var apiModel = await repository.GetGenreAsync();
+            var apiModel = await repository.AllGenreAsync();
             return View(apiModel);
         }
 

@@ -80,9 +80,18 @@
     <script src="~/Scripts/jquery-3.6.0.min.js"></script>
     
     <script>
-    $(document).ready(function () {
-        $("#btn1").click(function () {
-            $("#LabelName").append(" <input class='btn btn - sm btn - warning' type='text' id='LabelName' name='LabelName'/>");
+        $(document).ready(function () {
+            var a = 0;
+            $("#btn1").click(function () {
+                if (a < 1) {
+                    $("#NameLabel").append("<div id='LabelName'>Podaj nazwę wytwórni<input class='form-control' type='text' id='LabelName' name='LabelName'></div>");
+                    a = 2;
+
+                }
+                else{
+                    $("#LabelName").remove()
+                    a = 0;
+                }
         });
     });
     </script>

@@ -11,11 +11,14 @@ namespace MusicStore.Domain.Concrete
 {
     public class EfDbContext : DbContext
     {
-        public DbSet<Album> Albums { get; set; }
+        public DbSet<Album> Album { get; set; }
         public DbSet<Artist> Artist { get; set; }
         public DbSet<Genre> Genre {get; set; }
-        public DbSet<Accounts> Accounts { get; set; }
+        public DbSet<Accounts> Account { get; set; }
         public DbSet<Song> Song { get; set; }
+        public DbSet<Label> Label { get; set; }
+        public DbSet<Client> Client { get; set; }
+        public DbSet<Adress> Adresses { get; set; }
     }
     
 }
