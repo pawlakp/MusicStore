@@ -27,6 +27,7 @@ namespace MusicStore.Domain.Abstract
         Task EditAdress(Adress adress);
         Task<Adress> GetAdressesAsync(int id);
         Task<List<Adress>> AllAdressesAsync();
+        Task AddMusicToLibrary(List<int> albumsId, int id);
 
 
     }

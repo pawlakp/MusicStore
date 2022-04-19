@@ -86,8 +86,13 @@
     <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Cart.cs" />
     <Compile Include="Entities\Client.cs" />
+    <Compile Include="Entities\ClientLibrary.cs" />
+    <Compile Include="Entities\ClientWishlist.cs" />
+    <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\Label.cs" />
+    <Compile Include="Entities\Order.cs" />
+    <Compile Include="Entities\OrderAlbum.cs" />
     <Compile Include="Entities\ShippingDetails.cs" />
     <Compile Include="Entities\Song.cs" />
     <Compile Include="Exceptions\AlbumsException.cs" />

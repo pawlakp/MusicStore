@@ -30,5 +30,7 @@ namespace MusicStore.Domain.Entities
         public string Country { get; set; }
         [Required(ErrorMessage ="Proszę podać nazwę kraju")]
         public bool GiftWrap { get; set; }
+
+        //public bool AccountId { get; set; }
     }
 }

@@ -155,9 +155,26 @@ namespace MusicStore.Domain.Concrete
         public async Task<Adress> GetAdressesAsync(int id)
         {
             var list = await AllAdressesAsync();
-            var adress = list.Where(x => x.ClientId == id).FirstOrDefault();
+            Adress adress = list.Where(x => x.ClientId == id).FirstOrDefault();
             return adress;
         }
+
+        public async Task AddMusicToLibrary(List<int> albumsId, int clientId)
+        {
+              foreach(var albumId in albumsId)
+            {
+                ClientLibrary nowy = new ClientLibrary()
+                {
+                    AlbumId = albumId,
+                    ClientId = clientId,
+                };
+
+                context.ClientLibrary.Add(nowy);
+            }
+              context.SaveChanges();
+        }
+
+
 
 
     }

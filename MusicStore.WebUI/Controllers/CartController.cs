@@ -14,12 +14,14 @@ namespace MusicStore.WebUI.Controllers
     public class CartController : Controller
     {
         private IProductsRepository repository;
+        private IAccountsRepository accountsRepository;
         private IOrderProcessor orderProcessor;
 
-        public CartController(IProductsRepository repo, IOrderProcessor proc)
+        public CartController(IProductsRepository repo, IOrderProcessor proc, IAccountsRepository accounts)
         {
             repository = repo;
             orderProcessor = proc;
+            accountsRepository = accounts; 
         }
         public ViewResult Index(Cart cart, string returnUrl)
         {
@@ -76,13 +78,40 @@ namespace MusicStore.WebUI.Controllers
         }
 
 
-        public async Task<ViewResult> Checkout()
+        public async Task<ActionResult> Checkout()
         {
-            return View(new ShippingDetails());
+            if (Session["Id"] != null)
+            {
+                int id = (int)Session["Id"];
+                Client client = await accountsRepository.GetClient(id);
+                Adress adress = await accountsRepository.GetAdressesAsync(client.Id);
+                if (adress != null)
+                {
+                    return View(new ShippingDetails()
+                    {
+                        Name = client.Surname,
+                        City = adress.City,
+                        Line1 = adress.Town,
+                        Line2 = adress.Street,
+                        Line3 = adress.HouseNumber.ToString(),
+                        Zip = adress.PostCode,
+
+
+                    });
+                }
+                else
+                {
+                    return View(new ShippingDetails());
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login","Account");
+            }
         }
 
         [HttpPost]
-        public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
+        public async Task<ActionResult> Checkout(Cart cart, ShippingDetails shippingDetails, int Id)
         {
             if (cart.Lines.Count() == 0)
             {
@@ -91,13 +120,37 @@ namespace MusicStore.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 orderProcessor.ProcessOrder(cart, shippingDetails);
+
+                
+                List<int> albumsId = new List<int>();
+                foreach(var line in cart.Lines)
+                {
+                    albumsId.Add(line.Product.album.AlbumId);
+                }
+                if (albumsId.Count > 0 && Id >= 1)
+                {
+                    var clientId = await accountsRepository.GetClient(Id);
+                    await accountsRepository.AddMusicToLibrary(albumsId, clientId.Id);
+                    await orderProcessor.NewOrder(clientId.Id, albumsId);
+                }
+                else
+                {
+                    return RedirectToAction("Nothing");
+                }
                 cart.Clear();
                 return View("Completed");
+
+
             }
             else
             {
                 return View(shippingDetails);
             }
+        }
+
+        public string Nothing()
+        {
+            return "Hej tu nie jest pusto";
         }
 
     }

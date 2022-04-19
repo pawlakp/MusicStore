@@ -37,14 +37,14 @@ namespace MusicStore.WebUI.Infrastructure
           
             kernel.Bind<IProductsRepository>().To<EFProjectRepository>();
             
-            //wstrzyknięcie  EmailSettings do konstruktora EmailOrderProcessor gdy jest tworzony nowy egzemplarz 
+            //wstrzyknięcie  EmailSettings do konstruktora EFOrdersRepository gdy jest tworzony nowy egzemplarz 
             //w odpowiedzi na żądanie interfejsu IOrderProcessor
             EmailSettings emailSettings = new EmailSettings
             {
                 WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
             };
 
-            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
+            kernel.Bind<IOrderProcessor>().To<EFOrdersRepository>()
                 .WithConstructorArgument("settings", emailSettings);
 
             kernel.Bind<IAccountsRepository>().To<EFAccountsRepository>();

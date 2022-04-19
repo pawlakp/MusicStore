@@ -20,7 +20,7 @@
    new { @class = "btn btn-outline-success" })
 
 @Html.ActionLink("Twoje dane", "DetailsAdress", "Client",
-   new {id = @Model.Id, returnUrl = Request.Url.PathAndQuery },
+   new {id = @Session["Id"], returnUrl = Request.Url.PathAndQuery },
    new { @class = "btn btn-outline-success" })
 
 

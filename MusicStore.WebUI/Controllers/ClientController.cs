@@ -75,7 +75,8 @@ namespace MusicStore.WebUI.Controllers
 
         public async Task<ActionResult> DetailsAdress(int id)
         {
-            return View(await repository.GetAdressesAsync(id));
+            var client = await repository.GetClient(id);
+            return View(await repository.GetAdressesAsync(client.Id));
         }
         
         public async Task<ActionResult> EditAdress(int id)

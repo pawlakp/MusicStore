@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Mail;
 using MusicStore.Domain.Entities;
 using MusicStore.Domain.Abstract;
+using System.Data.Entity;
 
 namespace MusicStore.Domain.Concrete
 {
@@ -26,11 +27,12 @@ namespace MusicStore.Domain.Concrete
     }
 
     //implementacja interfejsu oraz wysyłania maili 
-    public class EmailOrderProcessor : IOrderProcessor
+    public class EFOrdersRepository : IOrderProcessor
     {
+        private EfDbContext context = new EfDbContext();
         private EmailSettings emailSettings;
 
-        public EmailOrderProcessor(EmailSettings settings)
+        public EFOrdersRepository(EmailSettings settings)
         {
             emailSettings = settings;
         }
@@ -87,6 +89,35 @@ namespace MusicStore.Domain.Concrete
                 }
                 smtpClinet.Send(mailMessage);
             }
-        } 
+        }
+
+        public async Task<List<Order>> AllOrdersAsync() => await context.Order.ToListAsync().ConfigureAwait(false);
+
+        public async Task NewOrder(int clientId, List<int> albumsId)
+        {
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.Date.ToString("yyyy-MM-dd");
+            Order order = new Order()
+            {
+                ClientId = clientId,
+                Data=myDateTime,
+            };
+            context.Order.Add(order);
+            await context.SaveChangesAsync();
+            var AllOrders = await AllOrdersAsync();
+            Order x = AllOrders.Where(y => y.Data == myDateTime).FirstOrDefault();
+            int id = x.Id;
+            foreach (var albumId in albumsId)
+            {
+                OrderAlbum nowy = new OrderAlbum()
+                {
+                    AlbumId = albumId,
+                    OrderId = id,
+                };
+
+                context.OrdersAlbums.Add(nowy);
+            }
+            await context.SaveChangesAsync();
+        }
     }
 }
