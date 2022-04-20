@@ -21,7 +21,7 @@ namespace MusicStore.UnitTests
         public async Task Can_LoginWithoutDataAsync()
         {
             //przygotowanie
-            Mock<IAccountsRepository> mock = new Mock<IAccountsRepository>();
+            Mock<IClientRepository> mock = new Mock<IClientRepository>();
             Accounts user = new Accounts()
             {
                 Login = "admin",
@@ -36,7 +36,7 @@ namespace MusicStore.UnitTests
         public async Task Can_Get_Account()
         {
             //przygotowanie
-            Mock<IAccountsRepository> mock = new Mock<IAccountsRepository>();
+            Mock<IClientRepository> mock = new Mock<IClientRepository>();
             Accounts user = new Accounts
            {
                 Id=1,
@@ -54,7 +54,7 @@ namespace MusicStore.UnitTests
         public async Task Can_Get_Account_DoesntExist()
         {
             //przygotowanie
-            Mock<IAccountsRepository> mock = new Mock<IAccountsRepository>();
+            Mock<IClientRepository> mock = new Mock<IClientRepository>();
             Accounts accounts = new Accounts
             {
                 Id = 10,

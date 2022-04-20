@@ -1,11 +1,12 @@
 ﻿@model MusicStore.WebUI.Models.CartIndexViewModel
 
 @{
-    ViewBag.Title="Twój koszyk";
+    ViewBag.Title = "Twój koszyk";
 }
 
 <h2>Twój koszyk</h2>
 <table class="table">
+    @Html.ValidationSummary()
     <thead>
         <tr>
             <th>Album</th>
@@ -13,21 +14,21 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var line in Model.Cart.Lines)
-            {
-                <tr>
-                    <td class="text-start">@line.Product.album.Name</td>
-                    <td class="text-end">@line.Product.album.Price.ToString("c")</td>
-                    <td>
-                        @using(Html.BeginForm("RemoveFromCart", "Cart"))
-                {
-                        @Html.Hidden("productId", line.Product.album.AlbumId)
-                        @Html.HiddenFor(x=>x.ReturnUrl)
-                            <input class="btn btn-sm btn-warning" type="submit" value="Usuń" />
-                }
-                    </td>
-                </tr>
-            }
+        @foreach (var line in Model.Cart.Lines)
+        {
+            <tr>
+                <td class="text-start">@line.Product.album.Name</td>
+                <td class="text-end">@line.Product.album.Price.ToString("c")</td>
+                <td>
+                    @using (Html.BeginForm("RemoveFromCart", "Cart"))
+                    {
+                        @Html.Hidden("productId", line.Product.album.Id)
+                        @Html.HiddenFor(x => x.ReturnUrl)
+                        <input class="btn btn-sm btn-warning" type="submit" value="Usuń" />
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
     <tfoot>
         <tr>
@@ -39,5 +40,8 @@
 
 <div class="text-center">
     <a class="btn btn-primary" href="@Model.ReturnUrl">Kontynuuj zakupy</a>
-    @Html.ActionLink("Złóż zamówienie", "Checkout", null, new {@class="btn btn-primay"})
+    @if (@Model.CartCount > 0)
+    {
+        @Html.ActionLink("Złóż zamówienie", "Checkout","Cart", null, new { @class = "btn btn-primary" })
+    }
 </div>

@@ -4,13 +4,13 @@
 }
 
 @Html.ActionLink("Biblioteka", "Library", "Client",
-   new { returnUrl = Request.Url.PathAndQuery },
+   new {id=@Session["Id"] },
    new { @class = "btn btn-outline-success" })
 @Html.ActionLink("Lista życzeń", "Wishlist", "Client",
    new { returnUrl = Request.Url.PathAndQuery },
    new { @class = "btn btn-outline-success" })
 @Html.ActionLink("Twoje zamówienia", "Orders", "Client",
-   new { returnUrl = Request.Url.PathAndQuery },
+   new { id = @Session["Id"] },
    new { @class = "btn btn-outline-success" })
 @Html.ActionLink("Twój gust", "Preferences", "Client",
    new { returnUrl = Request.Url.PathAndQuery },

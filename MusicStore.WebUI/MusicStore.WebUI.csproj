@@ -153,6 +153,7 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
     <Compile Include="Models\ClientModelDto.cs" />
+    <Compile Include="Models\OrderAlbumModelDto.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\AlbumListViewModel.cs" />
     <Compile Include="Models\ProductModelDto.cs" />
@@ -172,7 +173,7 @@
     <Content Include="Views\Nav\Menu.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Cart\Summary.cshtml" />
-    <Content Include="Views\Cart\Checkout.cshtml" />
+    <Content Include="Views\Cart\test.cshtml" />
     <Content Include="Views\Cart\Completed.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
@@ -195,6 +196,13 @@
     <Content Include="Views\Client\AddAdress.cshtml" />
     <Content Include="Views\Client\DetailsAdress.cshtml" />
     <Content Include="Views\Client\EditAdress.cshtml" />
+    <Content Include="Views\Client\Library.cshtml" />
+    <Content Include="Views\Shared\LibraryUser.cshtml" />
+    <Content Include="Views\Cart\Checkout.cshtml" />
+    <Content Include="Views\Shared\ShippDetail.cshtml" />
+    <Content Include="Views\Album\GetAlbumDetail.cshtml" />
+    <Content Include="Views\Client\Orders.cshtml" />
+    <Content Include="Views\Client\OrderDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

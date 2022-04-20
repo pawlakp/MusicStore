@@ -17,12 +17,12 @@ namespace MusicStore.WebUI.Controllers
     [Authorize(Users = "admin")]
     public class AdminController : Controller
     {
-        private IAccountsRepository account;
+        private IAccountRepository account;
         private IProductsRepository products;
         public int PageSize = 10;
         // GET: Admin
 
-        public AdminController(IAccountsRepository accountsRepository, IProductsRepository productsRepository)
+        public AdminController(IAccountRepository accountsRepository, IProductsRepository productsRepository)
         {
             this.account = accountsRepository;
             this.products = productsRepository;
@@ -121,7 +121,7 @@ namespace MusicStore.WebUI.Controllers
                 Album helpAlbum = new Album
                 {
                     Name = product.AlbumName,
-                    AlbumId = product.AlbumId,
+                    Id = product.AlbumId,
                     LabelId = product.LabelId,
                     Year = product.Year,
                     GenreId = product.Genre,
@@ -185,7 +185,7 @@ namespace MusicStore.WebUI.Controllers
             Artist artist = await products.GetArtist(album.ArtistId);
             ProductModelDto product = new ProductModelDto()
             {
-                AlbumId = album.AlbumId,
+                AlbumId = album.Id,
                 AlbumName = album.Name,
                 Genre = album.GenreId,
                 Country = album.CountryId,
@@ -206,7 +206,7 @@ namespace MusicStore.WebUI.Controllers
         {
             Album album = new Album
             {
-               AlbumId = product.AlbumId,
+               Id = product.AlbumId,
                Name = product.AlbumName,
                Price = product.Price,
                GraphicId = product.GraphicId,

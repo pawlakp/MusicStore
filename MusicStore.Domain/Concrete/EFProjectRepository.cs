@@ -19,7 +19,8 @@ namespace MusicStore.Domain.Concrete
         public async Task<List<Artist>> AllArtistAsync() => await context.Artist.ToListAsync().ConfigureAwait(false);
         public async Task<List<Song>> AllSongAsync() => await context.Song.ToListAsync().ConfigureAwait(false);
         public async Task<List<Genre>> AllGenreAsync() => await context.Genre.ToListAsync().ConfigureAwait(false);
-        public async Task<List<Label>> AllLabelAsync() => await context.Label.ToListAsync().ConfigureAwait(false); 
+        public async Task<List<Label>> AllLabelAsync() => await context.Label.ToListAsync().ConfigureAwait(false);
+        public async Task<List<Country>> AllCountriesAsync() => await context.Country.ToListAsync().ConfigureAwait(false);
 
         public async Task<IEnumerable<AlbumAllDetails>> GetAlbumWithArtistAsync()
         {
@@ -139,7 +140,7 @@ namespace MusicStore.Domain.Concrete
         public async Task<Album> GetAlbumAsync(int id)
         {
             var help = await AllAlbumAsync();
-            Album product = help.Where(x => x.AlbumId == id).FirstOrDefault();
+            Album product = help.Where(x => x.Id == id).FirstOrDefault();
             if (product != null)
                 return product;
             else
@@ -148,9 +149,9 @@ namespace MusicStore.Domain.Concrete
 
         public async Task EditAlbumAsync(Album album)
         {
-            var product = context.Album.FirstOrDefault(x => x.AlbumId == album.AlbumId);
+            var product = context.Album.FirstOrDefault(x => x.Id == album.Id);
 
-            product.AlbumId = album.AlbumId;
+            product.Id = album.Id;
             product.Name = album.Name;
             product.Price = album.Price;
             product.GraphicId = album.GraphicId;
@@ -204,6 +205,65 @@ namespace MusicStore.Domain.Concrete
             else return false;
 
         }
+
+        public async Task<IEnumerable<AlbumAllDetails>> GetAlbumsToLibrary(List<int> albumsId)
+        {
+        
+            var productRecord = await GetAlbumWithArtistAsync();
+            List<AlbumAllDetails> albumLibrary = new List<AlbumAllDetails>();
+
+            foreach (var item in albumsId)
+            {
+                foreach(var album in productRecord)
+                {
+                    if(item == album.album.Id)
+                    {
+                        albumLibrary.Add(album);
+                    }
+                }
+            }
+            
+            return albumLibrary.AsEnumerable();
+
+
+            
+        }
+
+        public async Task<AlbumDetails> GetAlbumDetailsAsync(int id)
+        {
+            var artist = await AllArtistAsync();
+            var albums = await AllAlbumAsync();
+            var genres = await AllGenreAsync();
+            var songs = await AllSongAsync();
+            var labels = await AllLabelAsync();
+            var countires = await AllCountriesAsync();
+
+
+            var productRecord = from e in albums
+                                where e.Id == id
+                                join x in artist on e.ArtistId equals x.ArtistId 
+                                join y in genres on e.GenreId equals y.Id 
+                                join z in labels on e.LabelId equals z.Id 
+                                join c in countires on e.CountryId equals c.Id
+                                select new AlbumDetails
+                                {
+                                  Name = e.Name,
+                                  Artist = x.Name,
+                                  Genre = y.Name,
+                                  Label = z.Name,
+                                  Country = c.Name,
+                                  Price = e.Price,
+                                  Year = e.Year,
+                                  Id = e.Id,
+                                  GraphicId = e.GraphicId,
+                                };
+            AlbumDetails albumDetails = productRecord.Where(x => x.Id == id).FirstOrDefault();
+
+
+            return albumDetails;
+        }
+
+      
 
 
     }

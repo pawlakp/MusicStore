@@ -7,18 +7,9 @@ using MusicStore.Domain.Entities;
 
 namespace MusicStore.Domain.Abstract
 {
-    public interface IAccountsRepository
+    public interface IClientRepository
     {
-        //interfejs kont użytkowników 
-        IEnumerable<Accounts> Accounts { get;}
-
-        Task<List<Accounts>> AllAccountsAsync();
-        Task<Accounts> GetAccountAsync(int id);
-        Task<Accounts> LoginAsync(string name, string password);
         Task<List<Client>> AllClientsAsync();
-        Task AddAccount(Accounts account);
-        Task DeleteUser(int id);
-        Task ChangePassword(int id);
         Task<bool> IsClientExist(int id);
         Task CreateAccount(Client client);
         Task<Client> GetClient(Client user);
@@ -28,7 +19,11 @@ namespace MusicStore.Domain.Abstract
         Task<Adress> GetAdressesAsync(int id);
         Task<List<Adress>> AllAdressesAsync();
         Task AddMusicToLibrary(List<int> albumsId, int id);
+        Task<List<int>> GetClientLibraryAsync(int id);
+        Task<Cart> ClientHaveAlbum(int clientId, Cart cart);
+        Task<List<Order>> GetAllClientOrders(int clientId);
 
+        Task<List<OrderAlbum>> GetOrderDetails(int orderId);
 
     }
 }

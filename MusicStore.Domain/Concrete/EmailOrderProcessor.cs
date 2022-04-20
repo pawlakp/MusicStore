@@ -93,20 +93,29 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<List<Order>> AllOrdersAsync() => await context.Order.ToListAsync().ConfigureAwait(false);
 
-        public async Task NewOrder(int clientId, List<int> albumsId)
+        public async Task NewOrder(int clientId, List<int> albumsId, decimal price)
         {
+            //pobranie daty systemowej
             DateTime myDateTime = DateTime.Now;
-            string sqlFormattedDate = myDateTime.Date.ToString("yyyy-MM-dd");
+            var nameOrder = GetLast() + "/" + DateTime.Now.ToString("yyyy");
+            //utworzenie nowego zamówienia
             Order order = new Order()
             {
                 ClientId = clientId,
                 Data=myDateTime,
+                Name = nameOrder,
+                Price = price,
             };
+            //dodanie do bazy 
             context.Order.Add(order);
             await context.SaveChangesAsync();
+
+            //pobranie id zamówienia
             var AllOrders = await AllOrdersAsync();
             Order x = AllOrders.Where(y => y.Data == myDateTime).FirstOrDefault();
             int id = x.Id;
+
+            //zapisywanie id albumów do id zamówienia
             foreach (var albumId in albumsId)
             {
                 OrderAlbum nowy = new OrderAlbum()
@@ -117,7 +126,23 @@ namespace MusicStore.Domain.Concrete
 
                 context.OrdersAlbums.Add(nowy);
             }
+            //zapisanie danych w bazie
             await context.SaveChangesAsync();
+        }
+
+        public int GetLast()
+        {
+            var a = context.Order.ToList();
+            if (a.Count > 0)
+            {
+                var AllOrders = int.Parse(context.Order
+                                .OrderByDescending(p => p.Id)
+                                .Select(r => r.Id)
+                                .First().ToString());
+                return AllOrders;
+            }
+            else
+                return 1;
         }
     }
 }

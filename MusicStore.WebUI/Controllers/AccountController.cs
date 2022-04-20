@@ -16,9 +16,9 @@ namespace MusicStore.WebUI.Controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private IAccountsRepository repository;
+        private IAccountRepository repository;
 
-        public AccountController(IAccountsRepository repo)
+        public AccountController(IAccountRepository repo)
         {
             this.repository = repo;
         }

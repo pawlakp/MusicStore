@@ -21,7 +21,7 @@ namespace MusicStore.UnitTests
             Album album1 = new Album
             {
                 Name = "Franek",
-                AlbumId = 1500
+                Id = 1500
 
             };
             Artist artist1 = new Artist

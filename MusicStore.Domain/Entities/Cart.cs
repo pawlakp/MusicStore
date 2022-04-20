@@ -17,7 +17,7 @@ namespace MusicStore.Domain.Entities
 
         public void AddItem(AlbumAllDetails product)
         {
-            CartLine line = lineCollection.Where(p => p.Product.album.AlbumId == product.album.AlbumId).FirstOrDefault();
+            CartLine line = lineCollection.Where(p => p.Product.album.Id == product.album.Id).FirstOrDefault();
           
             if(lineCollection.Contains(line)==false)lineCollection.Add(new CartLine { Product = product });
             
@@ -26,7 +26,7 @@ namespace MusicStore.Domain.Entities
 
         public void RemoveLine(AlbumAllDetails product)
         {
-            lineCollection.RemoveAll(p => p.Product.album.AlbumId == product.album.AlbumId);
+            lineCollection.RemoveAll(p => p.Product.album.Id == product.album.Id);
         }
 
         public decimal ComputeTotalValue()

@@ -73,6 +73,14 @@ namespace MusicStore.WebUI.Controllers
             return View(apiModel);
         }
 
+        public async Task<ActionResult> GetAlbumDetail(int id)
+        {
+            var album = await repository.GetAlbumDetailsAsync(id);
+            return View(album);
+
+
+        }
+
     }
 }
 

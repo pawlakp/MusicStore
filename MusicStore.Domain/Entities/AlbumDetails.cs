@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace MusicStore.Domain.Entities
 {
-    public class Order
+    public class AlbumDetails
     {
         public int Id { get; set; }
-        public int ClientId { get; set; }
-        public DateTime? Data { get; set; }
-        
         public string Name { get; set; }
+        public string Artist { get; set; }
+        public string Label { get; set; }
+        public string Year { get; set; }
+        public string Genre { get; set; }
+        public string Country { get; set; }
         public decimal Price { get; set; }
+        public int GraphicId { get; set; }
+
     }
 }

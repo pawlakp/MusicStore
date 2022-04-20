@@ -15,6 +15,7 @@
             <div class="card-body">
                 <h5 class="card-title">@Model.album.Name</h5>
                 <p class="card-text">@Model.artist.Name</p>
+                @Html.ActionLink("Szczegóły", "GetAlbumDetail", new {id = Model.album.Id}, new { @class = "btn btn-primary" })
                 <a href="#" class="btn btn-primary float-end">@Model.album.Price.ToString("c")</a>
                 <br />
                 <br />
@@ -22,13 +23,13 @@
                     @using (Html.BeginForm("AddToCart", "Cart"))
                     {
                         @*<input type="hidden" name="productId" value="@Model.album.AlbumId"></input>*@
-                        @Html.Hidden("productId",@Model.album.AlbumId)
+                        @Html.Hidden("productId", @Model.album.Id)
                         @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
                         <input type="submit" class="btn btn-success" value="Dodaj do koszyka" />
                     }
-                  
+
                 </div>
-                </div>
+            </div>
         </div>
     </div>
  </div>
