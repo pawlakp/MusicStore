@@ -34,6 +34,7 @@ namespace MusicStore.Domain.Abstract
 
         Task<IEnumerable<AlbumAllDetails>> GetAlbumsToLibrary(List<int> albumsId);
         Task<AlbumDetails> GetAlbumDetailsAsync(int id);
+      
 
     }
 }

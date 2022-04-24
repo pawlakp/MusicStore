@@ -50,7 +50,7 @@
                         @if (@Session["Id"] != null)
                         {
                             <button type="button" class="navbar-toggler">
-                                @Html.ActionLink(" ", "UserPanel", "Account", null, new { @class = "bi bi-person" })
+                                @Html.ActionLink(" ", "UserPanel", "Account", new { id = @Session["Id"] }, new { @class = "bi bi-person" })
                             </button>
                         }
                         else
@@ -64,7 +64,7 @@
                             <a href="#"><i class="bi bi-list"></i></a>
                         </button>
                     </div>
-                
+
                 </div>
             </nav>
         </div>
@@ -75,12 +75,14 @@
     <div class="container-fluid" id="data">
         <main role="main" class="pb-3">
             <div class="row">
-                @Html.Action("Menu", "Nav")
-                <div class="col-md-auto col-lg-8">
+                <div class="col-md-2">
+                    @Html.Action("Menu", "Nav")
+                </div>
+                <div class="col-sm-10">
                     @RenderBody()
                 </div>
             </div>
-        </main>
+</main>
     </div>
 
 

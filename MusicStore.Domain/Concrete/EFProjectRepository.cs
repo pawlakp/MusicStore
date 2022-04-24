@@ -250,7 +250,14 @@ namespace MusicStore.Domain.Concrete
             var songs = await AllSongAsync();
             var labels = await AllLabelAsync();
             var countires = await AllCountriesAsync();
-
+            List<Song> songList = new List<Song>();
+            foreach(var item in songs)
+            {
+                if (item.AlbumId == id)
+                {
+                    songList.Add(item);
+                }
+            }
 
             var productRecord = from e in albums
                                 where e.Id == id
@@ -272,12 +279,12 @@ namespace MusicStore.Domain.Concrete
                                   ImageMimeType = e.ImageMimeType,
                                 };
             AlbumDetails albumDetails = productRecord.Where(x => x.Id == id).FirstOrDefault();
-
+            albumDetails.Songs = songList;
 
             return albumDetails;
         }
 
-      
+
 
 
     }

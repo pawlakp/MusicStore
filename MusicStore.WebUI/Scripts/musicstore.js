@@ -21,9 +21,10 @@
 
     $(window).on('load resize', function (event) {
         if (click > 1) {
+            click = 0;
             var windowSize = $(window).width(); // Could've done $(this).width()
-            if (windowSize > 994) {
-                $('#menu').toggle('show')
+            if (windowSize > 768) {
+                $('#menu').show();
             }
         }
     });

@@ -18,6 +18,6 @@ namespace MusicStore.Domain.Entities
         public decimal Price { get; set; }
         public byte[] ImageData { get; set; }
         public string ImageMimeType { get; set; }
-
+        public List<Song> Songs { get; set; }
     }
 }

@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<MusicStore.Domain.Entities.Genre>
 
 
-<div class="col col-lg-2">
+
     <div id="menu">
         <ul class="list-group">
-            @Html.ActionLink("Home", "Index", "Home", null, new { @class = "list-group-item list-group-item-action" })
+            @Html.ActionLink("Home", "Index", "Home", null, new { @class = "list-group-item list-group-item-action", @style="word-break:break-all;" })
             @foreach (var link in Model)
             {
                 @Html.RouteLink(link.Name, new
@@ -21,4 +21,3 @@
             }
         </ul>
     </div>
- </div>
