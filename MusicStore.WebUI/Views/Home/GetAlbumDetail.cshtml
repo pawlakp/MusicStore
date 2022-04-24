@@ -3,6 +3,16 @@
 <div>
     <h4>AlbumDetails</h4>
     <hr />
+  
+        <div class="col-md-5">
+            @if (Model.ImageData != null)
+            {
+                @*<img class="img-thumbnail" width="75" height="75" src="" />*@
+                <img class="card-img-top" width="150" height="400"
+                     ,
+                     src="@Url.Action("GetImage","Home", new {productId=Model.Id})" alt="Card image cap">
+            }
+        </div>
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Name)
@@ -60,13 +70,6 @@
             @Html.DisplayFor(model => model.Price)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.GraphicId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.GraphicId)
-        </dd>
 
     </dl>
 </div>

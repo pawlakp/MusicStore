@@ -1,36 +1,4 @@
-﻿@*<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/modernizr-2.8.3.js"></script>
-    <title>@ViewBag.Title</title>
-</head>
-<body>
-    <header>
-        <div class="navbar navbar-inverse" role="navigation">
-            <a class="navbar-brand" href="#">Music Store</a>
-        </div>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            <div class="row panel">
-                <div id="categories" class="col-xs-3">
-                    Sometimes something amazing
-                </div>
-                <div class="col-xs-8">
-                    @RenderBody()
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-</body>
-</html>*@
-
+﻿
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,36 +7,75 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/ErrorStyles.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" />
+    <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
-    <header>
 
-        <nav class="navbar navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand">MusicStore</a>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-                @Html.Action("Summary", "Cart")
-                @Html.Action("Welcome", "Account")
-            </div>
-        </nav>
+    <header>
+        <div class="fixed-top">
+            <nav class="navbar navbar-dark bg-dark">
+                <div class="container-fluid">
+                    @Html.ActionLink("MusicStore", "Index", null, new { @class = "navbar-brand" })
+
+                    <div id="searchbar">
+                        <div class="buttons_nav">
+                            <form class="d-flex">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-primary" type="submit">Search</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="buttondesktop">
+                        <div class="buttons_nav">
+                            @Html.Action("Welcome", "Account")
+                        </div>
+                        <div class="buttons_nav">
+                            @Html.Action("Summary", "Cart")
+                        </div>
+
+                    </div>
+
+
+                    <div id="hidebuttons">
+                        <button class="navbar-toggler" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <button type="button" class="navbar-toggler" style="text-decoration:none">
+                            @Html.ActionLink(" ", "Index", "Cart", null, new { @class = "bi bi-cart" })
+                        </button>
+                        @if (@Session["Id"] != null)
+                        {
+                            <button type="button" class="navbar-toggler">
+                                @Html.ActionLink(" ", "UserPanel", "Account", null, new { @class = "bi bi-person" })
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="navbar-toggler">
+                                @Html.ActionLink(" ", "Login", "Account", null, new { @class = "bi bi-box-arrow-in-right" })
+                            </button>
+                        }
+
+                        <button type="button" id="menubutton" class="navbar-toggler">
+                            <a href="#"><i class="bi bi-list"></i></a>
+                        </button>
+                    </div>
+                
+                </div>
+            </nav>
+        </div>
     </header>
-    <div class="container-fluid">
+
+
+
+    <div class="container-fluid" id="data">
         <main role="main" class="pb-3">
             <div class="row">
-                <div class="col-2 col-xs-3">
-                    <div class="list-group">
-                        @*<a href="#" class="list-group-item list-group-item-action active" aria-current="true">*@
-                        @Html.Action("Menu", "Nav")
-                        @*</a>*@
-                        @*<a href="#" class="list-group-item list-group-item-action">A second link item</a>
-                            <a href="#" class="list-group-item list-group-item-action">A third link item</a>
-                            <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>*@
-                    </div>
-                </div>
+                @Html.Action("Menu", "Nav")
                 <div class="col-md-auto col-lg-8">
                     @RenderBody()
                 </div>
@@ -78,26 +85,9 @@
 
 
     <script src="~/Scripts/jquery-3.6.0.min.js"></script>
-    
-    <script>
-        $(document).ready(function () {
-            var a = 0;
-            $("#btn1").click(function () {
-                if (a < 1) {
-                    $("#NameLabel").append("<div id='LabelName'>Podaj nazwę wytwórni<input class='form-control' type='text' id='LabelName' name='LabelName'></div>");
-                    a = 2;
-
-                }
-                else{
-                    $("#LabelName").remove()
-                    a = 0;
-                }
-        });
-    });
-    </script>
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-
+    <script src="~/Scripts/musicstore.js"></script>
 </body>
 </html>
 

@@ -6,11 +6,11 @@
 
 <h2>AddAlbum</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("AddAlbum", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
+    <div class="form-horizontal">
     <h4>ProductModelDto</h4>
     <hr />
     @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -99,14 +99,6 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.GraphicId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.GraphicId, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.GraphicId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
         @Html.LabelFor(model => model.NumberOfSongs, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.NumberOfSongs, new { htmlAttributes = new { @class = "form-control" } })
@@ -126,6 +118,14 @@
             @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
         </div>
     </div>
+
+
+    <div class="form-group">
+        <input id="image" type="file" name="image" accept="image/png, image/gif, image/jpeg" class="btn btn-primary" />
+
+    </div>
+
+
 
 
     <div class="form-group">

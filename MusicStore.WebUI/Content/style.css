@@ -1,0 +1,39 @@
+﻿
+.buttons_nav {
+    display:none;
+}
+#data{
+    margin-top:50px;
+}
+#menu{
+    display:none;
+}
+#helpers{
+    text-decoration:none;
+}
+
+
+    @media (min-width: 992px) {
+        .buttons_nav {
+            margin-right: 10px;
+            float: right;
+            display: inline-flex;
+        }
+        .buttondesktop {
+            float: right;
+        }
+
+
+        #searchbar {
+            text-align:center;
+            margin-left: 15%;
+        }
+        #hidebuttons {
+            display: none;
+        }
+        #menu{
+            display:inline;
+        }
+        
+    }
+

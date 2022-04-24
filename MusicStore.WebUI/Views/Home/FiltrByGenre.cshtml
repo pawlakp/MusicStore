@@ -1,0 +1,34 @@
+﻿@model MusicStore.WebUI.Models.AlbumListViewModel
+
+@{
+    ViewBag.Title = "Albumy";
+}
+
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            @foreach (var p in Model.AlbumsWithArtists)
+            {
+                @Html.Partial("AlbumSummary", p);
+            }
+
+
+            <nav>
+                <ul class="pagination flex-wrap">
+                    @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+                    {
+                        <li class="@(i == Model.PagingInfo.CurrentPage ? "page-item active" : "page-item")">
+                            <a class="page-link" href="@Url.Action("FiltrByGenre", new { page = i, genre = Model.CurrentGenre})">@i</a>
+                        </li>
+
+                    }
+                </ul>
+            </nav>
+            </div>
+        </div>
+    </div>
+
+
+
+

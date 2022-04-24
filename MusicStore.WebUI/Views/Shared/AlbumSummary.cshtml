@@ -1,25 +1,24 @@
 ﻿@model MusicStore.Domain.Entities.AlbumAllDetails
 
-@*<div class="well">
-    <h3>
-        <strong>@Model.album.Name</strong>
-        <span class="pull-right label label-primary">@Model.album.Price.ToString("c")</span>
-    </h3>
-    <span class="lead">@Model.artist.Name</span>
-</div>*@
 
+<div class="col-md-4">
+    <div class="card mb-4 box-shadow">
+        @if (Model.album.ImageData != null)
+        {
+            <img class="card-img-top" 
+                 ,
+                 src="@Url.Action("GetImage", new {productId=Model.album.Id})" alt="Card image cap">
+        }
+        <div class="card-body">
+            <h5 class="card-title">@Model.album.Name</h5>
+            <p class="card-text">@Model.artist.Name</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    @Html.ActionLink("Szczegóły", "GetAlbumDetail", new { id = Model.album.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                </div>
 
-<div class="row justify-content-center">
-    <div class="col-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">@Model.album.Name</h5>
-                <p class="card-text">@Model.artist.Name</p>
-                @Html.ActionLink("Szczegóły", "GetAlbumDetail", new {id = Model.album.Id}, new { @class = "btn btn-primary" })
-                <a href="#" class="btn btn-primary float-end">@Model.album.Price.ToString("c")</a>
-                <br />
-                <br />
                 <div class="float-end">
+                    <a href="#" class="btn btn-primary float-end">@Model.album.Price.ToString("c")</a>
                     @using (Html.BeginForm("AddToCart", "Cart"))
                     {
                         @*<input type="hidden" name="productId" value="@Model.album.AlbumId"></input>*@
@@ -32,5 +31,4 @@
             </div>
         </div>
     </div>
- </div>
-
+</div>

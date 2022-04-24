@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace MusicStore.WebUI.Controllers
 {
-    public class AlbumController : Controller
+    public class HomeController : Controller
     {
        private IProductsRepository repository;
-        public int PageSize = 4;
+        public int PageSize = 6;
    
-        public AlbumController(IProductsRepository albumRepository)
+        public HomeController(IProductsRepository albumRepository)
         {
             this.repository = albumRepository;
         }
 
-        public async Task<ViewResult> List(int page = 1)
+        public async Task<ViewResult> Index(int page = 1)
         {
             var apiModel = await repository.GetAlbumWithArtistAsync();
             AlbumListViewModel model = new AlbumListViewModel
@@ -80,6 +80,22 @@ namespace MusicStore.WebUI.Controllers
 
 
         }
+
+
+        public async Task<FileContentResult> GetImage(int productId)
+        {
+            var list = await repository.AllAlbumAsync();
+            Album album = list.FirstOrDefault(p=> p.Id == productId); 
+            if(album != null)
+            {
+                return File( album.ImageData,album.ImageMimeType);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
     }
 }

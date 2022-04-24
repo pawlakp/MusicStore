@@ -40,5 +40,9 @@ namespace MusicStore.WebUI.Models
         public List<Genre> Genres { get; set; }
         public List<Label> Labels { get; set; }
 
+        public byte[] ImageData { get; set; }
+        public string ImageMimeType { get; set; }
+
+
     }
 }

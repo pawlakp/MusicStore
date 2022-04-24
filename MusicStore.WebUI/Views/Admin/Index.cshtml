@@ -1,9 +1,73 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAccount.cshtml";
 }
 
-@Html.ActionLink("Dodaj użytkownika", "CreateUser", "Admin",
+<div class="card-body" id="xd">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mb-4 ml-2 mr-2 text-left">
+                <div class="card-body">
+                    @Html.ActionLink("Dodaj użytkownika", "CreateUser", "Admin",
+   new { returnUrl = Request.Url.PathAndQuery },
+   new { @class = "btn btn-outline-success" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4 ml-2 mr-2 text-left">
+                <div class="card-body">
+                    @Html.ActionLink("Lista użytkowników", "ListUsers", "Admin",
+           new { returnUrl = Request.Url.PathAndQuery },
+           new { @class = "btn btn-outline-success" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4 ml-2 mr-2 text-left">
+                <div class="card-body">
+                    @Html.ActionLink("Lista albumów", "ListAlbums", "Admin",
+            new { returnUrl = Request.Url.PathAndQuery },
+            new { @class = "btn btn-outline-success" })
+                </div>
+            </div>
+        </div>
+        @*<div class="col-md-6">
+            <div class="card mb-4 ml-2 mr-2 text-left">
+                <div class="card-body">
+                    @Html.ActionLink("Dodaj album", "AddAlbum", "Admin",
+            new { returnUrl = Request.Url.PathAndQuery },
+            new { @class = "btn btn-outline-success" })
+
+                </div>
+            </div>
+        </div>*@
+        <div class="col-md-6">
+                <div class="card mb-4 ml-2 mr-2 text-left">
+                    <div class="card-body">
+                        @Html.ActionLink("Dodaj album", "AddAlbum", "Admin",
+           new { returnUrl = Request.Url.PathAndQuery },
+           new { @class = "btn btn-outline-success" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+@*<div class="col-md-6">
+            <div class="card mb-4 ml-2 mr-2 text-left">
+                <div class="card-body">
+                    <p>blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah</p>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+@*@Html.ActionLink("Dodaj użytkownika", "CreateUser", "Admin",
    new { returnUrl = Request.Url.PathAndQuery },
    new { @class = "btn btn-outline-success" })
 @Html.ActionLink("Lista użytkowników", "ListUsers", "Admin",
@@ -14,7 +78,7 @@
    new { @class = "btn btn-outline-success" })
 @Html.ActionLink("Dodaj album", "AddAlbum", "Admin",
    new { returnUrl = Request.Url.PathAndQuery },
-   new { @class = "btn btn-outline-success" })
+   new { @class = "btn btn-outline-success" })*@
 
 
 

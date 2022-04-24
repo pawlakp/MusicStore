@@ -22,6 +22,8 @@ namespace MusicStore.Domain.Concrete
         public async Task<List<Label>> AllLabelAsync() => await context.Label.ToListAsync().ConfigureAwait(false);
         public async Task<List<Country>> AllCountriesAsync() => await context.Country.ToListAsync().ConfigureAwait(false);
 
+        public List<Album> GetAlbums() => context.Album.ToList();
+
         public async Task<IEnumerable<AlbumAllDetails>> GetAlbumWithArtistAsync()
         {
 
@@ -147,6 +149,16 @@ namespace MusicStore.Domain.Concrete
                 return null;
         }
 
+        public async Task<Album> GetAlbumAsync(string Name)
+        {
+            var help = await AllAlbumAsync();
+            Album product = help.Where(x => x.Name == Name).FirstOrDefault();
+            if (product != null)
+                return product;
+            else
+                return null;
+        }
+
         public async Task EditAlbumAsync(Album album)
         {
             var product = context.Album.FirstOrDefault(x => x.Id == album.Id);
@@ -154,11 +166,12 @@ namespace MusicStore.Domain.Concrete
             product.Id = album.Id;
             product.Name = album.Name;
             product.Price = album.Price;
-            product.GraphicId = album.GraphicId;
             product.CountryId = album.CountryId;
             product.GenreId = album.GenreId;
             product.Year = album.Year;
             product.LabelId = album.LabelId;
+            product.ImageData = album.ImageData;
+            product.ImageMimeType = album.ImageMimeType;
 
 
             await context.SaveChangesAsync();
@@ -179,7 +192,7 @@ namespace MusicStore.Domain.Concrete
         public async Task<int> GetArtistId(string Name)
         {
             var model = await AllArtistAsync();
-            Artist artysta = model.Where(s=> s.Name == Name).FirstOrDefault();
+            Artist artysta = model.Find(s => s.Name.Contains(Name));
             return artysta.ArtistId;
         }
         public async Task<Artist> GetArtist(int id)
@@ -197,9 +210,9 @@ namespace MusicStore.Domain.Concrete
                 {
                     Song piosenka = songs[i];
                     context.Song.Add(piosenka);
-                    await context.SaveChangesAsync();
+                    context.SaveChanges();
                 }
-                
+
                 return true;
             }
             else return false;
@@ -255,7 +268,8 @@ namespace MusicStore.Domain.Concrete
                                   Price = e.Price,
                                   Year = e.Year,
                                   Id = e.Id,
-                                  GraphicId = e.GraphicId,
+                                  ImageData = e.ImageData,
+                                  ImageMimeType = e.ImageMimeType,
                                 };
             AlbumDetails albumDetails = productRecord.Where(x => x.Id == id).FirstOrDefault();
 

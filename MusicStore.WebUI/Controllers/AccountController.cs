@@ -42,7 +42,7 @@ namespace MusicStore.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(Accounts account)
+        public async Task<ActionResult> Register(RegisterModelDto account)
         {
             var apiModel = await repository.AllAccountsAsync();
             if (ModelState.IsValid)
@@ -50,7 +50,14 @@ namespace MusicStore.WebUI.Controllers
                 var check =  apiModel.FirstOrDefault(s => s.Login == account.Login);
                 if (check == null)
                 {
-                    await repository.AddAccount(account);
+                    Accounts tmp = new Accounts
+                    {
+                        Login = account.Login,
+                        Password = account.Password,
+                        IsPasswordChangeRequired = account.IsPasswordChangeRequired,
+                        IsAdmin = account.IsAdmin,
+                    };
+                    await repository.AddAccount(tmp);
                     return RedirectToAction("Index");
                 }
                 else

@@ -87,7 +87,7 @@ namespace MusicStore.WebUI.Controllers
             var apiModel = await products.GetAlbumWithArtistAsync();
             AlbumListViewModel model = new AlbumListViewModel
             {
-                AlbumsWithArtists = apiModel.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
+                AlbumsWithArtists = apiModel.OrderBy(p => p.album.Id).Skip((page - 1) * PageSize).Take(PageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
@@ -112,12 +112,23 @@ namespace MusicStore.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddAlbum(ProductModelDto product, string LabelName)
+        public async Task<ActionResult> AddAlbum(ProductModelDto product, string LabelName, HttpPostedFileBase image =null)
         {
             var apiModel = await this.account.AllAccountsAsync();
 
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    product.ImageMimeType = image.ContentType;
+                    product.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(product.ImageData, 0, image.ContentLength);
+                }
+                else
+                {
+                    string a = "Pusto";
+                }
+
                 Album helpAlbum = new Album
                 {
                     Name = product.AlbumName,
@@ -127,7 +138,10 @@ namespace MusicStore.WebUI.Controllers
                     GenreId = product.Genre,
                     CountryId = product.Country,
                     Price = product.Price,
-                    GraphicId = product.GraphicId
+                    ImageData = product.ImageData,
+                    ImageMimeType = product.ImageMimeType,
+                   
+                    
                 };
                 Artist helpArtist = new Artist
                 {
@@ -139,6 +153,11 @@ namespace MusicStore.WebUI.Controllers
                     artist = helpArtist
 
                 });
+
+
+                Album nowy = await products.GetAlbumAsync(product.AlbumName);
+                product.AlbumId = nowy.Id;
+                product.ArtistId = nowy.ArtistId;
                 return RedirectToAction("AddSong", product);
             }
             else
@@ -155,13 +174,11 @@ namespace MusicStore.WebUI.Controllers
         }
         public async Task<ActionResult> AddSong(ProductModelDto product)
         {
-            string arytysta = product.ArtistName.ToString();
-            int artistId = await products.GetArtistId(arytysta);
             SongModelDto piosenki = new SongModelDto()
             {
                 SongList = new List<Song>(new Song[product.NumberOfSongs]),
                 AlbumId = product.AlbumId,
-                ArtistId = artistId
+                ArtistId = product.ArtistId,
             };
             return View(piosenki);
         }
@@ -202,20 +219,27 @@ namespace MusicStore.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> EditAlbum(ProductModelDto product)
+        public async Task<ActionResult> EditAlbum(ProductModelDto product, HttpPostedFileBase image = null)
         {
+            if (image != null)
+            {
+                product.ImageMimeType = image.ContentType;
+                product.ImageData = new byte[image.ContentLength];
+                image.InputStream.Read(product.ImageData, 0, image.ContentLength);
+            }
             Album album = new Album
             {
                Id = product.AlbumId,
                Name = product.AlbumName,
                Price = product.Price,
-               GraphicId = product.GraphicId,
                ArtistId = await products.GetArtistId(product.ArtistName),
                CountryId = product.Country,
                GenreId = product.Genre,
                Year = product.Year,
-               LabelId = product.LabelId
-        };
+               LabelId = product.LabelId,
+                ImageData = product.ImageData,
+                ImageMimeType = product.ImageMimeType,
+            };
             await products.EditAlbumAsync(album);
             return RedirectToAction("ListAlbums");
         }

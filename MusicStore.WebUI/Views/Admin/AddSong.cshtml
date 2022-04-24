@@ -26,8 +26,8 @@
         </div>
     }
 
-    @Html.Hidden("albumId", Model.AlbumId)
-    @Html.Hidden("artistId", Model.ArtistId)
+    @Html.Hidden("albumId", @Model.AlbumId)
+    @Html.Hidden("artistId", @Model.ArtistId)
 
     @*<div class="form-group">
             @Html.LabelFor(model => model.AlbumId, htmlAttributes: new { @class = "control-label col-md-2" })

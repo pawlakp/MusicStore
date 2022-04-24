@@ -1,0 +1,41 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/ErrorStyles.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Style.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/LoginRegister.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <header>
+
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                @Html.ActionLink("MusicStore", "Index","Home", null, new { @class = "navbar-brand" })
+                @Html.Action("Welcome", "Account")
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            <div class="row">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+
+
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/Register.js"></script>
+
+</body>
+</html>

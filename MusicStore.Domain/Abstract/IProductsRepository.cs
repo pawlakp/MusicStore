@@ -10,7 +10,7 @@ namespace MusicStore.Domain.Abstract
     public interface IProductsRepository
     {
         IEnumerable<Genre> GetGenre();
-
+        List<Album> GetAlbums();
 
         //interfejs metody asynchronicznej
         Task<List<Album>> AllAlbumAsync();
@@ -21,6 +21,7 @@ namespace MusicStore.Domain.Abstract
         Task<string> GenreNameAsync(int genre);
         Task AddAlbumAsync(AlbumAllDetails album);
         Task<Album> GetAlbumAsync(int id);
+        Task<Album> GetAlbumAsync(string Name);
         Task<Artist> GetArtist(int id);
         Task<int> GetArtistId(string Name);
         Task<bool> AddSongsAsync(List<Song> songs);
