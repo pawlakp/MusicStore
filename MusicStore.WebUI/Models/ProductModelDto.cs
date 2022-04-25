@@ -14,7 +14,6 @@ namespace MusicStore.WebUI.Models
         [Required(ErrorMessage = "Proszę podać tytuł")]
         [Display(Name = "Tytuł")]
         public string AlbumName { get; set; }
-        [Required(ErrorMessage = "Proszę podać wytwórnię")]
         [Display(Name = "Wytwórnia")]
         public int LabelId { get; set; }
         [Required(ErrorMessage = "Proszę podać rok")]

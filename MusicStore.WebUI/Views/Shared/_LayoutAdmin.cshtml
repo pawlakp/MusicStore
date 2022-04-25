@@ -21,34 +21,17 @@
         <div class="fixed-top">
             <nav class="navbar navbar-dark bg-dark">
 
-                @Html.ActionLink("MusicStore", "Index", null, new { @class = "navbar-brand float-left" })
-
-                <div id="searchbar">
-                    <div class="buttons_nav d-flex">
-                        <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-primary" type="submit">Search</button>
-                        </form>
-                    </div>
-                </div>
+                @Html.ActionLink("MusicStore", "Index", null, new { @class = "navbar-brand ml-1" })
 
                 <div class="float-right">
                     <div class="buttons_nav float-right">
+                        @Html.Partial("MenuAdmin","Nav")
                         @Html.Action("Welcome", "Account")
-                    </div>
-                    <div class="buttons_nav float-right">
-                        @Html.Action("Summary", "Cart")
                     </div>
                 </div>
 
 
                 <div id="hidebuttons">
-                    <button class="navbar-toggler" type="button">
-                        <i class="bi bi-search"></i>
-                    </button>
-                    <button type="button" class="navbar-toggler" style="text-decoration:none">
-                        @Html.ActionLink(" ", "Index", "Cart", null, new { @class = "bi bi-cart" })
-                    </button>
                     @if (@Session["Id"] != null)
                     {
                         <button type="button" class="navbar-toggler">
@@ -75,16 +58,7 @@
     <main role="main" class="pb-3">
 
         <div class="container-fluid justify-content-center" id="data">
-
-            <div class="row">
-                <div class="col-md-1 p-0">
-                    @Html.Action("Menu", "Nav")
-                </div>
-                <div class="col-sm-11">
                     @RenderBody()
-                </div>
-            </div>
-
         </div>
     </main>
 

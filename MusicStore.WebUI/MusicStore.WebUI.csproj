@@ -126,17 +126,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\LoginRegister.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Image\person.svg" />
+    <Content Include="Content\LoginRegister.css" />
     <Content Include="Content\ErrorStyles.css" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\MicrosoftAjax.debug.js" />
     <Content Include="Scripts\MicrosoftAjax.js" />
     <Content Include="Scripts\musicstore.js" />
     <Content Include="Content\style.css" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -305,7 +306,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\_LayoutLoginPage.cshtml" />
-    <Content Include="Views\Shared\_LayoutAccount.cshtml" />
+    <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Admin\News.cshtml" />
     <Content Include="Views\Admin\NumberAllbumsView.cshtml" />
     <Content Include="Views\Nav\MenuAdmin.cshtml" />

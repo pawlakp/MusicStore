@@ -14,9 +14,23 @@
 #searchbar{
     display:none;
 }
+/*
+#ListAlbum {
+    background-image: url('Image/music-note-beamed.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
 
-    @media (min-width: 992px) {
-        .buttons_nav {
+#AddMusic {
+    background-image: url('Image/add-music.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}*/
+
+@media (min-width: 992px) {
+    .buttons_nav {
             margin-right: 10px;
             float: right;
             display: inline-flex;
@@ -35,8 +49,8 @@
         #hidebuttons {
             display: none;
         }
-        #menu{
-            display:inline;
+        #menu {
+            display: inline;
         }
         
     }

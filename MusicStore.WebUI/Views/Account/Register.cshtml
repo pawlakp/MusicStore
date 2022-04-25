@@ -32,21 +32,10 @@
             @Html.ValidationMessageFor(model => model.RepeatPassword, "", new { @class = "text-danger" })
 
         </div>
-        <div class="form-group">
-            <div class="checkbox">
-                @Html.HiddenFor(model => model.IsAdmin)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="checkbox">
-                @Html.HiddenFor(model => model.IsPasswordChangeRequired)
-            </div>
-        </div>
-
+        
         <div class="form-group">
             <div class="card-body">
-                <input type="submit" name="submit" class="btn btn-primary btn-block" value="Sign up" />
+                <input type="submit" name="submit" class="btn btn-primary w-100" value="Sign up" />
             </div>
         </div>
     </div>

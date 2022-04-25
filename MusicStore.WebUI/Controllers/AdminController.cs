@@ -176,7 +176,7 @@ namespace MusicStore.WebUI.Controllers
             }
 
         }
-        public async Task<ActionResult> AddSong(ProductModelDto product)
+        public ActionResult AddSong(ProductModelDto product)
         {
             SongModelDto piosenki = new SongModelDto()
             {
@@ -218,6 +218,8 @@ namespace MusicStore.WebUI.Controllers
                 Genres = await products.AllGenreAsync(),
                 Labels = await products.AllLabelAsync(),
                 ArtistName = artist.Name,
+                ImageData = album.ImageData,
+                ImageMimeType = album.ImageMimeType,
             };
             return View(product);
         }
@@ -249,9 +251,10 @@ namespace MusicStore.WebUI.Controllers
         }
 
         
-        public async Task DeleteAlbum(int id)
+        public async Task<ActionResult> DeleteAlbum(int id)
         {
             await products.DeleteAlbumAsync(id);
+            return RedirectToAction("ListAlbums");
             
         }
 

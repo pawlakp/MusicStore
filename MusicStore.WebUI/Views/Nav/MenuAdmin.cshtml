@@ -1,9 +1,42 @@
-﻿
-
-<div id="menu">
-    <ul class="list-group">
-        @Html.ActionLink("Home", "Index", "Home", null, new { @class = "list-group-item list-group-item-action", @style = "word-break:break-all;" })
-        
-    </ul>
-</div>
-
+﻿<div id="menu">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="height: 100vh;">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                
+                    @Html.ActionLink("Home", "Index", "Admin",
+new { returnUrl = Request.Url.PathAndQuery },
+new { @class = "nav-link active", @width = "16", @height = "16"})
+                
+            </li>
+            <li>
+                <a href="#" class="nav-link text-dark">
+                    @Html.ActionLink("Dodaj użytkownika", "CreateUser", "Admin",
+ new { returnUrl = Request.Url.PathAndQuery },
+ new { @class = "bi me-2", @width = "16", @height = "16", @style= "text-decoration: none;" })
+                </a>
+             
+            </li>
+            <li>
+                <a href="#" class="nav-link text-dark">
+                    @Html.ActionLink("Lista użytkowników", "ListUsers", "Admin",
+new { returnUrl = Request.Url.PathAndQuery },
+new { @class = "bi me-2", @width = "16", @height = "16", @style = "text-decoration: none;" })
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link text-dark">
+                    @Html.ActionLink("Lista albumów", "ListAlbums", "Admin",
+new { returnUrl = Request.Url.PathAndQuery },
+new { @class = "bi me-2", @width = "16", @height = "16", @style = "text-decoration: none;" })
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link text-dark">
+                    @Html.ActionLink("Dodaj album", "AddAlbum", "Admin",
+ new { returnUrl = Request.Url.PathAndQuery },
+ new { @class = "bi me-2", @width = "16", @height = "16", @style = "text-decoration: none;" })
+                </a>
+            </li>
+        </ul>
+        </div>
+    </div>
