@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="table" id="xdd">
     <tr>
         <th>
             @*@Html.DisplayNameFor(model => model.AlbumsWithArtists);*@
@@ -44,11 +44,7 @@
     @foreach (var item in Model.AlbumsWithArtists)
     {
         @Html.Partial("AlbumList", item);
-        @*<td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.album.AlbumId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.album.AlbumId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.album.AlbumId })
-        </td>*@
+     
     }
 
 </table>

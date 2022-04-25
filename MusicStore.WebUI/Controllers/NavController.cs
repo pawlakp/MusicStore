@@ -22,5 +22,10 @@ namespace MusicStore.WebUI.Controllers
             ViewBag.SelectedGenre = genre;
             return PartialView(repository.GetGenre());
         }
+        public PartialViewResult MenuAdmin()
+        {
+            return PartialView();
+        }
+
     }
 }

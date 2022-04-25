@@ -25,6 +25,20 @@
     <td>
         @Html.ActionLink("Edit", "EditAlbum", new { id = Model.album.Id }) |
         @Html.ActionLink("Details", "DetailsAlbum", new { id = Model.album.Id }) |
-        @Html.ActionLink("Delete", "DeleteAlbum", new { id = Model.album.Id })
-    </td>
+        @using (Ajax.BeginForm("DeleteAlbum", new { id = Model.album.Id}, new AjaxOptions
+        {
+            Confirm = "Potwierdź usunięcie",
+            OnSuccess = "alert('Pomyślnie usunięto z listy')"
+        }))
+        {
+        <input type="submit" value="Usuń">
+        
+            }
+
+
+</td>
 </tr>
+
+
+
+

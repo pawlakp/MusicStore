@@ -180,6 +180,17 @@ namespace MusicStore.Domain.Concrete
         public async Task DeleteAlbumAsync(int id)
         {
             var album = await context.Album.FindAsync(id);
+            var songs = await AllSongAsync();
+           
+            foreach (var item in songs)
+            {
+                if (item.AlbumId == album.Id && item.ArtistId ==album.ArtistId)
+                {
+                    context.Song.Remove(item);
+                }
+            }
+            await context.SaveChangesAsync();
+
             if (album != null)
             {
                 context.Album.Remove(album);

@@ -4,16 +4,13 @@
     ViewBag.Title = "Albumy";
 }
 
-<div class="album py-5 bg-light">
+<div class="album py-5 bg-light ml-0">
     <div class="container">
         <div class="row">
             @foreach (var p in Model.AlbumsWithArtists)
             {
                 @Html.Partial("AlbumSummary", p);
             }
-
-
-
         </div>
         <nav>
             <ul class="pagination justify-content-center flex-wrap">

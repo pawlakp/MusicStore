@@ -11,6 +11,9 @@
 #helpers{
     text-decoration:none;
 }
+#searchbar{
+    display:none;
+}
 
     @media (min-width: 992px) {
         .buttons_nav {
@@ -20,12 +23,14 @@
         }
         .buttondesktop {
             float: right;
+          
         }
 
 
         #searchbar {
-            text-align:center;
+            text-align: center;
             margin-left: 15%;
+            display: inline;
         }
         #hidebuttons {
             display: none;

@@ -13,5 +13,7 @@ namespace MusicStore.Domain.Abstract
         void ProcessOrder(Cart cart, ShippingDetails shippingDetails);
         Task NewOrder(int clientId, List<int> albumsId, decimal price);
         Task<List<Order>> AllOrdersAsync();
+        Task<List<OrderAlbum>> AllOrdersAlbumAsync();
+        Task<decimal> GetAllMoneyEarned();
     }
 }

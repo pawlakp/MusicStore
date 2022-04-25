@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ajax, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ajax.0.0.0\lib\netstandard2.0\Ajax.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.4.1\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
@@ -127,6 +130,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\ErrorStyles.css" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
     <Content Include="Scripts\musicstore.js" />
     <Content Include="Content\style.css" />
     <Content Include="Global.asax" />
@@ -238,6 +243,7 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
     <Compile Include="Models\ClientModelDto.cs" />
+    <Compile Include="Models\NewsModelDto.cs" />
     <Compile Include="Models\OrderAlbumModelDto.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\AlbumListViewModel.cs" />
@@ -298,7 +304,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Shared\_LayoutLoginPage.cshtml" />
     <Content Include="Views\Shared\_LayoutAccount.cshtml" />
+    <Content Include="Views\Admin\News.cshtml" />
+    <Content Include="Views\Admin\NumberAllbumsView.cshtml" />
+    <Content Include="Views\Nav\MenuAdmin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

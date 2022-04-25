@@ -92,6 +92,7 @@ namespace MusicStore.Domain.Concrete
         }
 
         public async Task<List<Order>> AllOrdersAsync() => await context.Order.ToListAsync().ConfigureAwait(false);
+        public async Task<List<OrderAlbum>> AllOrdersAlbumAsync() => await context.OrdersAlbums.ToListAsync().ConfigureAwait(false);
 
         public async Task NewOrder(int clientId, List<int> albumsId, decimal price)
         {
@@ -144,5 +145,17 @@ namespace MusicStore.Domain.Concrete
             else
                 return 1;
         }
+
+        public async Task<decimal> GetAllMoneyEarned()
+        {
+            decimal a = 0;
+            var list = await AllOrdersAsync();
+            foreach (var item in list)
+            {
+                a += item.Price;
+            }
+            return a;
+        }
+       
     }
 }

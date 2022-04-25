@@ -17,15 +17,19 @@ namespace MusicStore.WebUI.Controllers
     [Authorize(Users = "admin")]
     public class AdminController : Controller
     {
-        private IAccountRepository account;
+        private IAccountRepository accounts;
         private IProductsRepository products;
+        private IOrderProcessor orders;
+        private IClientRepository clients;
         public int PageSize = 10;
         // GET: Admin
 
-        public AdminController(IAccountRepository accountsRepository, IProductsRepository productsRepository)
+        public AdminController(IAccountRepository accountsRepository, IProductsRepository productsRepository, IClientRepository clientRepository, IOrderProcessor orderProcessor)
         {
-            this.account = accountsRepository;
+            this.accounts = accountsRepository;
             this.products = productsRepository;
+            this.clients = clientRepository;
+            this.orders = orderProcessor;
         }
         public ActionResult Index()
         {
@@ -41,13 +45,13 @@ namespace MusicStore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateUser(Accounts konto)
         {
-            var apiModel = await this.account.AllAccountsAsync();
+            var apiModel = await this.accounts.AllAccountsAsync();
             if (ModelState.IsValid)
             {
                 var check = apiModel.FirstOrDefault(s => s.Login == konto.Login);
                 if (check == null)
                 {
-                    await this.account.AddAccount(konto);
+                    await this.accounts.AddAccount(konto);
                     return RedirectToAction("Index");
                 }
                 else
@@ -63,21 +67,21 @@ namespace MusicStore.WebUI.Controllers
 
         public async Task<ActionResult> DeleteUser(int id)
         {
-            await account.DeleteUser(id);
+            await accounts.DeleteUser(id);
             return RedirectToAction("List");
 
         }
 
         public async Task<ActionResult> ChangePassword(int id)
         {
-            await account.ChangePassword(id);
+            await accounts.ChangePassword(id);
             return RedirectToAction("List");
 
         }
 
         public async Task<ActionResult> ListUsers()
         {
-            var list = await account.AllAccountsAsync();
+            var list = await accounts.AllAccountsAsync();
             return View(list.AsEnumerable());
         }
         public async Task<ActionResult> ListAlbums(int page = 1)
@@ -114,7 +118,7 @@ namespace MusicStore.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddAlbum(ProductModelDto product, string LabelName, HttpPostedFileBase image =null)
         {
-            var apiModel = await this.account.AllAccountsAsync();
+            var apiModel = await this.accounts.AllAccountsAsync();
 
             if (ModelState.IsValid)
             {
@@ -245,15 +249,46 @@ namespace MusicStore.WebUI.Controllers
         }
 
         
-        public async Task<ActionResult> DeleteAlbum(int id)
+        public async Task DeleteAlbum(int id)
         {
             await products.DeleteAlbumAsync(id);
-            return RedirectToAction("ListAlbums");
+            
+        }
+
+        public async Task<PartialViewResult> News()
+        {
+            var numberOfOrders = await orders.AllOrdersAsync();
+            var numberOfSaleAlbums = await orders.AllOrdersAlbumAsync();
+            var numberOfAlbums = await products.AllAlbumAsync();
+            var moneyEarned = await orders.GetAllMoneyEarned();
+            var numberOfUsers = await clients.AllClientsAsync();
+           
+            return PartialView(new NewsModelDto
+            {
+                NumberOfOrders = numberOfOrders.Count(),
+                NumberOfSaleAlbums = numberOfSaleAlbums.Count(),
+                NumberOfAlbums = numberOfAlbums.Count(),
+                MoneyEarned = moneyEarned,
+                NumberOfUsers = numberOfUsers.Count() 
+            });
+        }
+
+        public async Task<PartialViewResult> NumberAllbumsView()
+        {
+           
+            var numberOfAlbums = await products.AllAlbumAsync();
+           
+
+            return PartialView(new NewsModelDto
+            {               
+                NumberOfAlbums = numberOfAlbums.Count(),
+            });
         }
 
 
+      
 
- 
+
 
     }
 }

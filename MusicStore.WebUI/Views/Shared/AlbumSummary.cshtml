@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="float-end">
-                    <a href="#" class="btn btn-primary float-end">@Model.album.Price.ToString("c")</a>
+                    <a href="#" class="float-end">@Model.album.Price.ToString("c")</a>
                     @using (Html.BeginForm("AddToCart", "Cart"))
                     {
                         @*<input type="hidden" name="productId" value="@Model.album.AlbumId"></input>*@

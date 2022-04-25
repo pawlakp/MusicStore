@@ -4,7 +4,43 @@
     Layout = "~/Views/Shared/_LayoutAccount.cshtml";
 }
 
-<div class="card-body" id="xd">
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Aktualności
+                    </div>
+                    <div class="card-body">
+                        <div id="News"></div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Today
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Liczba albumów w ofercie
+                    </div>
+                    <div class="card-body">
+                        <div id="Products"></div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        2 days ago
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+ 
+@*<div class="card-body" id="xd">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card mb-4 ml-2 mr-2 text-left">
@@ -33,16 +69,7 @@
                 </div>
             </div>
         </div>
-        @*<div class="col-md-6">
-            <div class="card mb-4 ml-2 mr-2 text-left">
-                <div class="card-body">
-                    @Html.ActionLink("Dodaj album", "AddAlbum", "Admin",
-            new { returnUrl = Request.Url.PathAndQuery },
-            new { @class = "btn btn-outline-success" })
-
-                </div>
-            </div>
-        </div>*@
+    
         <div class="col-md-6">
                 <div class="card mb-4 ml-2 mr-2 text-left">
                     <div class="card-body">
@@ -56,29 +83,4 @@
 
 
 
-    </div>
-@*<div class="col-md-6">
-            <div class="card mb-4 ml-2 mr-2 text-left">
-                <div class="card-body">
-                    <p>blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah</p>
-                </div>
-            </div>
-        </div>
     </div>*@
-
-
-@*@Html.ActionLink("Dodaj użytkownika", "CreateUser", "Admin",
-   new { returnUrl = Request.Url.PathAndQuery },
-   new { @class = "btn btn-outline-success" })
-@Html.ActionLink("Lista użytkowników", "ListUsers", "Admin",
-   new { returnUrl = Request.Url.PathAndQuery },
-   new { @class = "btn btn-outline-success" })
-@Html.ActionLink("Lista albumów", "ListAlbums", "Admin",
-   new { returnUrl = Request.Url.PathAndQuery },
-   new { @class = "btn btn-outline-success" })
-@Html.ActionLink("Dodaj album", "AddAlbum", "Admin",
-   new { returnUrl = Request.Url.PathAndQuery },
-   new { @class = "btn btn-outline-success" })*@
-
-
-

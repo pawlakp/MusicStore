@@ -38,6 +38,12 @@ namespace MusicStore.WebUI
             routes.MapRoute(null, "{genre}/Strona{page}", new { controller = "Home", action = "FiltrByGenre" }, new { page = @"\d+" });
 
             routes.MapRoute(null, "{controller}/{action}");
+
+            routes.MapRoute(
+                null,
+                "{controller}/{action}/{id}",
+                new { controller = "Admin", action = "DeleteAlbum", id = UrlParameter.Optional }
+                );
         }
     }
 }
