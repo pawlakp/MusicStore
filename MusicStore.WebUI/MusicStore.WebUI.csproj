@@ -310,6 +310,7 @@
     <Content Include="Views\Admin\News.cshtml" />
     <Content Include="Views\Admin\NumberAllbumsView.cshtml" />
     <Content Include="Views\Nav\MenuAdmin.cshtml" />
+    <Content Include="Views\Shared\_LayoutClient.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

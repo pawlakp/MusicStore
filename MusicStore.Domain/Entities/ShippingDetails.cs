@@ -26,10 +26,10 @@ namespace MusicStore.Domain.Entities
         public string State { get; set; }
         [Display(Name = "Kod pocztowy")]
         public string Zip { get; set; }
+        [Required(ErrorMessage = "Proszę podać nazwę kraju")]
         [Display(Name = "Kraj")]
         public string Country { get; set; }
-        [Required(ErrorMessage ="Proszę podać nazwę kraju")]
-        public bool GiftWrap { get; set; }
+        
 
         //public bool AccountId { get; set; }
     }

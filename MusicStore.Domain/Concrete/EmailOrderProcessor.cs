@@ -72,8 +72,7 @@ namespace MusicStore.Domain.Concrete
                     .AppendLine(shippingInfo.State ?? "")
                     .AppendLine(shippingInfo.Country)
                     .AppendLine(shippingInfo.Zip)
-                    .AppendLine("---")
-                    .AppendFormat("Pakowanie prezentu: {0}", shippingInfo.GiftWrap ? "Tak" : "Nie");
+                    .AppendLine("---");
 
                 MailMessage mailMessage = new MailMessage
                 (

@@ -3,45 +3,118 @@
 @{
     ViewBag.Title = "Twój koszyk";
 }
+<div class="row mt-3">
+    <div class="col-md-8">
+        <h2>Twój koszyk</h2>
+        <table class="table">
+            @Html.ValidationSummary()
+            <thead>
+                <tr>
+                    <th>Album</th>
+                    <th class="d-none"></th>
+                    <th class="d-none d-md-block">Cena</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var line in Model.Cart.Lines)
+                {
 
-<h2>Twój koszyk</h2>
-<table class="table">
-    @Html.ValidationSummary()
-    <thead>
-        <tr>
-            <th>Album</th>
-            <th class="text-end">Cena</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var line in Model.Cart.Lines)
-        {
-            <tr>
-                <td class="text-start">@line.Product.album.Name</td>
-                <td class="text-end">@line.Product.album.Price.ToString("c")</td>
-                <td>
-                    @using (Html.BeginForm("RemoveFromCart", "Cart"))
-                    {
-                        @Html.Hidden("productId", line.Product.album.Id)
-                        @Html.HiddenFor(x => x.ReturnUrl)
-                        <input class="btn btn-sm btn-warning" type="submit" value="Usuń" />
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="3" class="text-end">Razem:</td>
-            <td class="text-end">@Model.Cart.ComputeTotalValue().ToString("c")</td>
-        </tr>
-    </tfoot>
-</table>
+                    <tr>
+                        <td class="start">
+                            <div class="card mb-3" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img class="img-fluid rounded-start" @*width="200" height="50"*@
+                                             ,
+                                             src="@Url.Action("GetImage","Home", new {productId=line.Product.album.Id})" alt="Card image cap">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@line.Product.album.Name</h5>
+                                            <p class="card-text">@line.Product.artist.Name</p>
+                                            <p class="card-text"><h4 class="d-md-none">@line.Product.album.Price.ToString("c")</h4></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-<div class="text-center">
-    <a class="btn btn-primary" href="@Model.ReturnUrl">Kontynuuj zakupy</a>
-    @if (@Model.CartCount > 0)
-    {
-        @Html.ActionLink("Złóż zamówienie", "Checkout","Cart", null, new { @class = "btn btn-primary" })
-    }
+                        </td>
+
+
+
+                        <td class="text-end">
+                            @using (Html.BeginForm("RemoveFromCart", "Cart"))
+                            {
+                                @Html.Hidden("productId", line.Product.album.Id)
+                                @Html.HiddenFor(x => x.ReturnUrl)
+                                <input class="btn btn-sm btn-warning d-none d-md-block float-end w-75" type="submit" value="Usuń" />
+                            }
+                            <div class="w-100 mt-5 float-none"></div>
+                            <h4 class="d-none d-md-block w-100">@line.Product.album.Price.ToString("c")</h4>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="float-start d-none d-md-block">Suma </h2>
+                <h2 class="float-end text-primary d-none d-md-block">@Model.Cart.ComputeTotalValue().ToString("c")</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Forma</th>
+                            <th class="text-end">Wybierz</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td class="text-start">Blik</td>
+                            <td class="text-end">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-start">Przelewy24</td>
+                            <td class="text-end">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-start">PayPal</td>
+                            <td class="text-end">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                </label>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12  d-block d-md-none mt-5 mb-5">
+                <h2 class="float-start d-block d-md-none">Suma </h2>
+                <h2 class="float-end text-primary d-block d-md-none">@Model.Cart.ComputeTotalValue().ToString("c")</h2>
+            </div>
+                <div class="col-12">
+                    <div class="text-center">
+                        <a class="btn btn-primary w-100" href="@Model.ReturnUrl">Kontynuuj zakupy</a>
+                        @if (@Model.CartCount > 0)
+                        {
+                            @Html.ActionLink("Złóż zamówienie", "Checkout", "Cart", null, new { @class = "btn btn-primary mt-1 w-100" })
+                        }
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    <div class="col-md-1"></div>
 </div>
