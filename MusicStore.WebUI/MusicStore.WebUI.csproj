@@ -128,11 +128,33 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Image\add-music.svg" />
+    <Content Include="Content\Image\addmusic.png" />
+    <Content Include="Content\Image\adduser.png" />
+    <Content Include="Content\Image\adduser.svg" />
+    <Content Include="Content\Image\checklist.jpg" />
+    <Content Include="Content\Image\group.svg" />
+    <Content Include="Content\Image\home.png" />
+    <Content Include="Content\Image\listuser.png" />
+    <Content Include="Content\Image\music-note-beamed.svg" />
+    <Content Include="Content\Image\musicbrain.jpg" />
+    <Content Include="Content\Image\musicfolder.png" />
+    <Content Include="Content\Image\orderlist.png" />
+    <Content Include="Content\Image\orderspic.jpg" />
+    <Content Include="Content\Image\orderspic.png" />
     <Content Include="Content\Image\person.svg" />
+    <Content Include="Content\Image\settings.png" />
+    <Content Include="Content\Image\useralbum.jpg" />
+    <Content Include="Content\Image\wishlist.jpg" />
+    <Content Include="Content\Image\wishlist2.jpg" />
+    <Content Include="Content\Image\wishlist3.jpg" />
     <Content Include="Content\LoginRegister.css" />
     <Content Include="Content\ErrorStyles.css" />
+    <Content Include="Content\Image\favicon.ico" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\MicrosoftAjax.debug.js" />
     <Content Include="Scripts\MicrosoftAjax.js" />
     <Content Include="Scripts\musicstore.js" />
@@ -242,6 +264,7 @@
     <Compile Include="HtmlHelpers\PagingHelper.cs" />
     <Compile Include="Infrastructure\Binders\CartModelBinder.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
+    <Compile Include="Models\AssignAlbumModelDto.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
     <Compile Include="Models\ClientModelDto.cs" />
     <Compile Include="Models\NewsModelDto.cs" />
@@ -249,7 +272,7 @@
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\AlbumListViewModel.cs" />
     <Compile Include="Models\ProductModelDto.cs" />
-    <Compile Include="Models\RegisterModelDto.cs" />
+    <Compile Include="Models\AccountModelDto.cs" />
     <Compile Include="Models\SongModelDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -311,6 +334,9 @@
     <Content Include="Views\Admin\NumberAllbumsView.cshtml" />
     <Content Include="Views\Nav\MenuAdmin.cshtml" />
     <Content Include="Views\Shared\_LayoutClient.cshtml" />
+    <Content Include="Views\Admin\ShowAllAlbumsOnList.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Admin\AssignAlbum.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

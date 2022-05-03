@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using MusicStore.Domain.Entities;
 
 namespace MusicStore.Domain.Abstract
@@ -18,12 +19,13 @@ namespace MusicStore.Domain.Abstract
         Task EditAdress(Adress adress);
         Task<Adress> GetAdressesAsync(int id);
         Task<List<Adress>> AllAdressesAsync();
-        Task AddMusicToLibrary(List<int> albumsId, int id);
+        Task AddAlbumsToLibrary(List<int> albumsId, int id);
         Task<List<int>> GetClientLibraryAsync(int id);
         Task<Cart> ClientHaveAlbum(int clientId, Cart cart);
         Task<List<Order>> GetAllClientOrders(int clientId);
 
         Task<List<OrderAlbum>> GetOrderDetails(int orderId);
+        Task AddAlbumToClientLibrary(int albumId, int clientId);
 
-    }
+        }
 }

@@ -1,0 +1,61 @@
+﻿@model MusicStore.WebUI.Models.AssignAlbumModelDto
+
+@{
+    ViewBag.Title = "Przypisz album";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    AjaxOptions ajaxOpts = new AjaxOptions
+    {
+
+        Url = Url.Action("AssignAlbum"),
+       Confirm = "Czy chcesz przypisać?",
+       OnSuccess = "succesAssign"
+    };
+}
+
+<div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-6 d-md-inline-flex justify-content-center mt-5 ">
+        <div class="row my-md-5">
+            <div class="form-horizontal">
+                @using (Ajax.BeginForm(ajaxOpts))
+                {
+
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.albumId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.DropDownListFor(model => model.albumId, new SelectList(Model.AlbumsList, "Id", "Name"), new { @class = "form-control col-md-7", @id = "albumsList" })
+                            @Html.ValidationMessageFor(model => model.albumId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.clientId, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.clientId, new SelectList(Model.ClientsList, "Id", "Login"), new { @class = "form-control col-md-8", @id = "accountsList" })
+                            @Html.ValidationMessageFor(model => model.clientId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                
+                    <br />
+                    <div class="form-group" style="margin-top:10px;">
+                        <div class="col-md-offset-2 col-md-12">
+                            <input type="submit" value="Zapisz" class="btn btn-primary w-100" />
+                        </div>
+                    </div>
+
+                }
+            </div>
+            </div>
+
+        </div>
+
+    
+    <div class="col-md-3">
+    </div>
+</div>
+

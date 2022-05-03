@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using MusicStore.Domain.Abstract;
 using MusicStore.Domain.Entities;
 using MusicStore.Domain.Exceptions;
@@ -24,6 +25,7 @@ namespace MusicStore.Domain.Concrete
 
         public List<Album> GetAlbums() => context.Album.ToList();
 
+       
         public async Task<IEnumerable<AlbumAllDetails>> GetAlbumWithArtistAsync()
         {
 
@@ -295,8 +297,51 @@ namespace MusicStore.Domain.Concrete
             return albumDetails;
         }
 
+        public async Task<List<SelectListItem>> GetAlbumsSelect()
+        {
+            var albums = await AllAlbumAsync();
+            //List<SelectListItem> albumsList = albums.ConvertAll(a =>
+            //{
+            //    return new SelectListItem()
+            //    {
+            //        Text = a.Name.ToString(),
+            //        Value = a.Id.ToString(),
+            //        Selected = false
+            //    };
+            //});
+            //return albumsList;
 
+            List<SelectListItem> albumsList = (from p in albums.AsEnumerable()
+                                              select new SelectListItem
+                                              {
+                                                  Text = p.Name,
+                                                  Value = p.Id.ToString(),
+                                              }).ToList();
 
+            return albumsList;
+        }
+
+        public async Task AddLabelAsync(string labelName)
+        {
+            var IsExist = await GetLabelAsync(labelName);
+            if (IsExist == null)
+            {
+                Label newLabel = new Label
+                {
+                    Name = labelName
+                };
+                context.Label.Add(newLabel);
+                context.SaveChanges();
+
+            }
+      
+            
+        }
+
+        public async Task<Label> GetLabelAsync(string labelName)
+        {
+            return await context.Label.Where(x=> x.Name == labelName).FirstOrDefaultAsync();
+        }
 
     }
 }

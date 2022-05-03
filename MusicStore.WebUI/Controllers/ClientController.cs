@@ -18,19 +18,20 @@ namespace MusicStore.WebUI.Controllers
     {
         private IClientRepository clientRepo;
         private IProductsRepository productsRepo;
-        public int PageSize = 4;
+        private IAccountRepository accountRepo;
+        public int PageSize = 8;
         // GET: Admin
 
-        public ClientController(IClientRepository repo, IProductsRepository repo2)
+        public ClientController(IClientRepository repo, IProductsRepository repo2, IAccountRepository accountRepository)
         {
             this.clientRepo = repo;
             this.productsRepo = repo2;
+            accountRepo = accountRepository;
         }
-        public async Task<ActionResult> Index(int id)
+        public ActionResult Index()
         {
-            var list = await clientRepo.AllClientsAsync();
-            Client client = list.Where(c => c.Id == id).FirstOrDefault();
-            return View(client);
+           
+            return View();
         }
         public async Task<ActionResult> AfterLogin(Accounts account)
         {
@@ -42,7 +43,7 @@ namespace MusicStore.WebUI.Controllers
             }
         }
 
-        public async Task<ActionResult> Create(Accounts account)
+        public ActionResult Create(Accounts account)
         {
             Client client = new Client()
             {
@@ -127,7 +128,7 @@ namespace MusicStore.WebUI.Controllers
         {
             var x = await clientRepo.GetOrderDetails(id);
             List<OrderAlbumModelDto> orderDetails = new List<OrderAlbumModelDto>();
-           
+            decimal totalValue = 0;
             foreach (var item in x)
             {
                 var album = await productsRepo.GetAlbumAsync(item.AlbumId);
@@ -135,12 +136,20 @@ namespace MusicStore.WebUI.Controllers
                 {
                     Name = album.Name,
                     Price = album.Price
-                }); 
+                    
+                });
+                totalValue += album.Price;
             }
+            orderDetails[0].TotalValue= totalValue;
             return View(orderDetails);
         }
 
-
+        public async Task<JsonResult> ChangePassword(int id)
+        {
+            await accountRepo.ChangePassword(id);
+            var result = await accountRepo.GetAccountAsync(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

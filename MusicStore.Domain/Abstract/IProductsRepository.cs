@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using MusicStore.Domain.Entities;
 
 namespace MusicStore.Domain.Abstract
@@ -16,17 +17,22 @@ namespace MusicStore.Domain.Abstract
         Task<List<Album>> AllAlbumAsync();
         Task<List<Artist>> AllArtistAsync();
         Task<List<Genre>> AllGenreAsync();
+        Task<bool> AddSongsAsync(List<Song> songs);
+        Task<List<Song>> AllSongAsync();
+        Task<List<Label>> AllLabelAsync();
+
+
         Task<IEnumerable<AlbumAllDetails>> GetAlbumWithArtistAsync();
         Task<IEnumerable<AlbumAllDetails>> GetFiltredAlbumAsync(int genre);
         Task<string> GenreNameAsync(int genre);
-        Task AddAlbumAsync(AlbumAllDetails album);
         Task<Album> GetAlbumAsync(int id);
         Task<Album> GetAlbumAsync(string Name);
         Task<Artist> GetArtist(int id);
         Task<int> GetArtistId(string Name);
-        Task<bool> AddSongsAsync(List<Song> songs);
-        Task<List<Song>> AllSongAsync();
-        Task<List<Label>> AllLabelAsync();
+        Task<Label> GetLabelAsync(string labelName);
+
+        Task AddAlbumAsync(AlbumAllDetails album);
+        Task AddLabelAsync(string labelName);
         Task DeleteAlbumAsync(int id);
         Task EditAlbumAsync(Album album);
         //Task<List<string>> GetLabelsNames();
@@ -34,7 +40,9 @@ namespace MusicStore.Domain.Abstract
 
         Task<IEnumerable<AlbumAllDetails>> GetAlbumsToLibrary(List<int> albumsId);
         Task<AlbumDetails> GetAlbumDetailsAsync(int id);
-      
+        Task<List<SelectListItem>> GetAlbumsSelect();
+
+
 
     }
 }

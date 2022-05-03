@@ -23,7 +23,7 @@ namespace MusicStore.WebUI.Controllers
             orderProcessor = proc;
             clientRepository = accounts; 
         }
-        public ViewResult Index(Cart cart, string returnUrl)
+        public ActionResult Index(Cart cart, string returnUrl)
         {
            if (cart.Lines.Count() == 0)
             {
@@ -35,27 +35,34 @@ namespace MusicStore.WebUI.Controllers
                 Cart = cart,
                 ReturnUrl = returnUrl,
                 CartCount = cart.Lines.Count(),
+                CartTotal = cart.ComputeTotalValue(),
                 
             });
            
         }
 
-        public async Task<RedirectToRouteResult> AddToCart(Cart cart, int productId, string returnUrl)
+        
+    
+
+        public async Task<ActionResult> AddToCart(Cart cart, int productId, string returnUrl)
         {
 
             var apiModel = await productsRepository.GetAlbumWithArtistAsync();
             AlbumAllDetails album = apiModel.FirstOrDefault(p => p.album.Id == productId);
-            
+            var result = "Błąd dodawania do koszyka";
             if (album != null)
             {
                 cart.AddItem(album);
+                result = "Dodano do koszyka";
             }
-            return RedirectToAction("Index", new { returnUrl });
+            
+            return Json(result, JsonRequestBehavior.AllowGet);
+            //return RedirectToAction("Index", new { returnUrl });
 
         }
 
 
-        public async Task<RedirectToRouteResult> RemoveFromCart(Cart cart, int productId, string returnUrl)
+        public async Task<ActionResult> RemoveFromCart(Cart cart, int productId)
         {
             var apiModel = await productsRepository.GetAlbumWithArtistAsync();
             AlbumAllDetails album = apiModel.FirstOrDefault(p => p.album.Id == productId);
@@ -64,8 +71,42 @@ namespace MusicStore.WebUI.Controllers
             {
                 cart.RemoveLine(album);
             }
-            return RedirectToAction("Index", new { returnUrl });
+            var results = new CartIndexViewModel
+            {
+                CartTotal = cart.ComputeTotalValue(),
+                DeleteId = productId
+            };
+            return Json(results, JsonRequestBehavior.AllowGet);
+
         }
+        //public async Task<ActionResult> RemoveFromCart(Cart cart)
+        //{
+        //    cart.Clear();
+        //    var results = new CartIndexViewModel
+        //    {
+        //        Cart = cart,
+        //        CartCount = cart.Lines.Count(),
+        //    };
+        //    return Json(results,JsonRequestBehavior.AllowGet);
+
+        //}
+        //public async Task<ActionResult> RemoveFromCart(Cart cart, int productId, string returnUrl)
+        //{
+        //    var apiModel = await productsRepository.GetAlbumWithArtistAsync();
+        //    AlbumAllDetails album = apiModel.FirstOrDefault(p => p.album.Id == productId);
+
+        //    if (album != null)
+        //    {
+        //        cart.RemoveLine(album);
+        //    }
+        //    return View("Index", new CartIndexViewModel
+        //    {
+        //        Cart = cart,
+        //        ReturnUrl = returnUrl,
+        //        CartCount = cart.Lines.Count(),
+
+        //    });
+        //}
 
         //private Cart GetCart()
         //{
@@ -91,18 +132,20 @@ namespace MusicStore.WebUI.Controllers
                 int id = (int)Session["Id"];
                 Client client = await clientRepository.GetClient(id);
                 Adress adress = await clientRepository.GetAdressesAsync(client.Id);
-                
-                    ShippingDetails data =  new ShippingDetails()
-                    {
-                        Name = client.Surname,
-                        City = adress.City,
-                        Line1 = adress.Town,
-                        Line2 = adress.Street,
-                        Line3 = adress.HouseNumber.ToString(),
-                        Zip = adress.PostCode,
+
+                ShippingDetails data = new ShippingDetails()
+                {
+                    Name = client.Surname,
+                    City = adress.City,
+                    Line1 = adress.Town,
+                    Line2 = adress.Street,
+                    Line3 = adress.HouseNumber.ToString(),
+                    Zip = adress.PostCode,
+                    State = adress.State,
+                    Country = adress.Country,
 
 
-                    };
+                };
                 Cart nowy = await clientRepository.ClientHaveAlbum(client.Id, cart);
 
                 var oldCart = cart.Lines.ToList();
@@ -110,9 +153,9 @@ namespace MusicStore.WebUI.Controllers
                 var diffrence = newCart.Except(newCart).ToList();
                 if (diffrence != null)
                 {
-                   
-                        ModelState.AddModelError("", "Usunięto albumy które masz w swojej bibliotece");
-                   
+
+                    ModelState.AddModelError("", "Usunięto albumy które masz w swojej bibliotece");
+
                 }
                 else
                 {
@@ -185,7 +228,7 @@ namespace MusicStore.WebUI.Controllers
                 if (albumsId.Count > 0 && Id >= 1)
                 {
                     var clientId = await clientRepository.GetClient(Id);
-                    await clientRepository.AddMusicToLibrary(albumsId, clientId.Id);
+                    await clientRepository.AddAlbumsToLibrary(albumsId, clientId.Id);
                     await orderProcessor.NewOrder(clientId.Id, albumsId,price);
                 }
 

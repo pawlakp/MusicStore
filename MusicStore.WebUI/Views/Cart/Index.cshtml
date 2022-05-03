@@ -2,6 +2,8 @@
 
 @{
     ViewBag.Title = "Twój koszyk";
+    
+    
 }
 <div class="row mt-3">
     <div class="col-md-8">
@@ -15,11 +17,11 @@
                     <th class="d-none d-md-block">Cena</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tableBody">
                 @foreach (var line in Model.Cart.Lines)
                 {
 
-                    <tr>
+                    <tr id="row-@line.Product.album.Id">
                         <td class="start">
                             <div class="card mb-3" style="max-width: 540px;">
                                 <div class="row g-0">
@@ -43,12 +45,18 @@
 
 
                         <td class="text-end">
-                            @using (Html.BeginForm("RemoveFromCart", "Cart"))
-                            {
-                                @Html.Hidden("productId", line.Product.album.Id)
-                                @Html.HiddenFor(x => x.ReturnUrl)
-                                <input class="btn btn-sm btn-warning d-none d-md-block float-end w-75" type="submit" value="Usuń" />
-                            }
+                            @*@using (Html.BeginForm("RemoveFromCart", "Cart"))
+        {
+            @Html.Hidden("productId", line.Product.album.Id)
+            @Html.HiddenFor(x => x.ReturnUrl)
+            <input class="btn btn-sm btn-warning d-none d-md-block float-end w-75" type="submit" value="Usuń" />
+        }*@
+                            @Ajax.ActionLink("Usuń", "RemoveFromCart", new { cart = Model.Cart }, 
+                           new AjaxOptions { Url = Url.Action("RemoveFromCart",new {cart= Model.Cart, productId = line.Product.album.Id }), OnSuccess="changePassword" },
+                           new {@class="btn btn-sm btn-warning d-none d-md-block float-end w-75"  })
+                            
+                          
+
                             <div class="w-100 mt-5 float-none"></div>
                             <h4 class="d-none d-md-block w-100">@line.Product.album.Price.ToString("c")</h4>
                         </td>
@@ -61,7 +69,7 @@
         <div class="row">
             <div class="col-12">
                 <h2 class="float-start d-none d-md-block">Suma </h2>
-                <h2 class="float-end text-primary d-none d-md-block">@Model.Cart.ComputeTotalValue().ToString("c")</h2>
+                <h2 class="float-end text-primary d-none d-md-block" id="suma">@Model.CartTotal.ToString("c")</h2>
                 <table class="table">
                     <thead>
                         <tr>
@@ -101,7 +109,7 @@
             </div>
             <div class="col-12  d-block d-md-none mt-5 mb-5">
                 <h2 class="float-start d-block d-md-none">Suma </h2>
-                <h2 class="float-end text-primary d-block d-md-none">@Model.Cart.ComputeTotalValue().ToString("c")</h2>
+                <h2 class="float-end text-primary d-block d-md-none" id="suma">@Model.Cart.ComputeTotalValue().ToString("c")</h2>
             </div>
                 <div class="col-12">
                     <div class="text-center">

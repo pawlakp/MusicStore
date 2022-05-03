@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using MusicStore.Domain.Entities;
 
 namespace MusicStore.Domain.Abstract
@@ -18,5 +19,7 @@ namespace MusicStore.Domain.Abstract
         Task AddAccount(Accounts account);
         Task DeleteUser(int id);
         Task ChangePassword(int id);
+        Task<bool> ChangePassword(Accounts account);
+        Task<List<SelectListItem>> GetAccountsSelect();
     }
 }

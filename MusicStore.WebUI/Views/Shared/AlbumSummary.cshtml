@@ -19,13 +19,15 @@
 
                 <div class="float-end">
                     <a href="#" class="float-end">@Model.album.Price.ToString("c")</a>
-                    @using (Html.BeginForm("AddToCart", "Cart"))
-                    {
-                        @*<input type="hidden" name="productId" value="@Model.album.AlbumId"></input>*@
-                        @Html.Hidden("productId", @Model.album.Id)
-                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-                        <input type="submit" class="btn btn-success" value="Dodaj do koszyka" />
-                    }
+                    @*@using (Html.BeginForm("AddToCart", "Cart"))
+        {
+            <input type="hidden" name="productId" value="@Model.album.AlbumId"></input>
+            @Html.Hidden("productId", @Model.album.Id)
+            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+            <input type="submit" class="btn btn-success" value="Dodaj do koszyka" />
+        }*@
+
+                    @Ajax.ActionLink("Dodaj do koszyka", "AddToCart","Cart", null,new AjaxOptions { Url = Url.Action("AddToCart","Cart", new { productId = Model.album.Id }), OnSuccess = "addcart" }, new { @class = "btn btn-sm btn-warning d-none d-md-block float-end w-75" })
 
                 </div>
             </div>

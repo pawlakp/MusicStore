@@ -8,6 +8,7 @@ using MusicStore.Domain.Entities;
 using MusicStore.Domain.Concrete;
 using MusicStore.WebUI.Models;
 using System.Threading.Tasks;
+using System.Web.Security;
 
 namespace MusicStore.WebUI.Controllers
 {
@@ -38,6 +39,8 @@ namespace MusicStore.WebUI.Controllers
 
             return View(model);
         }
+
+
 
         public async Task<ViewResult> FiltrByGenre(string genre, int page = 1)
         {
@@ -81,6 +84,20 @@ namespace MusicStore.WebUI.Controllers
 
         }
 
+        public async Task<JsonResult> Szukaj(string b)
+        {
+            
+            var albumList = await repository.AllAlbumAsync();
+            var songList = await repository.AllSongAsync();
+            var artistList = await repository.AllArtistAsync();
+            var title = (from N in albumList
+                         where N.Name.ToLower().Contains(b.ToLower())
+                         select new { N.Name, N.Id });
+            
+            return  Json(title, JsonRequestBehavior.AllowGet);
+           
+        }
+         
 
         public async Task<FileContentResult> GetImage(int productId)
         {

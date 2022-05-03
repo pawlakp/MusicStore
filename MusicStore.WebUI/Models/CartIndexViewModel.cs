@@ -14,5 +14,7 @@ namespace MusicStore.WebUI.Models
         public string ReturnUrl { get; set; }
         public int CartCount { get; set; }
         public ShippingDetails ShippingDetails { get; set; }
+        public decimal CartTotal { get; set; }
+        public int DeleteId { get; set; }
     }
 }

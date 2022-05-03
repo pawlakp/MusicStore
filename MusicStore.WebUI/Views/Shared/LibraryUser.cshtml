@@ -1,17 +1,39 @@
 ﻿@model MusicStore.Domain.Entities.AlbumAllDetails
 
 
-
-<div class="row justify-content-center">
-    <div class="col-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">@Model.album.Name</h5>
-                <p class="card-text">@Model.artist.Name</p>
-                <br />
-                <br />
+<div class="col-md-3">
+    <div class="card mb-4 box-shadow">
+        @if (Model.album.ImageData != null)
+        {
+            <img class="card-img-top"
+                 ,
+                 src="@Url.Action("GetImage","Home", new {productId=Model.album.Id})" alt="Card image cap">
+        }
+    <div class="card-body">
+        <h5 class="card-title">@Model.album.Name</h5>
+        <p class="card-text">@Model.artist.Name</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+                <div class="btn-group">
+                    @Html.ActionLink("Szczegóły", "GetAlbumDetail","Home", new { id = Model.album.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                </div>
             </div>
         </div>
     </div>
-</div>
+    </div>
+ </div>
+
+
+    @*<div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.album.Name</h5>
+                    <p class="card-text">@Model.artist.Name</p>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>*@
 

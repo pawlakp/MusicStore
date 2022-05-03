@@ -9,7 +9,7 @@ using MusicStore.Domain.Entities;
 using System.Data.Entity;
 using System.Threading;
 using System.Data.Entity.Infrastructure;
-
+using System.Web.Mvc;
 
 namespace MusicStore.Domain.Concrete
 {
@@ -73,6 +73,8 @@ namespace MusicStore.Domain.Concrete
             newAdress.Street = adress.Street;
             newAdress.HouseNumber = adress.HouseNumber;
             newAdress.ApartamentNumber = adress.ApartamentNumber;
+            newAdress.State = adress.State;
+            newAdress.Country = adress.Country;
 
 
             await context.SaveChangesAsync();
@@ -85,7 +87,7 @@ namespace MusicStore.Domain.Concrete
             return adress;
         }
 
-        public async Task AddMusicToLibrary(List<int> albumsId, int clientId)
+        public async Task AddAlbumsToLibrary(List<int> albumsId, int clientId)
         {
               foreach(var albumId in albumsId)
             {
@@ -97,7 +99,21 @@ namespace MusicStore.Domain.Concrete
 
                 context.ClientLibrary.Add(nowy);
             }
-              context.SaveChanges();
+              await context.SaveChangesAsync();
+        }
+
+        public async Task AddAlbumToLibrary(Album album, int clientId)
+        {
+            
+                ClientLibrary nowy = new ClientLibrary()
+                {
+                    AlbumId = album.Id,
+                    ClientId = clientId,
+                };
+
+                context.ClientLibrary.Add(nowy);
+           
+            await context.SaveChangesAsync();
         }
 
         public async Task<List<int>> GetClientLibraryAsync(int id)
@@ -157,8 +173,18 @@ namespace MusicStore.Domain.Concrete
             return list;
         }
 
-     
+        public async Task AddAlbumToClientLibrary(int albumId, int clientId)
+        {
+            ClientLibrary newAdd = new ClientLibrary{
+                AlbumId = albumId,
+                ClientId = clientId
+            };
 
+            context.ClientLibrary.Add(newAdd);
+            await context.SaveChangesAsync();
+        }
+
+       
 
 
 

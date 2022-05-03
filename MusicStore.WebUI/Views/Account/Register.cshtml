@@ -1,4 +1,4 @@
-﻿@model MusicStore.WebUI.Models.RegisterModelDto
+﻿@model MusicStore.WebUI.Models.AccountModelDto
 
 @{
     ViewBag.Title = "Register";
@@ -18,24 +18,25 @@
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control form-control-lg", @placeholder = "Login" } })
+            @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control form-control-lg", @placeholder = "Email", @type = "email" } })
             @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
         </div>
-
+        <br />
         <div class="form-group">
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control form-control-lg", @placeholder = "Password" ,@type="password"} })
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control form-control-lg", @placeholder = "Hasło", @type = "password" } })
             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
 
-        </div>
+        </div> 
+        <br />
         <div class="form-group">
-            @Html.EditorFor(model => model.RepeatPassword, new { htmlAttributes = new { @class = "form-control form-control-lg", @placeholder = "Repeat Password",@type="password" } })
+            @Html.EditorFor(model => model.RepeatPassword, new { htmlAttributes = new { @class = "form-control form-control-lg", @placeholder = "Powtórz hasło", @type = "password" } })
             @Html.ValidationMessageFor(model => model.RepeatPassword, "", new { @class = "text-danger" })
 
         </div>
-        
+        <br />
         <div class="form-group">
             <div class="card-body">
-                <input type="submit" name="submit" class="btn btn-primary w-100" value="Sign up" />
+                <input type="submit" name="submit" class="btn btn-primary w-100" value="Zarejestruj" />
             </div>
         </div>
     </div>

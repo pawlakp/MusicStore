@@ -7,30 +7,33 @@
 }
 <div class="container justify-content-center">
     <div class="logreg-forms">
-        <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
+        <h1 class="h3 mb-3 font-weight-normal" style="text-align: center">Zaloguj</h1>
         <br />
         @using (Html.BeginForm("Login", "Account", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary()
 
-            <div class="form-group">
-                @Html.TextBoxFor(m => m.Login, "", new { @class = "form-control form-control-lg", @placeholder = "Login" })
+    <div class="form-group">
+        @Html.TextBoxFor(m => m.Login, "", new { @class = "form-control form-control-lg", @placeholder = "Email" })
+        @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
 
-            </div>
-            <div class="form-group">
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg", @placeholder = "Password" })
-            </div>
+    </div>
+    <div class="form-group">
+        <span class="input-group-text" id="basic-addon1"></span>
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg", @placeholder = "Hasło" })
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+    </div>
             <br />
             <div class="form-group">
-                <input type="submit" name="submit" class="btn btn-primary btn-block" value="Sign in" />
+                <input type="submit" name="submit" class="btn btn-primary btn-block" value="Zaloguj" />
             </div>
         }
-        <a href="#" id="forgot_pswd" style="float:right;">Forgot password?</a>
+        <a href="#" id="forgot_pswd" style="float:right;">Przypomnij hasło</a>
         <br />
         <hr>
 
-        @Html.ActionLink("Sign up New Account", "Register","Account", null, new { @class = "btn btn-block send-button tx-tfm", @button="type" })
+        @Html.ActionLink("Zarejestruj", "Register","Account", null, new { @class = "btn btn-block send-button tx-tfm", @button="type" })
         @*<button class="btn btn-primary btn-block" type="button" id="registerButton"><i class="fas fa-user-plus"></i> Sign up New Account</button>*@
     </div>
         <br>

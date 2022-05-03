@@ -3,7 +3,11 @@
 @{
     ViewBag.Title = "ListAlbums";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-
+    AjaxOptions ajaxOpts = new AjaxOptions
+    {
+        UpdateTargetId = "tableBody"
+    };
+}
 
 <h2>ListAlbums</h2>
 <div class="table-responsive">
@@ -20,13 +24,15 @@
                 <th scope="col">Czynności</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="tableBody">
             @foreach (var item in Model.AlbumsWithArtists)
             {
-                @Html.Partial("AlbumList", item);
-
-            }
-        </tbody>
+                <tr id="row-@item.album.Id">
+                    @Html.Partial("AlbumList", item)
+                    
+                </tr>
+}
+            </tbody>
     </table>
 </div>
 

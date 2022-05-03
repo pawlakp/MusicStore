@@ -67,15 +67,17 @@ namespace MusicStore.WebUI.Controllers
 
         public async Task<ActionResult> DeleteUser(int id)
         {
+            var result = await accounts.GetAccountAsync(id);
             await accounts.DeleteUser(id);
-            return RedirectToAction("List");
+            return Json(result, JsonRequestBehavior.AllowGet);
 
         }
 
-        public async Task<ActionResult> ChangePassword(int id)
+        public async Task<JsonResult> ChangePassword(int id)
         {
             await accounts.ChangePassword(id);
-            return RedirectToAction("List");
+            var result = await accounts.GetAccountAsync(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -116,10 +118,17 @@ namespace MusicStore.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddAlbum(ProductModelDto product, string LabelName, HttpPostedFileBase image =null)
+        public async Task<ActionResult> AddAlbum(ProductModelDto product, string labelName, HttpPostedFileBase image =null)
         {
             var apiModel = await this.accounts.AllAccountsAsync();
-
+            if(labelName != null)
+            {
+                
+                await products.AddLabelAsync(labelName);
+                
+                if (ModelState["LabelId"] != null) ModelState["LabelId"].Errors.Clear();
+  
+            }
             if (ModelState.IsValid)
             {
                 if (image != null)
@@ -128,16 +137,12 @@ namespace MusicStore.WebUI.Controllers
                     product.ImageData = new byte[image.ContentLength];
                     image.InputStream.Read(product.ImageData, 0, image.ContentLength);
                 }
-                else
-                {
-                    string a = "Pusto";
-                }
-
+                var label = await products.GetLabelAsync(labelName);
                 Album helpAlbum = new Album
                 {
                     Name = product.AlbumName,
                     Id = product.AlbumId,
-                    LabelId = product.LabelId,
+                    LabelId = label.Id,
                     Year = product.Year,
                     GenreId = product.Genre,
                     CountryId = product.Country,
@@ -188,14 +193,17 @@ namespace MusicStore.WebUI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<bool> AddSong(SongModelDto piosenki, int albumId,int artistId)
+        public async Task<ActionResult> AddSong(SongModelDto piosenki, int albumId,int artistId)
         {
             for (int i = 0; i < piosenki.SongList.Count; i++)
             {
                 piosenki.SongList[i].AlbumId = piosenki.AlbumId;
                 piosenki.SongList[i].ArtistId = piosenki.ArtistId;
             }
-            return await this.products.AddSongsAsync(piosenki.SongList);
+            
+            await products.AddSongsAsync(piosenki.SongList);
+
+            return RedirectToAction("Index");
 
 
         }
@@ -224,6 +232,9 @@ namespace MusicStore.WebUI.Controllers
             return View(product);
         }
 
+
+      
+
         [HttpPost]
         public async Task<ActionResult> EditAlbum(ProductModelDto product, HttpPostedFileBase image = null)
         {
@@ -249,13 +260,34 @@ namespace MusicStore.WebUI.Controllers
             await products.EditAlbumAsync(album);
             return RedirectToAction("ListAlbums");
         }
-
-        
-        public async Task<ActionResult> DeleteAlbum(int id)
+        public async Task<ActionResult> AssignAlbum()
         {
+            var client = await accounts.AllAccountsAsync();
+            var albumList = await products.AllAlbumAsync();
+
+            return View(new AssignAlbumModelDto
+            {
+              ClientsList = client,
+              AlbumsList = albumList
+            });
+        }
+
+        [HttpPost]
+        public async Task AssignAlbum(AssignAlbumModelDto newAssign)
+        {
+            var client = await clients.GetClient(newAssign.clientId);
+            await clients.AddAlbumToClientLibrary(newAssign.albumId,client.Id);
+
+
+        }
+
+
+        public async Task<JsonResult> DeleteAlbum(int id)
+        {
+            var result = await products.GetAlbumAsync(id);
             await products.DeleteAlbumAsync(id);
-            return RedirectToAction("ListAlbums");
-            
+            return Json(result,JsonRequestBehavior.AllowGet);
+
         }
 
         public async Task<PartialViewResult> News()

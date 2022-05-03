@@ -9,6 +9,7 @@ using MusicStore.Domain.Entities;
 using System.Data.Entity;
 using System.Threading;
 using System.Data.Entity.Infrastructure;
+using System.Web.Mvc;
 
 namespace MusicStore.Domain.Concrete
 {
@@ -16,7 +17,9 @@ namespace MusicStore.Domain.Concrete
     {
         private EfDbContext context = new EfDbContext();
         public IEnumerable<Accounts> Accounts { get => context.Account; }
-        public async Task<List<Accounts>> AllAccountsAsync() => await context.Account.ToListAsync().ConfigureAwait(false);
+        public async Task<List<Accounts>> AllAccountsAsync() => await context.Account.Where(x=> x.IsDeleted==false).ToListAsync().ConfigureAwait(false);
+
+       
 
         public async Task AddAccount(Accounts account)
         {
@@ -32,7 +35,7 @@ namespace MusicStore.Domain.Concrete
             var db = await AllAccountsAsync();
             //var pass = GetMD5(password);
             var user = db.Where(s => s.Login == name && s.Password == GetMD5(password)).FirstOrDefault();
-            if (user != null)
+            if (user != null && user.IsDeleted == false)
             {
                 return user;
             }
@@ -42,13 +45,31 @@ namespace MusicStore.Domain.Concrete
             }
         }
 
+        public async Task<bool> ChangePassword(Accounts account)
+        {
+            var db = await AllAccountsAsync();
+            //var pass = GetMD5(password);
+            var user = db.Where(s => s.Login == account.Login).FirstOrDefault();
+            if (user != null)
+            {
+                user.Password = GetMD5(account.Password);
+                user.IsPasswordChangeRequired = false;
+                await context.SaveChangesAsync().ConfigureAwait(false);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public async Task<Accounts> GetAccountAsync(int id)
         {
             var db = await AllAccountsAsync();
             //var pass = GetMD5(password);
             var user = db.Where(s => s.Id == id).FirstOrDefault();
 
-            if (user != null)
+            if (user != null && user.IsDeleted ==false)
             {
                 return user;
             }
@@ -61,9 +82,13 @@ namespace MusicStore.Domain.Concrete
         public async Task DeleteUser(int id)
         {
             var user = await context.Account.FindAsync(id);
+
+
             if (user != null)
             {
-                context.Account.Remove(user);
+
+                user.IsDeleted = true;
+                
             }
 
             await context.SaveChangesAsync();
@@ -93,6 +118,20 @@ namespace MusicStore.Domain.Concrete
 
             }
             return byte2String;
+        }
+        public async Task<List<SelectListItem>> GetAccountsSelect()
+        {
+            var clients = await AllAccountsAsync();
+            List<SelectListItem> accountsList = clients.ConvertAll(a =>
+            {
+                return new SelectListItem()
+                {
+                    Text = a.Login.ToString(),
+                    Value = a.Id.ToString(),
+                    Selected = false
+                };
+            });
+            return accountsList;
         }
 
     }

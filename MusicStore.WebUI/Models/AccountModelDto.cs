@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MusicStore.WebUI.Models
 {
-    public class RegisterModelDto
+    public class AccountModelDto
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Proszę podać login")]

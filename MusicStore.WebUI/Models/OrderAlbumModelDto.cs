@@ -9,5 +9,6 @@ namespace MusicStore.WebUI.Models
     {
         public string Name { get; set; }
         public decimal Price { get; set; }
+        public decimal TotalValue { get; set; }
     }
 }

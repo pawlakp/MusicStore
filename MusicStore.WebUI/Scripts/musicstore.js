@@ -29,4 +29,54 @@
         }
     });
 
+
 });
+
+function changePassword(data) {
+    $('#cellPass-' + data.Id).empty();
+    $('#cellPass-' + data.Id).prepend('<input checked="checked" class="check-box" disabled="disabled" type="checkbox" />');
+}
+
+function changePasswordClient(data) {
+    alert("Zamiana hasła nastąpi przy następnym logowaniu");
+}
+
+
+
+function deleteData(data) {
+    $('#row-' + data.Id).fadeOut('slow')
+}
+
+function succesAssign(){
+    alert("Poprawnie przypisano album do użytkownika")
+}
+    
+
+    //var Genres = document.getElementById('Genres');
+    ////var ID = document.getElementById('News');
+    ////var IDD = document.getElementById('Products');
+
+    //var sendHttpRequest = (method, url) => {
+    //    var promise = new Promise((resolve, reject) => {
+    //        var xhr = new XMLHttpRequest();
+
+    //xhr.open(method, url);
+
+    //        xhr.onload = () => {
+    //    resolve(xhr.response);
+    //        };
+
+    //xhr.send();
+    //    });
+
+    //return promise;
+    //};
+
+    //window.addEventListener('load', function () {
+    //    sendHttpRequest('GET', '@Url.Action("MenuAdmin", "Nav")').then((responseData) => { Genres.innerHTML += responseData })
+    //    //sendHttpRequest('GET', '@Url.Action("NumberAllbumsView", "Admin")').then((responseData) => { IDD.innerHTML += responseData })
+    //    //sendHttpRequest('GET', '@Url.Action("NumberAllbumsView", "Admin")').then((responseData) => { IDD.innerHTML += responseData })
+
+    //})
+
+

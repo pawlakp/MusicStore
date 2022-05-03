@@ -2,34 +2,32 @@
 
 @{
     ViewBag.Title = "Biblitoteka";
+     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
-@*<div class="container">
-        @foreach (var p in Model.AlbumsWithArtists)
-        {
-            @Html.Partial("AlbumSummary", p);
-        }
-        <div class="btn-group pull-right">
-            @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
+
+
+<div class="album py-5 bg-light">
+    <div class="container">
+
+        <div class="row">
+            @foreach (var p in Model.AlbumsWithArtists)
+            {
+                @Html.Partial("LibraryUser", p);
+            }
+
         </div>
-    </div>*@
+        </div>
+    </div>  
+            <nav>
+                <ul class="pagination flex-wrap">
+                    @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
+                    {
+                        <li class="@(i == Model.PagingInfo.CurrentPage ? "page-item active" : "page-item")">
+                            <a class="page-link" href="@Url.Action("List", new { page = i })">@i</a>
+                        </li>
 
-
-@foreach (var p in Model.AlbumsWithArtists)
-{
-    @Html.Partial("LibraryUser", p);
-}
-
-
-<nav>
-    <ul class="pagination flex-wrap">
-        @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
-        {
-            <li class="@(i == Model.PagingInfo.CurrentPage ? "page-item active" : "page-item")">
-                <a class="page-link" href="@Url.Action("List", new { page = i })">@i</a>
-            </li>
-
-        }
-    </ul>
-</nav>
-
+                    }
+                </ul>
+            </nav>
+            
 
