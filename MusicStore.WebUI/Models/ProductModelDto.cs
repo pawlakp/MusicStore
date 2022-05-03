@@ -14,7 +14,6 @@ namespace MusicStore.WebUI.Models
         [Required(ErrorMessage = "Proszę podać tytuł")]
         [Display(Name = "Tytuł")]
         public string AlbumName { get; set; }
-        [Required(ErrorMessage = "Proszę podać wytwórnię")]
         [Display(Name = "Wytwórnia")]
         public int LabelId { get; set; }
         [Required(ErrorMessage = "Proszę podać rok")]
@@ -39,6 +38,12 @@ namespace MusicStore.WebUI.Models
         public int ArtistId { get; set; }
         public List<Genre> Genres { get; set; }
         public List<Label> Labels { get; set; }
+
+        public byte[] ImageData { get; set; }
+        public string ImageMimeType { get; set; }
+
+        public bool Wishlist { get; set; }
+
 
     }
 }

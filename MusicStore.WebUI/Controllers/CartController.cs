@@ -13,51 +13,100 @@ namespace MusicStore.WebUI.Controllers
 {
     public class CartController : Controller
     {
-        private IProductsRepository repository;
+        private IProductsRepository productsRepository;
+        private IClientRepository clientRepository;
         private IOrderProcessor orderProcessor;
 
-        public CartController(IProductsRepository repo, IOrderProcessor proc)
+        public CartController(IProductsRepository repo, IOrderProcessor proc, IClientRepository accounts)
         {
-            repository = repo;
+            productsRepository = repo;
             orderProcessor = proc;
+            clientRepository = accounts; 
         }
-        public ViewResult Index(Cart cart, string returnUrl)
+        public ActionResult Index(Cart cart, string returnUrl)
         {
+           if (cart.Lines.Count() == 0)
+            {
+                
+                ModelState.AddModelError("", "Koszyk jest pusty!");
+            }
             return View(new CartIndexViewModel
             {
                 Cart = cart,
-                ReturnUrl = returnUrl
+                ReturnUrl = returnUrl,
+                CartCount = cart.Lines.Count(),
+                CartTotal = cart.ComputeTotalValue(),
                 
             });
            
         }
 
-        public async Task<RedirectToRouteResult> AddToCart(Cart cart, int productId, string returnUrl)
+        
+    
+
+        public async Task<ActionResult> AddToCart(Cart cart, int productId, string returnUrl)
         {
 
-            var apiModel = await repository.GetAlbumWithArtistAsync();
-            AlbumAllDetails album = apiModel.FirstOrDefault(p => p.album.AlbumId == productId);
-
+            var apiModel = await productsRepository.GetAlbumWithArtistAsync();
+            AlbumAllDetails album = apiModel.FirstOrDefault(p => p.album.Id == productId);
+            var result = "Błąd dodawania do koszyka";
             if (album != null)
             {
                 cart.AddItem(album);
+                result = "Dodano do koszyka";
             }
-            return RedirectToAction("Index", new { returnUrl });
+            
+            return Json(result, JsonRequestBehavior.AllowGet);
+            //return RedirectToAction("Index", new { returnUrl });
 
         }
 
 
-        public async Task<RedirectToRouteResult> RemoveFromCart(Cart cart, int productId, string returnUrl)
+        public async Task<ActionResult> RemoveFromCart(Cart cart, int productId)
         {
-            var apiModel = await repository.GetAlbumWithArtistAsync();
-            AlbumAllDetails album = apiModel.FirstOrDefault(p => p.album.AlbumId == productId);
+            var apiModel = await productsRepository.GetAlbumWithArtistAsync();
+            AlbumAllDetails album = apiModel.FirstOrDefault(p => p.album.Id == productId);
 
             if (album != null)
             {
                 cart.RemoveLine(album);
             }
-            return RedirectToAction("Index", new { returnUrl });
+            var results = new CartIndexViewModel
+            {
+                CartTotal = cart.ComputeTotalValue(),
+                DeleteId = productId
+            };
+            return Json(results, JsonRequestBehavior.AllowGet);
+
         }
+        //public async Task<ActionResult> RemoveFromCart(Cart cart)
+        //{
+        //    cart.Clear();
+        //    var results = new CartIndexViewModel
+        //    {
+        //        Cart = cart,
+        //        CartCount = cart.Lines.Count(),
+        //    };
+        //    return Json(results,JsonRequestBehavior.AllowGet);
+
+        //}
+        //public async Task<ActionResult> RemoveFromCart(Cart cart, int productId, string returnUrl)
+        //{
+        //    var apiModel = await productsRepository.GetAlbumWithArtistAsync();
+        //    AlbumAllDetails album = apiModel.FirstOrDefault(p => p.album.Id == productId);
+
+        //    if (album != null)
+        //    {
+        //        cart.RemoveLine(album);
+        //    }
+        //    return View("Index", new CartIndexViewModel
+        //    {
+        //        Cart = cart,
+        //        ReturnUrl = returnUrl,
+        //        CartCount = cart.Lines.Count(),
+
+        //    });
+        //}
 
         //private Cart GetCart()
         //{
@@ -75,28 +124,128 @@ namespace MusicStore.WebUI.Controllers
             return PartialView(cart);
         }
 
-
-        public async Task<ViewResult> Checkout()
+        public async Task<ActionResult> Checkout(Cart cart)
         {
-            return View(new ShippingDetails());
-        }
+            if (Session["Id"] != null)
+            {
 
-        [HttpPost]
-        public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
-        {
-            if (cart.Lines.Count() == 0)
-            {
-                ModelState.AddModelError("", "Koszyk jest pusty!");
-            }
-            if (ModelState.IsValid)
-            {
-                orderProcessor.ProcessOrder(cart, shippingDetails);
-                cart.Clear();
-                return View("Completed");
+                int id = (int)Session["Id"];
+                Client client = await clientRepository.GetClientByAccountId(id);
+                Adress adress = await clientRepository.GetAdressesAsync(client.Id);
+
+                ShippingDetails data = new ShippingDetails()
+                {
+                    Name = client.Surname,
+                    City = adress.City,
+                    Line1 = adress.Town,
+                    Line2 = adress.Street,
+                    Line3 = adress.HouseNumber.ToString(),
+                    Zip = adress.PostCode,
+                    State = adress.State,
+                    Country = adress.Country,
+
+
+                };
+                Cart nowy = await clientRepository.ClientHaveAlbum(client.Id, cart);
+
+                var oldCart = cart.Lines.ToList();
+                var newCart = nowy.Lines.ToList();
+                var diffrence = newCart.Except(newCart).ToList();
+                if (diffrence != null)
+                {
+
+                    ModelState.AddModelError("", "Usunięto albumy które masz w swojej bibliotece");
+
+                }
+                else
+                {
+                    var b = "ss";
+                }
+
+                return View(new CartIndexViewModel
+                {
+                    Cart = nowy,
+                    CartCount = cart.Lines.Count(),
+                    ShippingDetails = data
+
+                });
+
             }
             else
             {
-                return View(shippingDetails);
+                return RedirectToAction("Login", "Account");
+            }
+        }
+        //public async Task<ActionResult> ShippDetail()
+        //{
+
+        //        if (Session["Id"] != null)
+        //        {
+        //            int id = (int)Session["Id"];
+        //            Client client = await clientRepository.GetClient(id);
+        //            Adress adress = await clientRepository.GetAdressesAsync(client.Id);
+        //            if (adress != null)
+        //            {
+        //                return View(new ShippingDetails()
+        //                {
+        //                    Name = client.Surname,
+        //                    City = adress.City,
+        //                    Line1 = adress.Town,
+        //                    Line2 = adress.Street,
+        //                    Line3 = adress.HouseNumber.ToString(),
+        //                    Zip = adress.PostCode,
+
+
+        //                });
+        //            }
+        //            else
+        //            {
+        //                return View(new ShippingDetails());
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return RedirectToAction("Login", "Account");
+        //        }
+        //}
+
+        [HttpPost]
+        public async Task<ActionResult> ShippDetail(Cart cart, ShippingDetails shippingDetails, int Id)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+                orderProcessor.ProcessOrder(cart, shippingDetails);
+                decimal price = cart.ComputeTotalValue();
+               
+
+                List<int> albumsId = new List<int>();
+                foreach (var line in cart.Lines)
+                {
+                    albumsId.Add(line.Product.album.Id);
+                }
+                if (albumsId.Count > 0 && Id >= 1)
+                {
+                    var clientId = await clientRepository.GetClientByAccountId(Id);
+                    await clientRepository.AddAlbumsToLibrary(albumsId, clientId.Id);
+                    await orderProcessor.NewOrder(clientId.Id, albumsId,price);
+                }
+
+                cart.Clear();
+                return View("Completed");
+
+
+            }
+            else
+            {
+                 return View("Checkout", new CartIndexViewModel
+                {
+                    Cart = cart,
+                    CartCount = cart.Lines.Count(),
+                    ShippingDetails = shippingDetails
+
+                });
             }
         }
 

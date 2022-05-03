@@ -1,0 +1,52 @@
+﻿@*@model IEnumerable<MusicStore.Domain.Entities.AlbumAllDetails>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+    </tr>
+    @
+
+    @foreach (var item in )
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(item => item.album.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(item => item.artist.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(item => item.album.LabelId)
+            </td>
+            <td>
+                @Html.DisplayFor(item => item.album.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(item => item.album.GenreId)
+            </td>
+            <td>
+                @Html.DisplayFor(item => item.album.CountryId)
+            </td>
+            <td>
+                @Html.DisplayFor(item => item.album.Price)
+            </td>
+            <td>
+                <button type="button" class="btn btn-outline-secondary">
+                    @Html.ActionLink(" ", "EditAlbum", new { id = Model.album.Id }, new { @class = "bi bi-pen-fill" })
+                </button>
+                <button type="button" class="btn btn-outline-secondary">
+                    @Html.ActionLink(" ", "DetailsAlbum", new { id = Model.album.Id }, new { @class = " bi bi-card-text" })
+                </button>
+                <button type="button" class="btn btn-outline-secondary">
+                    @Html.ActionLink(" ", "DeleteAlbum", new { id = Model.album.Id }, new { @class = " bi bi-trash3" })
+                </button>
+
+            </td>
+        </tr>
+
+    }
+
+</table>*@

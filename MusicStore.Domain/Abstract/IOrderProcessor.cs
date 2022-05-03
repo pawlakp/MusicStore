@@ -11,5 +11,9 @@ namespace MusicStore.Domain.Abstract
     {
         //interfejs koszyka
         void ProcessOrder(Cart cart, ShippingDetails shippingDetails);
+        Task NewOrder(int clientId, List<int> albumsId, decimal price);
+        Task<List<Order>> AllOrdersAsync();
+        Task<List<OrderAlbum>> AllOrdersAlbumAsync();
+        Task<decimal> GetAllMoneyEarned();
     }
 }

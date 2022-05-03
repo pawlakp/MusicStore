@@ -1,0 +1,38 @@
+﻿@model MusicStore.Domain.Entities.ShippingDetails
+
+
+<div class="row">
+    <div class="col-12">
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h2>Dane adresowe</h2>
+            <hr />
+            <div class="form-group">
+                <label>Nazwisko:</label>
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @foreach (var p in ViewData.ModelMetadata.Properties)
+            {
+                if (p.PropertyName != "Name" && p.PropertyName != "GiftWrap")
+                {
+                    <div class="form-group">
+                        <label>@(p.DisplayName??p.PropertyName)</label>
+                        <div class="col-md-8">
+                            @Html.Editor(p.PropertyName, null, null, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessage(p.PropertyName, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+            }
+    </div>
+</div>
+    </div>
+
+
+
+

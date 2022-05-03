@@ -2,14 +2,74 @@
 
 @{
     ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>List</h2>
+<h2>Lista użytkowników</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col"> @Html.DisplayNameFor(model => model.Login)</th>
+                        <th scope="col"> @Html.DisplayNameFor(model => model.IsAdmin)</th>
+                        <th scope="col"> @Html.DisplayNameFor(model => model.IsPasswordChangeRequired)</th>
+                        <th scope="col"> Czynności</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+               
+                        <tr id="row-@item.Id">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Login)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsAdmin)
+                            </td>
+                            <td id="cellPass-@item.Id">
+                               @Html.DisplayFor(modelItem => item.IsPasswordChangeRequired)
+                               
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-outline-secondary">
+                                    @*@Html.ActionLink(" ", "ChangePassword", "Admin", new { id = item.Id }, new { @class = " bi bi-lock" })*@
+                                    @Ajax.ActionLink(" ", "ChangePassword","Admin",null,
+                                    new AjaxOptions { Url = Url.Action("ChangePassword", new { id = item.Id }), OnSuccess = "changePassword", Confirm="Czy chcesz zmienić hasło użytkownika?"},
+                                    new { @class = " bi bi-lock" })
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary">
+                                    @Html.ActionLink(" ", "Details", new { id = item.Id }, new { @class = " bi bi-card-text" })
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary">
+                                    @*@Html.ActionLink(" ", "DeleteUser", new { id = item.Id }, new { @class = " bi bi-trash3" })*@
+                                    @Ajax.ActionLink(" ", "ChangePassword", "Admin", null,
+                                   new AjaxOptions { Url = Url.Action("DeleteUser", new { id = item.Id }), OnSuccess = "deleteData", Confirm = "Czy chcesz usunąć użytkownika?" },
+                                    new { @class = " bi bi-trash3" })
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+    <div class="col-md-2"></div>
+
+</div>
+
+
+
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Login)
@@ -24,28 +84,30 @@
             @Html.DisplayNameFor(model => model.IsPasswordChangeRequired)
         </th>
         <th></th>
-    </tr>
+    </tr>*@
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Login)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Password)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.IsAdmin)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.IsPasswordChangeRequired)
-    </td>
-    <td>
-        @Html.ActionLink("Zmień hasło", "ChangePassword", new { id = item.Id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "DeleteUser", new { id = item.Id }) |
-    </td>
-</tr>
-}
+    @*@foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Login)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsAdmin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPasswordChangeRequired)
+            </td>
+            <td>
 
-</table>
+                @Html.ActionLink(" ", "ChangePassword", new { id = item.Id }, new { @class = " bi bi-lock" })
+                @Html.ActionLink(" ", "Details", new { id = item.Id }, new { @class = " bi bi-card-text" })
+                @Html.ActionLink(" ", "DeleteUser", new { id = item.Id }, new { @class = " bi bi-trash3" })
+            </td>
+        </tr>
+    }*@
+
+@*</table>*@

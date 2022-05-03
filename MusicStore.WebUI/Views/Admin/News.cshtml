@@ -1,0 +1,36 @@
+﻿@model MusicStore.WebUI.Models.NewsModelDto
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfUsers)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfUsers)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfOrders)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfOrders)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfSaleAlbums)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfSaleAlbums)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MoneyEarned)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MoneyEarned) zł
+        </dd>
+    </dl>
+</div>

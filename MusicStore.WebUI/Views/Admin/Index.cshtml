@@ -1,20 +1,277 @@
 ﻿
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-@Html.ActionLink("Dodaj użytkownika", "CreateUser", "Admin",
+<div class="row">
+    <div class="col-md-4 d-none d-md-block">
+        <div class="row">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="~/Content/Image/checklist.jpg" class="img-fluid img-thumbnail d-none d-md-block" alt="..." width="250" height="250">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">Oferta sklepu</h4>
+                            <p class="card-text">
+                                @Html.ActionLink("Lista albumów", "ListAlbums", "Admin",
+new { returnUrl = Request.Url.PathAndQuery },
+new { @class = "w-100 btn  btn-outline-primary", @style = "height: 100%", @id = "ListAlbum" })
+                            </p>
+                            <p class="card-text"><small class="text-muted">Przeglądaj, edytuj ofertę sklepu!</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="~/Content/Image/addmusic.png" class="img-fluid img-thumbnail d-none d-md-block" alt="..." width="250" height="250">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">Dodaj album</h4>
+                            <p class="card-text">
+                                @Html.ActionLink("Dodaj album", "AddAlbum", "Admin",
+new { returnUrl = Request.Url.PathAndQuery },
+new { @class = "w-100 btn btn-outline-primary", @style = "height: 100%", @id = "ListAlbum" })
+                            </p>
+                            <p class="card-text"><small class="text-muted">Dodaj album do oferty sklepu!</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="~/Content/Image/useralbum.jpg" class="img-fluid img-thumbnail d-none d-md-block" alt="..." width="250" height="250">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">Przypisz album</h4>
+                            <p class="card-text">
+                                @Html.ActionLink("Przypisz", "AssignAlbum", "Admin",
+new { returnUrl = Request.Url.PathAndQuery },
+new { @class = "w-100 btn btn-outline-primary", @style = "height: 100%", @id = "ListAlbum" })
+                            </p>
+                            <p class="card-text"><small class="text-muted">Przypisz album do użytkownika!</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Aktualności
+                    </div>
+                    <div class="card-body">
+                        <div id="News"></div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Today
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Liczba albumów w ofercie
+                    </div>
+                    <div class="card-body">
+                        <div id="Products"></div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        2 days ago
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 d-block d-md-none">
+        <div class="row">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="~/Content/Image/checklist.jpg" class="img-fluid img-thumbnail d-none d-md-block" alt="..." width="250" height="250">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">Oferta sklepu</h4>
+                            <p class="card-text">
+                                @Html.ActionLink("Lista albumów", "ListAlbums", "Admin",
+new { returnUrl = Request.Url.PathAndQuery },
+new { @class = "w-100 btn  btn-outline-primary", @style = "height: 100%", @id = "ListAlbum" })
+                            </p>
+                            <p class="card-text"><small class="text-muted">Przeglądaj, edytuj ofertę sklepu!</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="~/Content/Image/addmusic.png" class="img-fluid img-thumbnail d-none d-md-block" alt="..." width="250" height="250">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">Dodaj album</h4>
+                            <p class="card-text">
+                                @Html.ActionLink("Dodaj album", "AddAlbum", "Admin",
+new { returnUrl = Request.Url.PathAndQuery },
+new { @class = "w-100 btn btn-outline-primary", @style = "height: 100%", @id = "ListAlbum" })
+                            </p>
+                            <p class="card-text"><small class="text-muted">Dodaj album do oferty sklepu!</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="~/Content/Image/useralbum.jpg" class="img-fluid img-thumbnail d-none d-md-block" alt="..." width="250" height="250">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">Przypisz album</h4>
+                            <p class="card-text">
+                                @Html.ActionLink("Przypisz", "AssignAlbum", "Admin",
+new { returnUrl = Request.Url.PathAndQuery },
+new { @class = "w-100 btn btn-outline-primary", @style = "height: 100%", @id = "ListAlbum" })
+                            </p>
+                            <p class="card-text"><small class="text-muted">Przypisz album do użytkownika!</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="row">
+
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="~/Content/Image/listuser.png" class="img-fluid img-thumbnail d-none d-md-block" alt="..." width="250" height="250">
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">Lista użytkowników</h4>
+                            <p class="card-text">
+                                @Html.ActionLink("Lista użytkowników", "ListUsers", "Admin",
+new { returnUrl = Request.Url.PathAndQuery },
+new { @class = "w-100 btn btn-outline-primary", @style = "height: 100%", @id = "ListAlbum" })
+                            </p>
+                            <p class="card-text"><small class="text-muted">Przeglądaj, edytuj ofertę sklepu!</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="~/Content/Image/adduser.png" class="img-fluid img-thumbnail d-none d-md-block" alt="..." width="250" height="250">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">Dodaj użytkownika</h4>
+                            <p class="card-text">
+                                @Html.ActionLink("Dodaj użytkownika", "CreateUser", "Admin",
+    new { returnUrl = Request.Url.PathAndQuery },
+    new { @class = "w-100 btn btn-outline-primary" })
+                            </p>
+                            <p class="card-text"><small class="text-muted">Dodaj album do oferty sklepu!</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="~/Content/Image/orderlist.png" class="img-fluid img-thumbnail d-none d-md-block" alt="..." width="250" height="250">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">Lista zamówień</h4>
+                            <p class="card-text">
+                                @Html.ActionLink("Lista zamówień", "ListOrders", "Admin",
+new { returnUrl = Request.Url.PathAndQuery },
+new { @class = "w-100 btn btn-outline-primary", @style = "height: 100%", @id = "ListAlbum" })
+                            </p>
+                            <p class="card-text"><small class="text-muted">Przypisz album do użytkownika!</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+ 
+@*<div class="card-body" id="xd">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mb-4 ml-2 mr-2 text-left">
+                <div class="card-body">
+                    @Html.ActionLink("Dodaj użytkownika", "CreateUser", "Admin",
    new { returnUrl = Request.Url.PathAndQuery },
    new { @class = "btn btn-outline-success" })
-@Html.ActionLink("Lista użytkowników", "ListUsers", "Admin",
-   new { returnUrl = Request.Url.PathAndQuery },
-   new { @class = "btn btn-outline-success" })
-@Html.ActionLink("Lista albumów", "ListAlbums", "Admin",
-   new { returnUrl = Request.Url.PathAndQuery },
-   new { @class = "btn btn-outline-success" })
-@Html.ActionLink("Dodaj album", "AddAlbum", "Admin",
-   new { returnUrl = Request.Url.PathAndQuery },
-   new { @class = "btn btn-outline-success" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4 ml-2 mr-2 text-left">
+                <div class="card-body">
+                    @Html.ActionLink("Lista użytkowników", "ListUsers", "Admin",
+           new { returnUrl = Request.Url.PathAndQuery },
+           new { @class = "btn btn-outline-success" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4 ml-2 mr-2 text-left">
+                <div class="card-body">
+                    @Html.ActionLink("Lista albumów", "ListAlbums", "Admin",
+            new { returnUrl = Request.Url.PathAndQuery },
+            new { @class = "btn btn-outline-success" })
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-md-6">
+                <div class="card mb-4 ml-2 mr-2 text-left">
+                    <div class="card-body">
+                        @Html.ActionLink("Dodaj album", "AddAlbum", "Admin",
+           new { returnUrl = Request.Url.PathAndQuery },
+           new { @class = "btn btn-outline-success" })
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
+    </div>*@

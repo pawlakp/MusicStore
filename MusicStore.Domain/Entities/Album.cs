@@ -8,7 +8,7 @@ namespace MusicStore.Domain.Entities
 {
     public class Album
     {
-        public int AlbumId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public int ArtistId { get; set; }
         public int LabelId { get; set; }
@@ -16,7 +16,8 @@ namespace MusicStore.Domain.Entities
         public int GenreId { get; set; }
         public int CountryId { get; set; }
         public decimal Price { get; set; }
-        public int GraphicId { get; set; }
+        public byte[] ImageData { get; set; }
+        public string ImageMimeType { get; set; }
         
 
     }

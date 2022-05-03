@@ -72,10 +72,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IAccountsRepository.cs" />
+    <Compile Include="Abstract\IAccountRepository.cs" />
+    <Compile Include="Abstract\IClientRepository.cs" />
     <Compile Include="Abstract\IOrderProcessor.cs" />
     <Compile Include="Abstract\IProductsRepository.cs" />
     <Compile Include="Concrete\EFAccountsRepository.cs" />
+    <Compile Include="Concrete\EFClientRepository.cs" />
     <Compile Include="Concrete\EFProjectRepository.cs" />
     <Compile Include="Concrete\EfDbContext.cs" />
     <Compile Include="Concrete\EmailOrderProcessor.cs" />
@@ -83,11 +85,17 @@
     <Compile Include="Entities\Adress.cs" />
     <Compile Include="Entities\Album.cs" />
     <Compile Include="Entities\AlbumAllDetails.cs" />
+    <Compile Include="Entities\AlbumDetails.cs" />
     <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Cart.cs" />
     <Compile Include="Entities\Client.cs" />
+    <Compile Include="Entities\ClientLibrary.cs" />
+    <Compile Include="Entities\ClientWishlist.cs" />
+    <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\Label.cs" />
+    <Compile Include="Entities\Order.cs" />
+    <Compile Include="Entities\OrderAlbum.cs" />
     <Compile Include="Entities\ShippingDetails.cs" />
     <Compile Include="Entities\Song.cs" />
     <Compile Include="Exceptions\AlbumsException.cs" />

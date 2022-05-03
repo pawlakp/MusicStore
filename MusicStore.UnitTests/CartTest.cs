@@ -20,8 +20,8 @@ namespace MusicStore.UnitTests
         public void Can_Add_New_Lines()
         {
             //przygotowanie produktów testowych
-            Album album1 = new Album { AlbumId = 1, Name = "A1" };
-            Album album2 = new Album { AlbumId = 2, Name = "A2" };
+            Album album1 = new Album { Id = 1, Name = "A1" };
+            Album album2 = new Album { Id = 2, Name = "A2" };
 
             AlbumAllDetails albumAllDetails1 = new AlbumAllDetails { album = album1 };
             AlbumAllDetails albumAllDetails2 = new AlbumAllDetails { album = album2 };
@@ -47,9 +47,9 @@ namespace MusicStore.UnitTests
         public void Can_Remove_Line()
         {
             //przygotowanie produktów testowych
-            Album album1 = new Album { AlbumId = 1, Name = "A1" };
-            Album album2 = new Album { AlbumId = 2, Name = "A2" };
-            Album album3 = new Album { AlbumId = 3, Name = "A3" };
+            Album album1 = new Album { Id = 1, Name = "A1" };
+            Album album2 = new Album { Id = 2, Name = "A2" };
+            Album album3 = new Album { Id = 3, Name = "A3" };
 
             AlbumAllDetails albumAllDetails1 = new AlbumAllDetails { album = album1 };
             AlbumAllDetails albumAllDetails2 = new AlbumAllDetails { album = album2 };
@@ -78,9 +78,9 @@ namespace MusicStore.UnitTests
         public void Calculate_Cart_Total()
         {
             //przygotowanie produktów testowych
-            Album album1 = new Album { AlbumId = 1, Name = "A1", Price =10M };
-            Album album2 = new Album { AlbumId = 2, Name = "A2", Price = 20M };
-            Album album3 = new Album { AlbumId = 3, Name = "A3", Price = 30M };
+            Album album1 = new Album { Id = 1, Name = "A1", Price =10M };
+            Album album2 = new Album { Id = 2, Name = "A2", Price = 20M };
+            Album album3 = new Album { Id = 3, Name = "A3", Price = 30M };
 
             AlbumAllDetails albumAllDetails1 = new AlbumAllDetails { album = album1 };
             AlbumAllDetails albumAllDetails2 = new AlbumAllDetails { album = album2 };
@@ -105,9 +105,9 @@ namespace MusicStore.UnitTests
         [TestMethod]
         public void Can_Clear_Cart()
         {
-            Album album1 = new Album { AlbumId = 1, Name = "A1", Price = 10M };
-            Album album2 = new Album { AlbumId = 2, Name = "A2", Price = 20M };
-            Album album3 = new Album { AlbumId = 3, Name = "A3", Price = 30M };
+            Album album1 = new Album { Id = 1, Name = "A1", Price = 10M };
+            Album album2 = new Album { Id = 2, Name = "A2", Price = 20M };
+            Album album3 = new Album { Id = 3, Name = "A3", Price = 30M };
 
             AlbumAllDetails albumAllDetails1 = new AlbumAllDetails { album = album1 };
             AlbumAllDetails albumAllDetails2 = new AlbumAllDetails { album = album2 };

@@ -1,0 +1,105 @@
+﻿@model MusicStore.Domain.Entities.AlbumDetails
+
+
+<script src="~/Scripts/Register.js"></script>
+<div class="container-fluid">
+    <br />
+    <h4>AlbumDetails</h4>
+    <br />
+    <div class="row">
+        <div class="col-md-10 col-lg-7 col-xl-5" style="float:left;">
+            @if (Model.ImageData != null)
+            {
+                @*<img class="img-thumbnail" width="75" height="75" src="" />*@
+                <img class="card-img-top" width="150" height="400"
+                     ,
+                     src="@Url.Action("GetImage","Home", new {productId=Model.Id})" alt="Card image cap">
+            }
+        </div>
+        <div class="col-md-4 col-lg-4">
+            <h2> @Html.DisplayFor(model => model.Name)</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <dl class="dl-horizontal">
+
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Artist)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Artist)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Label)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Label)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Year)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Year)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Genre)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Genre)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Country)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Country)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Price)
+                        </dd>
+
+
+                    </dl>
+                </div>
+                <div class="col-lg-6">
+                    <dl>
+                        @{
+                            int i = 1;
+                        }
+                        @foreach (var item in Model.Songs)
+                        {
+
+                            <dd>
+                                @i.@Html.DisplayFor(x => item.Title)
+                            </dd>
+                            {
+                                i += 1;
+                            }
+
+                        }
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

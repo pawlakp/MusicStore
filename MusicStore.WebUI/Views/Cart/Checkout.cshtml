@@ -1,59 +1,151 @@
-﻿@model MusicStore.Domain.Entities.ShippingDetails
+﻿@model MusicStore.WebUI.Models.CartIndexViewModel
 
 @{
-    ViewBag.Title = "MusicStore: Wysyłka";
+    ViewBag.Title = "Checkout";
 }
 
-<h2>Wysyłka</h2>
-<p> Proszę podać swoje dane, a album natychmiast trafi do biblioteki</p>
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("ShippDetail", "Cart"))
 {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
-
-    <div class="form-horizontal">
-        <h4>Wysyłka dla</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <label>Nazwisko:</label>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @foreach (var p in ViewData.ModelMetadata.Properties)
-                {
-                    if(p.PropertyName!="Name" && p.PropertyName != "GiftWrap")
+    <div class="row mt-3">
+        <div class="col-12 d-sm-none mt-3">
+            <h2>Podsumowanie </h2>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <table class="table table-borderless">
+                <thead> <tr><th><h4>Produkty</h4></th></tr> </thead>
+                <tbody>
+                    @foreach (var line in Model.Cart.Lines)
                     {
-                        <div class="form-group">
-                            <label>@(p.DisplayName??p.PropertyName)</label>
-                            <div class="col-md-10">
-                                @Html.Editor(p.PropertyName,null,null, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessage(p.PropertyName, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    }
-                }
+                        <tr>
+                            <td>
+                                <div class="card mb-3 border-0" style="max-width: 540px;">
+                                    <div class="row g-0">
+                                        <div class="col-4">
+                                            <img class="img-fluid rounded-start" @*width="200" height="50"*@
+                                                 ,
+                                                 src="@Url.Action("GetImage","Home", new {productId=line.Product.album.Id})" alt="Card image cap">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">@line.Product.album.Name</h5>
+                                                <p class="card-text">@line.Product.artist.Name</p>
+                                                <p class="card-text"><h4 class="d-none">@line.Product.album.Price.ToString("c")</h4></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
 
-        <h3>Opcje</h3>
-        <div class="form-group">
-            <div class="col-md-10">
-                <div class="checkbox">
-                    <label>
-                        @Html.EditorFor(model => model.GiftWrap)
-                        @Html.ValidationMessageFor(model => model.GiftWrap, "", new { @class = "text-danger" })
-                        Zapakuj jako prezent
-                    </label>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-8"> 
+        @Html.Partial("ShippDetail", Model.ShippingDetails) 
+        </div>
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-12 d-none d-md-block">
+                    <h2 class="d-none d-md-block">Podsumowanie </h2>
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <table class="table table-borderless">
+                        <thead> <tr><th><h4>Produkty</h4></th></tr> </thead>
+                        <tbody>
+                            @foreach (var line in Model.Cart.Lines)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="card mb-3 border-0" style="max-width: 540px;">
+                                            <div class="row g-0">
+                                                <div class="col-md-4">
+                                                    <img class="img-fluid rounded-start" @*width="200" height="50"*@
+                                                         ,
+                                                         src="@Url.Action("GetImage","Home", new {productId=line.Product.album.Id})" alt="Card image cap">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">@line.Product.album.Name</h5>
+                                                        <p class="card-text">@line.Product.artist.Name</p>
+                                                        <p class="card-text"><h4 class="d-md-none">@line.Product.album.Price.ToString("c")</h4></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12">
+                    <table class="table table-borderless">
+                        <tbody>
+
+                            <tr>
+                                <td class="text-start">Suma</td>
+                                <td class="text-end">
+                                    Blik
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12">
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td class="text-start">Suma</td>
+                                <td class="text-end">
+                                    @Model.Cart.ComputeTotalValue().ToString("c")
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12">
+                    @Html.Hidden("Id", @Session["Id"])
+                    <div class="text-center">
+                        <input type="submit" value="Zakończ zamówienie" class="btn btn-primary" />
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="col-md-1"></div>
+    </div>
 
+
+
+}
+
+
+@*<h2>Checkout</h2>
+    @Html.ValidationSummary()
+    @foreach (var line in Model.Cart.Lines)
+    {
+        <tr>
+            <td class="text-start">@line.Product.album.Name</td>
+            <td class="text-end">@line.Product.album.Price.ToString("c")</td>
+            <td>
+                @using (Html.BeginForm("RemoveFromCart", "Cart"))
+                {
+                    @Html.Hidden("productId", line.Product.album.Id)
+                    @Html.HiddenFor(x => x.ReturnUrl)
+                    <input class="btn btn-sm btn-warning" type="submit" value="Usuń" />
+                }
+            </td>
+        </tr>
+    }
+
+    @using (Html.BeginForm("ShippDetail", "Cart"))
+    {
+        @Html.Partial("ShippDetail", Model.ShippingDetails)
+
+
+        @Html.Hidden("Id", @Session["Id"])
         <div class="text-center">
             <input type="submit" value="Zakończ zamówienie" class="btn btn-primary" />
         </div>
-    </div>
-}
 
+    }*@

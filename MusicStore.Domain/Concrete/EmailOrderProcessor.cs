@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Mail;
 using MusicStore.Domain.Entities;
 using MusicStore.Domain.Abstract;
+using System.Data.Entity;
 
 namespace MusicStore.Domain.Concrete
 {
@@ -26,11 +27,12 @@ namespace MusicStore.Domain.Concrete
     }
 
     //implementacja interfejsu oraz wysyłania maili 
-    public class EmailOrderProcessor : IOrderProcessor
+    public class EFOrdersRepository : IOrderProcessor
     {
+        private EfDbContext context = new EfDbContext();
         private EmailSettings emailSettings;
 
-        public EmailOrderProcessor(EmailSettings settings)
+        public EFOrdersRepository(EmailSettings settings)
         {
             emailSettings = settings;
         }
@@ -70,8 +72,7 @@ namespace MusicStore.Domain.Concrete
                     .AppendLine(shippingInfo.State ?? "")
                     .AppendLine(shippingInfo.Country)
                     .AppendLine(shippingInfo.Zip)
-                    .AppendLine("---")
-                    .AppendFormat("Pakowanie prezentu: {0}", shippingInfo.GiftWrap ? "Tak" : "Nie");
+                    .AppendLine("---");
 
                 MailMessage mailMessage = new MailMessage
                 (
@@ -87,6 +88,73 @@ namespace MusicStore.Domain.Concrete
                 }
                 smtpClinet.Send(mailMessage);
             }
-        } 
+        }
+
+        public async Task<List<Order>> AllOrdersAsync() => await context.Order.ToListAsync().ConfigureAwait(false);
+        public async Task<List<OrderAlbum>> AllOrdersAlbumAsync() => await context.OrdersAlbums.ToListAsync().ConfigureAwait(false);
+
+        public async Task NewOrder(int clientId, List<int> albumsId, decimal price)
+        {
+            //pobranie daty systemowej
+            DateTime myDateTime = DateTime.Now;
+            var nameOrder = GetLast() + "/" + DateTime.Now.ToString("yyyy");
+            //utworzenie nowego zamówienia
+            Order order = new Order()
+            {
+                ClientId = clientId,
+                Data=myDateTime,
+                Name = nameOrder,
+                Price = price,
+            };
+            //dodanie do bazy 
+            context.Order.Add(order);
+            await context.SaveChangesAsync();
+
+            //pobranie id zamówienia
+            var AllOrders = await AllOrdersAsync();
+            Order x = AllOrders.Where(y => y.Data == myDateTime).FirstOrDefault();
+            int id = x.Id;
+
+            //zapisywanie id albumów do id zamówienia
+            foreach (var albumId in albumsId)
+            {
+                OrderAlbum nowy = new OrderAlbum()
+                {
+                    AlbumId = albumId,
+                    OrderId = id,
+                };
+
+                context.OrdersAlbums.Add(nowy);
+            }
+            //zapisanie danych w bazie
+            await context.SaveChangesAsync();
+        }
+
+        public int GetLast()
+        {
+            var a = context.Order.ToList();
+            if (a.Count > 0)
+            {
+                var AllOrders = int.Parse(context.Order
+                                .OrderByDescending(p => p.Id)
+                                .Select(r => r.Id)
+                                .First().ToString());
+                return AllOrders;
+            }
+            else
+                return 1;
+        }
+
+        public async Task<decimal> GetAllMoneyEarned()
+        {
+            decimal a = 0;
+            var list = await AllOrdersAsync();
+            foreach (var item in list)
+            {
+                a += item.Price;
+            }
+            return a;
+        }
+       
     }
 }

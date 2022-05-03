@@ -18,5 +18,6 @@ namespace MusicStore.Domain.Entities
         public string Password { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsPasswordChangeRequired { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

@@ -3,10 +3,6 @@
     ViewBag.Title = "Index";
 }
 <form class="d-flex">
-    @*<span class="navbar-text">
-            <b>Twój koszyk:</b>
-            @Model.ComputeTotalValue().ToString("c")
-        </span>*@
 
     @if (Session["Login"] != null)
     {
@@ -24,7 +20,8 @@
     {
         @Html.ActionLink("Zaloguj", "Login", "Account",
         new { returnUrl = Request.Url.PathAndQuery },
-        new { @class = "btn btn-outline-success" })
+        new { @class = "btn btn-outline-success"})
+        
     }
 
 </form>

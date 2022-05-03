@@ -2,141 +2,115 @@
 
 @{
     ViewBag.Title = "AddAlbum";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>AddAlbum</h2>
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <div class="row">
+                <h2>Dodaj album</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-<div class="form-horizontal">
-    <h4>ProductModelDto</h4>
-    <hr />
-    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.AlbumId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AlbumId, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.AlbumId, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.HiddenFor(model => model.AlbumId, new { htmlAttributes = new { @class = "form-control" } })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.AlbumName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.AlbumName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AlbumName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ArtistName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ArtistName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ArtistName, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.LabelId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10" id="NameLabel">
-            @Html.DropDownListFor(model => model.LabelId, new SelectList(Model.Labels, "Id", "Name"), "  -----Select List-----  ")
-            @*@Html.EditorFor(model => model.LabelId, new { htmlAttributes = new { @class = "form-control" } })*@
-            @Html.ValidationMessageFor(model => model.LabelId, "", new { @class = "text-danger" })
-        </div>
-        <input type="checkbox" id="btn1" />Brak wytwórni na liście?
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Genre, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @*@Html.DropDownList("Genre", new List<SelectListItem>
+                @using (Html.BeginForm("AddAlbum", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
-                   new SelectListItem{ Text="Alternatywna", Value = "1" },
-                   new SelectListItem{ Text="Ciężkie brzmienia", Value = "2" },
-                   new SelectListItem{ Text="Country", Value = "3" },
-                   new SelectListItem{ Text="Nowe brzeminia", Value = "4" },
-                   new SelectListItem{ Text="Piosenka poetycka", Value = "5" },
-                   new SelectListItem{ Text="Pop", Value = "6" },
-                   new SelectListItem{ Text="Rap", Value = "7" },
-                   new SelectListItem{ Text="Reggea", Value = "8" },
-                   new SelectListItem{ Text="Szanty", Value = "9" },
-                   new SelectListItem{ Text="Muzyka filmowa", Value = "10" },
-                   new SelectListItem{ Text="Muzyka poważna", Value = "11" },
-                   new SelectListItem{ Text="Jazz", Value = "12" },
-                })*@
-            @Html.DropDownListFor(m => m.Genre, new SelectList(Model.Genres, "Id", "Name"), "  -----Select List-----  ")
+                    @Html.AntiForgeryToken()
 
-
-            @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("Country", new List<SelectListItem>
-                {
-                new SelectListItem{ Text="Polska", Value = "1" },
-                new SelectListItem{ Text="Zagraniczna", Value = "2" },})
-            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.GraphicId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.GraphicId, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.GraphicId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.NumberOfSongs, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NumberOfSongs, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.NumberOfSongs, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    @*<div class="form-group">
-            <div class="col-md-10">
-                <div id="NameLabel"></div>
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-12">
+                    @Html.HiddenFor(model => model.AlbumId, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
             </div>
-        </div>*@
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.AlbumName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.AlbumName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AlbumName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ArtistName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.ArtistName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ArtistName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LabelId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12" id="NameLabel">
+                    @Html.DropDownListFor(model => model.LabelId, new SelectList(Model.Labels, "Id", "Name"), "-----Wytwórnia-----  ", new { @class = "form-control" })
+                </div>
+                <input type="checkbox" id="btn1" class="form-check-input" />Brak wytwórni na liście?
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Genre, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    @Html.DropDownListFor(m => m.Genre, new SelectList(Model.Genres, "Id", "Name"), "-----Gatunek-----  ", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    @Html.DropDownList("Country", new List<SelectListItem>
+                        {
+                        new SelectListItem{ Text="Polska", Value = "1" },
+                        new SelectListItem{ Text="Zagraniczna", Value = "2" },}, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.NumberOfSongs, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.NumberOfSongs, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NumberOfSongs, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-12">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-12">
+                    <label class="form-label" for="image">Okładka</label>
+                    <input id="image" type="file" name="image" accept="image/png, image/gif, image/jpeg" class="form-control" />
+                </div>
+
+            </div>
+            
+            <div class="form-group" style="margin-top:10px;">
+                <div class="col-md-offset-2 col-md-12">
+                    <input type="submit" value="Zapisz" class="btn btn-primary w-100" />
+                </div>
+            </div>
+
+
+
+
+        </div>
+                }
         </div>
     </div>
-
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
+    <div class="col-3"></div>
 </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-

@@ -1,6 +1,6 @@
 ﻿@model MusicStore.Domain.Entities.AlbumAllDetails
 
-<tr>
+
     <td>
         @Html.DisplayFor(item => item.album.Name)
     </td>
@@ -22,13 +22,25 @@
     <td>
         @Html.DisplayFor(item => item.album.Price)
     </td>
+    <td>
+        <button type="button" class="btn btn-outline-secondary">
+            @Html.ActionLink(" ", "EditAlbum", new { id = Model.album.Id }, new { @class = "bi bi-pen-fill" })
+        </button>
+        <button type="button" class="btn btn-outline-secondary">
+            @Html.ActionLink(" ", "DetailsAlbum", new { id = Model.album.Id }, new { @class = " bi bi-card-text" })
+        </button>
+        <button type="button" class="btn btn-outline-secondary">
+            @*@Html.ActionLink(" ", "DeleteAlbum", new { id = Model.album.Id }, new { @class = " bi bi-trash3" })*@
 
-    <td>
-        @Html.DisplayFor(item => item.album.GraphicId)
+            @Ajax.ActionLink(" ", "DeleteAlbum", "Admin", null,
+                                new AjaxOptions { Url = Url.Action("DeleteAlbum", new { id = @Model.album.Id }), OnSuccess = "deleteData", Confirm = "Czy chcesz usunąć album?" },
+                                 new { @class = " bi bi-trash3" })
+
+        </button>
+
     </td>
-    <td>
-        @Html.ActionLink("Edit", "EditAlbum", new { id = Model.album.AlbumId }) |
-        @Html.ActionLink("Details", "DetailsAlbum", new { id = Model.album.AlbumId }) |
-        @Html.ActionLink("Delete", "DeleteAlbum", new { id = Model.album.AlbumId })
-    </td>
-</tr>
+
+
+
+
+

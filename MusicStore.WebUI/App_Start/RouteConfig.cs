@@ -16,13 +16,13 @@ namespace MusicStore.WebUI
             routes.MapRoute(
                    null,
                    "",
-                   new { controller = "Album", action = "List", page = 1 }
+                   new { controller = "Home", action = "Index", page = 1 }
                );
 
             routes.MapRoute(
                   null,
                   "Strona{page}",
-                  new { controller = "Album", action = "List" },
+                  new { controller = "Home", action = "Index" },
                   new {page =@"\d+"}
              );
 
@@ -30,14 +30,20 @@ namespace MusicStore.WebUI
 
             routes.MapRoute(null, "{genre}", new
             {
-                controller = "Album",
+                controller = "Home",
                 action = "FiltrByGenre",
                 page = 1
             });
 
-            routes.MapRoute(null, "{genre}/Strona{page}", new { controller = "Album", action = "FiltrByGenre" }, new { page = @"\d+" });
+            routes.MapRoute(null, "{genre}/Strona{page}", new { controller = "Home", action = "FiltrByGenre" }, new { page = @"\d+" });
 
             routes.MapRoute(null, "{controller}/{action}");
+
+            routes.MapRoute(
+                null,
+                "{controller}/{action}/{id}",
+                new { controller = "Admin", action = "DeleteAlbum", id = UrlParameter.Optional }
+                );
         }
     }
 }
