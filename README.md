@@ -16,3 +16,7 @@ MusicStore ASP.NET MVC project
 ##  0.0.0.5
 1. admin: management user and albums
 2. user: add client and adress
+##  0.0.1
+1. full funcionality admin, user panel
+2. add AJAX to project
+3. improve views
