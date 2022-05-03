@@ -68,7 +68,7 @@ namespace MusicStore.Domain.Concrete
             var db = await AllAccountsAsync();
             //var pass = GetMD5(password);
             var user = db.Where(s => s.Id == id).FirstOrDefault();
-
+            
             if (user != null && user.IsDeleted ==false)
             {
                 return user;
@@ -78,6 +78,7 @@ namespace MusicStore.Domain.Concrete
                 return null;
             }
         }
+
 
         public async Task DeleteUser(int id)
         {

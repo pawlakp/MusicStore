@@ -42,6 +42,8 @@ namespace MusicStore.WebUI.Models
         public byte[] ImageData { get; set; }
         public string ImageMimeType { get; set; }
 
+        public bool Wishlist { get; set; }
+
 
     }
 }

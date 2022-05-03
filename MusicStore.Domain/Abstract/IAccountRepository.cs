@@ -22,4 +22,5 @@ namespace MusicStore.Domain.Abstract
         Task<bool> ChangePassword(Accounts account);
         Task<List<SelectListItem>> GetAccountsSelect();
     }
+        
 }

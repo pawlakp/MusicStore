@@ -14,7 +14,7 @@ namespace MusicStore.Domain.Abstract
         Task<bool> IsClientExist(int id);
         Task CreateAccount(Client client);
         Task<Client> GetClient(Client user);
-        Task<Client> GetClient(int id);
+        Task<Client> GetClientByAccountId(int id);
         Task CreateAdress(Adress adress);
         Task EditAdress(Adress adress);
         Task<Adress> GetAdressesAsync(int id);
@@ -26,6 +26,13 @@ namespace MusicStore.Domain.Abstract
 
         Task<List<OrderAlbum>> GetOrderDetails(int orderId);
         Task AddAlbumToClientLibrary(int albumId, int clientId);
+        Task<List<Order>> AllOrdersAsync();
+        Task<Client> GetClientById(int id);
+
+        Task<List<ClientWishlist>> AllClientWishlistAsync();
+        Task<List<int>> GetClientWishlist(int id);
+        Task<bool> AddToClientWishlist(int clientId, int albumId);
+
 
         }
 }

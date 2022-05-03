@@ -337,6 +337,9 @@
     <Content Include="Views\Admin\ShowAllAlbumsOnList.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Admin\AssignAlbum.cshtml" />
+    <Content Include="Views\Admin\ListOrders.cshtml" />
+    <Content Include="Views\Admin\OrderDetails.cshtml" />
+    <Content Include="Views\Client\Wishlist.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

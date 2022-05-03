@@ -9,7 +9,9 @@
         <div class="row">
             @foreach (var p in Model.AlbumsWithArtists)
             {
-                @Html.Partial("AlbumSummary", p);
+                <div class="col-md-4">
+                @Html.Partial("AlbumSummary", p)
+            </div>
             }
         </div>
         <nav>

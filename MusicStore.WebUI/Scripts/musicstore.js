@@ -32,6 +32,11 @@
 
 });
 
+function processData(data) {
+    $('#row-' + data.DeleteId).fadeOut('slow')
+    $('#suma').text(data.CartTotal);
+
+}
 function changePassword(data) {
     $('#cellPass-' + data.Id).empty();
     $('#cellPass-' + data.Id).prepend('<input checked="checked" class="check-box" disabled="disabled" type="checkbox" />');
@@ -50,33 +55,25 @@ function deleteData(data) {
 function succesAssign(){
     alert("Poprawnie przypisano album do użytkownika")
 }
+
+
+function addcart(data) {
+    alert(data);
+
+
+
+}
+
+function addToWishlist(data) {
+    if (data.Wishlist == true)
+        alert("Dodano do listy życzeń")
+    else {
+        alert("Usunięto z listy życzeń")
+        $('#row-' + data.AlbumId).fadeOut('slow')
+    }
+}
+
+
+
     
-
-    //var Genres = document.getElementById('Genres');
-    ////var ID = document.getElementById('News');
-    ////var IDD = document.getElementById('Products');
-
-    //var sendHttpRequest = (method, url) => {
-    //    var promise = new Promise((resolve, reject) => {
-    //        var xhr = new XMLHttpRequest();
-
-    //xhr.open(method, url);
-
-    //        xhr.onload = () => {
-    //    resolve(xhr.response);
-    //        };
-
-    //xhr.send();
-    //    });
-
-    //return promise;
-    //};
-
-    //window.addEventListener('load', function () {
-    //    sendHttpRequest('GET', '@Url.Action("MenuAdmin", "Nav")').then((responseData) => { Genres.innerHTML += responseData })
-    //    //sendHttpRequest('GET', '@Url.Action("NumberAllbumsView", "Admin")').then((responseData) => { IDD.innerHTML += responseData })
-    //    //sendHttpRequest('GET', '@Url.Action("NumberAllbumsView", "Admin")').then((responseData) => { IDD.innerHTML += responseData })
-
-    //})
-
 

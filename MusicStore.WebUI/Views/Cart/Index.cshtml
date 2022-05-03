@@ -52,7 +52,7 @@
             <input class="btn btn-sm btn-warning d-none d-md-block float-end w-75" type="submit" value="Usuń" />
         }*@
                             @Ajax.ActionLink("Usuń", "RemoveFromCart", new { cart = Model.Cart }, 
-                           new AjaxOptions { Url = Url.Action("RemoveFromCart",new {cart= Model.Cart, productId = line.Product.album.Id }), OnSuccess="changePassword" },
+                           new AjaxOptions { Url = Url.Action("RemoveFromCart",new {cart= Model.Cart, productId = line.Product.album.Id }), OnSuccess="processData" },
                            new {@class="btn btn-sm btn-warning d-none d-md-block float-end w-75"  })
                             
                           

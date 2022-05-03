@@ -275,7 +275,7 @@ namespace MusicStore.WebUI.Controllers
         [HttpPost]
         public async Task AssignAlbum(AssignAlbumModelDto newAssign)
         {
-            var client = await clients.GetClient(newAssign.clientId);
+            var client = await clients.GetClientByAccountId(newAssign.clientId);
             await clients.AddAlbumToClientLibrary(newAssign.albumId,client.Id);
 
 
@@ -321,7 +321,47 @@ namespace MusicStore.WebUI.Controllers
         }
 
 
-      
+      public async Task<ActionResult> ListOrders()
+        {
+           var a = await clients.AllOrdersAsync();
+           
+            return View(a);
+
+        }
+
+        public async Task<ActionResult> OrderDetails(int id)
+        {
+            var clientOrder = await clients.GetOrderDetails(id);
+            var getOrder = await clients.AllOrdersAsync();
+            decimal totalValue = 0;
+            List<OrderAlbumModelDto> orderDetails = new List<OrderAlbumModelDto>();
+          
+            Client client = await clients.GetClientById(getOrder[1].ClientId);
+            Accounts account = await accounts.GetAccountAsync(client.AccountId);
+
+            foreach (var item in clientOrder)
+            {
+                var album = await products.GetAlbumAsync(item.AlbumId);
+                orderDetails.Add(new OrderAlbumModelDto
+                {
+                    Name = album.Name,
+                    Price = album.Price
+
+                });
+                totalValue += album.Price;
+            }
+
+            orderDetails[0].TotalValue = totalValue;
+            orderDetails[0].ClientMail = account.Login;
+            orderDetails[0].FirstName = client.FirstName;
+            orderDetails[0].Surname = client.Surname;
+
+
+            return View(orderDetails);
+            
+        }
+
+
 
 
 

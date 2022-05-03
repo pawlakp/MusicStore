@@ -38,7 +38,7 @@ namespace MusicStore.WebUI.Controllers
             if (!await clientRepo.IsClientExist(account.Id)) return RedirectToAction("Create", account);
             else
             {
-                Client client = await clientRepo.GetClient(account.Id);
+                Client client = await clientRepo.GetClientByAccountId(account.Id);
                 return View("Index",client);
             }
         }
@@ -79,7 +79,7 @@ namespace MusicStore.WebUI.Controllers
 
         public async Task<ActionResult> DetailsAdress(int id)
         {
-            var client = await clientRepo.GetClient(id);
+            var client = await clientRepo.GetClientByAccountId(id);
             return View(await clientRepo.GetAdressesAsync(client.Id));
         }
         
@@ -98,7 +98,7 @@ namespace MusicStore.WebUI.Controllers
         public async Task<ActionResult> Library(int id, int page = 1)
         {
            
-            var clientId = await clientRepo.GetClient(id);
+            var clientId = await clientRepo.GetClientByAccountId(id);
             var a = await clientRepo.GetClientLibraryAsync(clientId.Id);
             var b = await productsRepo.GetAlbumsToLibrary(a);
             AlbumListViewModel model = new AlbumListViewModel
@@ -119,7 +119,7 @@ namespace MusicStore.WebUI.Controllers
 
         public async Task<ActionResult> Orders(int id)
         {
-            var clientId = await clientRepo.GetClient(id);
+            var clientId = await clientRepo.GetClientByAccountId(id);
             List<Order> list = await clientRepo.GetAllClientOrders(clientId.Id);
             return View(list);
         }
@@ -148,6 +148,54 @@ namespace MusicStore.WebUI.Controllers
         {
             await accountRepo.ChangePassword(id);
             var result = await accountRepo.GetAccountAsync(id);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> Wishlist(int id, int page = 1)
+        {
+
+            var clientId = await clientRepo.GetClientByAccountId(id);
+            var a = await clientRepo.GetClientWishlist(clientId.Id);
+            var b = await productsRepo.GetAlbumsToLibrary(a);
+            AlbumListViewModel model = new AlbumListViewModel
+            {
+                AlbumsWithArtists = b.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
+                PagingInfo = new PagingInfo
+                {
+                    CurrentPage = page,
+                    ItemsPerPage = PageSize,
+                    TotalItems = b.Count()
+                },
+            };
+
+
+
+            return View(model);
+        }
+
+        public async Task<JsonResult> AddToWishList(int productId, int clientId)
+        {
+            var client = await clientRepo.GetClientByAccountId(clientId);
+            bool IsExist = await clientRepo.AddToClientWishlist(client.Id, productId);
+
+            var result = new ProductModelDto();
+            if (IsExist)
+            {
+                result = new ProductModelDto
+                {
+                    AlbumId = productId,
+                    Wishlist = true,
+                };
+            }
+            else
+            {
+                result = new ProductModelDto
+                {
+                    AlbumId = productId,
+                    Wishlist = false,
+                };
+            }
+            
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

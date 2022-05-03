@@ -130,7 +130,7 @@ namespace MusicStore.WebUI.Controllers
             {
 
                 int id = (int)Session["Id"];
-                Client client = await clientRepository.GetClient(id);
+                Client client = await clientRepository.GetClientByAccountId(id);
                 Adress adress = await clientRepository.GetAdressesAsync(client.Id);
 
                 ShippingDetails data = new ShippingDetails()
@@ -227,7 +227,7 @@ namespace MusicStore.WebUI.Controllers
                 }
                 if (albumsId.Count > 0 && Id >= 1)
                 {
-                    var clientId = await clientRepository.GetClient(Id);
+                    var clientId = await clientRepository.GetClientByAccountId(Id);
                     await clientRepository.AddAlbumsToLibrary(albumsId, clientId.Id);
                     await orderProcessor.NewOrder(clientId.Id, albumsId,price);
                 }
