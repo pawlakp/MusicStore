@@ -1,0 +1,170 @@
+﻿@model MusicStore.WebUI.Models.SearchedListViewModel
+
+@{
+    ViewBag.Title = "Find";
+
+}
+
+
+
+@*@foreach(var item in @Model.albumsList)
+    {
+        @Html.DisplayName(item.album.Name)<br/>
+    }*@
+<div class="row mt-3">
+    <h3>Wyniki wyszukiwania dla: @Model.searchedItem</h3>
+    <div class="col-md-2">
+        <div class="table-responsive">
+            <table class="table table-borderless table-hover">
+                <thead>
+                    <tr>
+                        <th>Artyści</th>
+                        <th class="d-none"></th>
+                       
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    @foreach (var item in Model.artistsList)
+                    {
+                      
+
+                        <tr>
+
+
+                            <td>
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+
+                                        <a href="@Url.Action("ArtistDiscography", "Home", new {id = item.ArtistId})" class="btn btn-primary stretched-link">Dyskografia</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                  
+                        }
+                    </tbody>
+            </table>
+        </div>
+
+    </div>
+    <div class="col-md-9">
+        
+       
+        <div class="table-responsive">
+            <table class="table table-borderless table-hover">
+                <thead>
+                    <tr>
+                        <th>Albumy</th>
+                        <th class="d-none"></th>
+                        <th class="d-none d-md-block">Cena</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    @foreach (var item in Model.albumsList)
+                    {
+                        
+                        <tr>
+                            <td class="start">
+                                <a href="@Url.Action("GetAlbumDetail", "Home",  new { id = item.album.Id })" style="text-decoration:none; color:black">
+                                    <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                <img class="img-fluid rounded-start" @*width="200" height="50"*@
+                                                     ,
+                                                     src="@Url.Action("GetImage","Home", new {productId=item.album.Id})" alt="Card image cap">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">@item.album.Name</h5>
+                                                    <p class="card-text">@item.artist.Name</p>
+                                                    <p class="card-text"><h4 class="d-md-none">@item.album.Price.ToString("c")</h4></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </a>
+                            </td>
+
+
+
+
+                            <td class="text-end">
+
+                                @Ajax.ActionLink("Dodaj do koszyka", "AddToCart", "Cart", null,
+                                new AjaxOptions { Url = Url.Action("AddToCart", "Cart", new { productId = item.album.Id }), OnSuccess = "addcart" },
+                                new { @class = "btn btn-sm btn-warning d-none d-md-block float-end w-75" })
+
+
+                                <div class="w-100 mt-5 float-none"></div>
+                                <h4 class="d-none d-md-block w-100">@item.album.Price.ToString("c")</h4>
+                            </td>
+                        </tr>
+                       
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+        @*<h4>Albumy zawierające piosenkę: @Model.searchedItem</h4>*@
+        <div class="table-responsive">
+            <table class="table table-borderless table-hover">
+                <thead>
+                    <tr>
+                        <th>Album zawierające piosenkę: @Model.searchedItem</th>
+                        <th class="d-none"></th>
+                        <th class="d-none d-md-block">Cena</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    @foreach (var item in Model.songsWithAlbum)
+                    {
+                        <tr>
+                            <td class="start">
+                                <a href="@Url.Action("GetAlbumDetail", "Home",  new { id = item.album.Id })" style="text-decoration:none; color:black">
+                                    <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row g-0">
+                                            <div class="col-md-4">
+                                                <img class="img-fluid rounded-start" @*width="200" height="50"*@
+                                                     ,
+                                                     src="@Url.Action("GetImage","Home", new {productId=item.album.Id})" alt="Card image cap">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">@item.album.Name</h5>
+                                                    <p class="card-text">@item.artist.Name</p>
+                                                    <p class="card-text"><h4 class="d-md-none">@item.album.Price.ToString("c")</h4></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+
+
+
+                            <td class="text-end">
+
+                                @Ajax.ActionLink("Dodaj do koszyka", "AddToCart", "Cart", null,
+                                new AjaxOptions { Url = Url.Action("AddToCart", "Cart", new { productId = item.album.Id }), OnSuccess = "addcart" },
+                                new { @class = "btn btn-sm btn-warning d-none d-md-block float-end w-75" })
+
+
+                                <div class="w-100 mt-5 float-none"></div>
+                                <h4 class="d-none d-md-block w-100">@item.album.Price.ToString("c")</h4>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+    <div class="col-md-1">
+      
+    </div>
+</div>
+  

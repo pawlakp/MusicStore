@@ -14,7 +14,7 @@
     });
 
     $('#menubutton').click(function () {
-        $('#menu').toggle('show');
+        $('#Menu').toggle('show');
         click = 2;
         $(window).scrollTop(0);
     })
@@ -24,7 +24,7 @@
             click = 0;
             var windowSize = $(window).width(); // Could've done $(this).width()
             if (windowSize > 768) {
-                $('#menu').show();
+                $('#Menu').show();
             }
         }
     });

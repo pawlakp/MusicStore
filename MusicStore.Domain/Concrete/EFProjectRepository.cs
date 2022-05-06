@@ -72,11 +72,11 @@ namespace MusicStore.Domain.Concrete
         //pobranie nazwy danego gatunku 
         public async Task<string> GenreNameAsync(int id)
         {
-            var genre = await AllGenreAsync();
+            //var genre = await AllGenreAsync();
 
-            string name = genre.Where(p=> p.Id==id).First().Name;
+            var name = await context.Genre.Where(p=> p.Id==id).FirstAsync();
 
-            return name;
+            return name.Name;
             
         }
 
@@ -143,8 +143,8 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<Album> GetAlbumAsync(int id)
         {
-            var help = await AllAlbumAsync();
-            Album product = help.Where(x => x.Id == id).FirstOrDefault();
+            //var help = await AllAlbumAsync();
+            Album product = await context.Album.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (product != null)
                 return product;
             else
@@ -153,8 +153,8 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<Album> GetAlbumAsync(string Name)
         {
-            var help = await AllAlbumAsync();
-            Album product = help.Where(x => x.Name == Name).FirstOrDefault();
+            //var help = await AllAlbumAsync();
+            Album product = await context.Album.Where(x => x.Name == Name).FirstOrDefaultAsync();
             if (product != null)
                 return product;
             else
@@ -163,7 +163,7 @@ namespace MusicStore.Domain.Concrete
 
         public async Task EditAlbumAsync(Album album)
         {
-            var product = context.Album.FirstOrDefault(x => x.Id == album.Id);
+            var product = await context.Album.FirstOrDefaultAsync(x => x.Id == album.Id);
 
             product.Id = album.Id;
             product.Name = album.Name;
@@ -210,8 +210,8 @@ namespace MusicStore.Domain.Concrete
         }
         public async Task<Artist> GetArtist(int id)
         {
-            var model = await AllArtistAsync();
-            Artist artysta = model.Where(s => s.ArtistId == id).FirstOrDefault();
+            //var model = await AllArtistAsync();
+            Artist artysta = await context.Artist.Where(s => s.ArtistId == id).FirstOrDefaultAsync();
             return artysta;
         }
 
@@ -341,6 +341,96 @@ namespace MusicStore.Domain.Concrete
         public async Task<Label> GetLabelAsync(string labelName)
         {
             return await context.Label.Where(x=> x.Name == labelName).FirstOrDefaultAsync();
+        }
+
+
+        public async Task<List<Album>> FindAlbum(string searchedItem)
+        {
+            return await context.Album.Where(x => x.Name.ToLower().Contains(searchedItem.ToLower())).ToListAsync();
+        
+
+        }
+
+        public async Task<IEnumerable<AlbumAllDetails>> FindAlbumWithDetails(string searchedItem)
+        {
+
+            var artist = await AllArtistAsync();
+            var albums = await FindAlbum(searchedItem);
+
+
+            var productRecord = from e in albums
+                                join x in artist on e.ArtistId equals x.ArtistId into table1
+                                from x in table1.ToList()
+                                select new AlbumAllDetails
+                                {
+                                    album = e,
+                                    artist = x
+                                };
+
+            return productRecord;
+
+        }
+        public async Task<IEnumerable<AlbumAllDetails>> FindAlbumWithSong(string searchedItem)
+        {
+            var artist = await AllArtistAsync();
+            var albums = await AllAlbumAsync();
+            var songs = await FindSong(searchedItem);
+
+            //var productRecord = from e in albums
+            //                    join x in artist on e.ArtistId equals x.ArtistId into table1
+            //                    from x in table1.ToList()
+            //                    select new AlbumAllDetails
+            //                    {
+            //                        album = e,
+            //                        artist = x
+            //                    };
+            var productRecord = from x in songs
+                                join y in artist on x.ArtistId equals y.ArtistId into table1
+                                from y in table1.ToList()
+                                join z in albums on x.AlbumId equals z.Id into table2
+                                from z in table2.ToList()
+                                select new AlbumAllDetails
+                                {
+                                    album = z,
+                                    artist = y
+                                };
+
+            var distinctItems = (productRecord.GroupBy(x => x.album.Id).Select(y => y.First())).Take(5);
+
+
+            return distinctItems;
+        }
+
+
+
+
+        public async Task<List<Artist>> FindArtist(string searched)
+        {
+            return await context.Artist.Where(x => x.Name.ToLower().Contains(searched.ToLower())).ToListAsync();
+        }
+
+        public async Task<List<Song>> FindSong(string searched)
+        {
+            return await context.Song.Where(x => x.Title.ToLower().Contains(searched.ToLower())).ToListAsync();
+        }
+
+        public async Task<IEnumerable<AlbumAllDetails>> GetArtistDiscography(int id)
+        {
+            var artist = await context.Artist.Where(x=> x.ArtistId == id).FirstOrDefaultAsync();
+            var albums = await context.Album.Where(x => x.ArtistId == id).ToListAsync();
+
+            var productRecord = from e in albums
+                                select new AlbumAllDetails
+                                {
+                                    album = e,
+                                    artist = artist
+                                };
+
+
+            var distinctItems = productRecord.OrderBy(x => x.album.Year);
+
+
+            return distinctItems;
         }
 
     }

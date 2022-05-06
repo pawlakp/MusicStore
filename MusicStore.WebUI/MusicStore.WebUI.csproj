@@ -273,6 +273,7 @@
     <Compile Include="Models\AlbumListViewModel.cs" />
     <Compile Include="Models\ProductModelDto.cs" />
     <Compile Include="Models\AccountModelDto.cs" />
+    <Compile Include="Models\SearchedListViewModel.cs" />
     <Compile Include="Models\SongModelDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -340,6 +341,9 @@
     <Content Include="Views\Admin\ListOrders.cshtml" />
     <Content Include="Views\Admin\OrderDetails.cshtml" />
     <Content Include="Views\Client\Wishlist.cshtml" />
+    <Content Include="Views\Home\Find.cshtml" />
+    <Content Include="Views\Home\ArtistDiscography.cshtml" />
+    <Content Include="Views\Home\Sorting.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

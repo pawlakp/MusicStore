@@ -44,6 +44,7 @@ namespace MusicStore.WebUI
                 "{controller}/{action}/{id}",
                 new { controller = "Admin", action = "DeleteAlbum", id = UrlParameter.Optional }
                 );
+
         }
     }
 }

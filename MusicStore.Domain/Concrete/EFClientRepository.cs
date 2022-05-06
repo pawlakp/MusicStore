@@ -29,8 +29,8 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<bool> IsClientExist(int id)
         {
-            var list = await AllClientsAsync();
-            var client = list.Where(x => x.AccountId == id).FirstOrDefault();
+            //var list = await AllClientsAsync();
+            var client = await context.Client.Where(x => x.AccountId == id).FirstOrDefaultAsync();
             if (client == null) return false;
             else return true;
 
@@ -38,20 +38,20 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<Client> GetClient(Client user)
         {
-            var list = await AllClientsAsync();
-            var client = list.Where(x => x.FirstName == user.FirstName && x.Surname == user.Surname).FirstOrDefault();
+            //var list = await AllClientsAsync();
+            var client = await context.Client.Where(x => x.FirstName == user.FirstName && x.Surname == user.Surname).FirstOrDefaultAsync();
             return client;
         }
         public async Task<Client> GetClientById(int id)
         {
-            var list = await AllClientsAsync();
-            var client = list.Where(x => x.Id == id).FirstOrDefault();
+            //var list = await AllClientsAsync();
+            var client = await context.Client.Where(x => x.Id == id).FirstOrDefaultAsync();
             return client;
         }
         public async Task<Client> GetClientByAccountId(int id)
         {
-            var list = await AllClientsAsync();
-            var client = list.Where(x => x.AccountId == id).FirstOrDefault();
+            //var list = await AllClientsAsync();
+            var client = await context.Client.Where(x => x.AccountId == id).FirstOrDefaultAsync();
             return client;
         }
 
@@ -68,7 +68,7 @@ namespace MusicStore.Domain.Concrete
         }
         public async Task EditAdress(Adress adress)
         {
-            var newAdress = context.Adresses.FirstOrDefault(x => x.Id == adress.Id);
+            var newAdress = await context.Adresses.FirstOrDefaultAsync(x => x.Id == adress.Id);
 
             newAdress.Id = adress.Id;
             newAdress.ClientId = adress.ClientId;
@@ -87,8 +87,8 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<Adress> GetAdressesAsync(int id)
         {
-            var list = await AllAdressesAsync();
-            Adress adress = list.Where(x => x.ClientId == id).FirstOrDefault();
+            //var list = await AllAdressesAsync();
+            Adress adress = await context.Adresses.Where(x => x.ClientId == id).FirstOrDefaultAsync();
             return adress;
         }
 
@@ -123,30 +123,30 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<List<int>> GetClientLibraryAsync(int id)
         {
-            var libraries = await AllClientLibrariesAsync();
+            //var libraries = await AllClientLibrariesAsync();
 
 
-            var productRecord = from e in libraries
+            var productRecord = from e in context.ClientLibrary
                                 where e.ClientId == id
                                 select e.AlbumId;
 
 
 
-            return productRecord.ToList();
+            return await productRecord.ToListAsync();
         }
 
         public async Task<List<int>> GetClientWishlist(int id)
         {
-            var libraries = await AllClientWishlistAsync();
+            //var libraries = await AllClientWishlistAsync();
 
 
-            var productRecord = from e in libraries
+            var productRecord = from e in context.ClientWishlist
                                 where e.ClientId == id
                                 select e.AlbumId;
 
 
 
-            return productRecord.ToList();
+            return await productRecord.ToListAsync();
         }
 
         public async Task<Cart> ClientHaveAlbum(int clientId, Cart cart)
@@ -158,8 +158,8 @@ namespace MusicStore.Domain.Concrete
             //else
             //    return false;
 
-            var libraries = await AllClientLibrariesAsync();
-            var clientLibrary = libraries.Where(x => x.ClientId == clientId).ToList();
+            //var libraries = await AllClientLibrariesAsync();
+            var clientLibrary = await context.ClientLibrary.Where(x => x.ClientId == clientId).ToListAsync();
             Cart nowy = cart;
             foreach (var koszyk in cart.Lines.ToList())
             {
@@ -178,16 +178,16 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<List<Order>> GetAllClientOrders(int clientId)
         {
-            var libraries = await AllOrdersAsync();
-            var list = libraries.Where(x => x.ClientId == clientId).ToList();
+            //var libraries = await AllOrdersAsync();
+            var list = await context.Order.Where(x => x.ClientId == clientId).ToListAsync();
 
             return list;
         }
 
         public async Task<List<OrderAlbum>> GetOrderDetails(int orderId)
         {
-            var libraries = await AllOrderDetailsAsync();
-            var list = libraries.Where(x => x.OrderId == orderId).ToList();
+            //var libraries = await AllOrderDetailsAsync();
+            var list = await context.OrdersAlbums.Where(x => x.OrderId == orderId).ToListAsync();
 
             return list;
         }
@@ -207,8 +207,8 @@ namespace MusicStore.Domain.Concrete
         public async Task<bool> AddToClientWishlist(int clientId, int albumId)
         {
            
-            var clientWishlist = await AllClientWishlistAsync();
-            var isExist = clientWishlist.Where(x => x.ClientId == clientId && x.AlbumId ==albumId).FirstOrDefault();
+            //var clientWishlist = await AllClientWishlistAsync();
+            var isExist = await context.ClientWishlist.Where(x => x.ClientId == clientId && x.AlbumId ==albumId).FirstOrDefaultAsync();
             if (isExist!=null)
             {
                

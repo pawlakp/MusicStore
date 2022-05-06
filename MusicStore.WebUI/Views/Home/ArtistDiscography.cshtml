@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Albumy";
 }
-
+<h2>Dyskografia: @Model.AlbumsWithArtists.First().artist.Name </h2>
 <div class="album py-5 bg-light ml-0">
     <div class="container">
         <div class="row">
@@ -20,7 +20,7 @@
                 @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
                 {
                     <li class="@(i == Model.PagingInfo.CurrentPage ? "page-item active" : "page-item")">
-                        <a class="page-link" href="@Url.Action("Index", new { page = i, sort = ViewBag.sort, price1 = ViewBag.price1, price2=ViewBag.price2 })">@i</a>
+                        <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
                     </li>
 
                 }
@@ -28,4 +28,5 @@
         </nav>
     </div>
 </div>
+
 

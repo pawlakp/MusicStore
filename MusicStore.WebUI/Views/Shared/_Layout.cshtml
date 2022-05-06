@@ -34,12 +34,19 @@
 
                 <div id="searchbar">
                     <div class="buttons_nav d-flex">
-                        <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" id="Text1" aria-label="Search">
-                            <button class="btn btn-primary" type="submit">Search</button>
+                        @*<form class="d-flex">*@
+                            @using (Html.BeginForm("Find", "Home",FormMethod.Get,new {@class="d-flex"}))
+                            {
+                        
+                            <input class="form-control me-2" type="search" placeholder="Search" id="Text1" aria-label="Search" name="searchedItem">
+
+                            <input class="btn btn-primary" type="submit" value="Search" />
+                      
+                                
+                            }
 
 
-                        </form>
+                        @*</form>*@
                     </div>
                 </div>
 
@@ -89,10 +96,14 @@
 
             <div class="row">
                 <div class="col-md-2 p-0">
-                    @Html.Action("Menu", "Nav")
+                    <div class="mt-2" id="Menu">
 
+                    </div>
+                    @*@Html.Action("Menu", "Nav")*@
+
+                   
                 </div>
-                <div class="col-sm-10">
+                <div class="col-sm-10" id="albumListBody">
                     @RenderBody()
                 </div>
             </div>
@@ -105,43 +116,70 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
     <script type="text/javascript">
-    
-
-       $(document).ready(function () {
-       $("#Text1").autocomplete({
-           source: function(request,response) {
-               $.ajax({
-                   url: "/Home/Szukaj",
-                   type: "POST",
-                   dataType: "json",
-                   data: { b: request.term },
-                   success: function (data) {
-                       response($.map(data, function (item) {
-                           return { label: item.Name, value: item.Id};
-                       }))
-                      
-
-                   }
-               })
-           },
-          
-       });
-   })
 
 
-        function processData(data) {
-            $('#row-' + data.DeleteId).fadeOut('slow')
-            $('#suma').text(data.CartTotal);
+        $(document).ready(function () {
+            $("#Text1").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Home/MiniFind",
+                        type: "POST",
+                        dataType: "json",
+                        data: { searchedItem: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.Name, value: item.Name };
+                            }))
 
 
+                        }
+                    })
+                },
 
-        }
-        function addcart(data) {
-            alert(data);
+            });
+        })
+
+    </script>
+    <script type="text/javascript">
+    var TMP = document.getElementById('Menu');
+    var sendHttpRequest = (method, url) => {
+        var promise = new Promise((resolve, reject) => {
+            var xhr = new XMLHttpRequest();
+
+            xhr.open(method, url);
+
+            xhr.onload = () => {
+                resolve(xhr.response);
+            };
+
+            xhr.send();
+        });
+
+        return promise;
+    };
+
+    window.addEventListener('load', function () {
+        sendHttpRequest('GET', '@Url.Action("Menu", "Nav")').then((responseData) => { TMP.innerHTML += responseData })
+
+    })
 
 
+        $('#menubutton').click(function () {
+            $('#Menu').toggle('show');
+            click = 2;
+            $(window).scrollTop(0);
+        })
 
-        }
+        $(window).on('load resize', function (event) {
+            if (click > 1) {
+                click = 0;
+                var windowSize = $(window).width(); // Could've done $(this).width()
+                if (windowSize > 768) {
+                    $('#Menu').show();
+                }
+            }
+        });
+
     </script>
 </body>
 </html>
