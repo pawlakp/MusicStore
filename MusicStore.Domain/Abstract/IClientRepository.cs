@@ -32,6 +32,8 @@ namespace MusicStore.Domain.Abstract
         Task<List<ClientWishlist>> AllClientWishlistAsync();
         Task<List<int>> GetClientWishlist(int id);
         Task<bool> AddToClientWishlist(int clientId, int albumId);
+        Task<List<ClientGenrePrefences>> GetClientPreferences(int clientId);
+        //Task<List<Genre>> GetClientPreferencesLibrary(int clientId);
 
 
         }

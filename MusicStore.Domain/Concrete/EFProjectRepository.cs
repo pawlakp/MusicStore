@@ -372,18 +372,10 @@ namespace MusicStore.Domain.Concrete
         }
         public async Task<IEnumerable<AlbumAllDetails>> FindAlbumWithSong(string searchedItem)
         {
-            var artist = await AllArtistAsync();
+            var artist = await AllArtistAsync(); 
             var albums = await AllAlbumAsync();
             var songs = await FindSong(searchedItem);
 
-            //var productRecord = from e in albums
-            //                    join x in artist on e.ArtistId equals x.ArtistId into table1
-            //                    from x in table1.ToList()
-            //                    select new AlbumAllDetails
-            //                    {
-            //                        album = e,
-            //                        artist = x
-            //                    };
             var productRecord = from x in songs
                                 join y in artist on x.ArtistId equals y.ArtistId into table1
                                 from y in table1.ToList()
@@ -411,7 +403,7 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<List<Song>> FindSong(string searched)
         {
-            return await context.Song.Where(x => x.Title.ToLower().Contains(searched.ToLower())).ToListAsync();
+            return await context.Song.Where(x => x.Title.ToLower().Contains(searched.ToLower())).OrderBy(x=> x.Title).ToListAsync();
         }
 
         public async Task<IEnumerable<AlbumAllDetails>> GetArtistDiscography(int id)

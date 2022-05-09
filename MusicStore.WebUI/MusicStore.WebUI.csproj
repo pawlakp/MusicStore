@@ -344,6 +344,7 @@
     <Content Include="Views\Home\Find.cshtml" />
     <Content Include="Views\Home\ArtistDiscography.cshtml" />
     <Content Include="Views\Home\Sorting.cshtml" />
+    <Content Include="Views\Client\GetPreferences.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -89,7 +89,9 @@
     <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Cart.cs" />
     <Compile Include="Entities\Client.cs" />
+    <Compile Include="Entities\ClientArtistPreferences.cs" />
     <Compile Include="Entities\ClientLibrary.cs" />
+    <Compile Include="Entities\ClientGenrePrefences.cs" />
     <Compile Include="Entities\ClientWishlist.cs" />
     <Compile Include="Entities\Country.cs" />
     <Compile Include="Entities\Genre.cs" />

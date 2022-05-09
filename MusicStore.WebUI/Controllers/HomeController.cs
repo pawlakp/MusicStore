@@ -22,6 +22,8 @@ namespace MusicStore.WebUI.Controllers
             this.repository = albumRepository;
         }
 
+        
+
         public async Task<ViewResult> Index(string sort, int page = 1, decimal price1=0, decimal price2=0)
         {
             ViewBag.sort = sort; ViewBag.price1 = price1; ViewBag.price2 = price2;

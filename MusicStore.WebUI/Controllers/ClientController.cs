@@ -33,6 +33,12 @@ namespace MusicStore.WebUI.Controllers
            
             return View();
         }
+
+        public async Task<ActionResult> GetPreferences()
+        {
+            var list = await clientRepo.GetClientPreferences(1);
+            return View(list.OrderByDescending(x=>x.genreAppearances));
+        }
         public async Task<ActionResult> AfterLogin(Accounts account)
         {
             if (!await clientRepo.IsClientExist(account.Id)) return RedirectToAction("Create", account);

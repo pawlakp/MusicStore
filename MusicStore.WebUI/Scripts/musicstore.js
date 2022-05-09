@@ -1,4 +1,5 @@
 ﻿$(document).ready(function () {
+
     var a = 0;
     var click = 0;
     $("#btn1").click(function () {
@@ -29,8 +30,50 @@
         }
     });
 
+    $("#Text1").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/Home/MiniFind",
+                type: "POST",
+                dataType: "json",
+                data: { searchedItem: request.term },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return { label: item.Name, value: item.Name };
+                    }))
+
+
+                }
+            })
+        },
+
+    });
+
 
 });
+
+
+//var TMP = document.getElementById('Menu');
+//var sendHttpRequest = (method, url) => {
+//    var promise = new Promise((resolve, reject) => {
+//        var xhr = new XMLHttpRequest();
+
+//        xhr.open(method, url);
+
+//        xhr.onload = () => {
+//            resolve(xhr.response);
+//        };
+
+//        xhr.send();
+//    });
+
+//    return promise;
+//};
+
+//window.addEventListener('load', function () {
+//    sendHttpRequest('GET', '@Url.Action("Menu", "Nav")').then((responseData) => { TMP.innerHTML += responseData })
+
+//})
 
 function processData(data) {
     $('#row-' + data.DeleteId).fadeOut('slow')
@@ -59,8 +102,6 @@ function succesAssign(){
 
 function addcart(data) {
     alert(data);
-
-
 
 }
 
