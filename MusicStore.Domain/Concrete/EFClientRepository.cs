@@ -323,9 +323,10 @@ namespace MusicStore.Domain.Concrete
                
                 foreach (var item2 in labelWishlist)
                 {
-                    sumWishlist = item2.Id;
+                    
                     if (item.Name == item2.Name)
                     {
+                        sumWishlist += item2.Id;
                         tmpLabel = (double)(item.Id + item2.Id * 0.25);
                     }
                 }
@@ -436,7 +437,7 @@ namespace MusicStore.Domain.Concrete
                 allGenre += (double)liczbaWystąpieńLib + liczbaWystąpieńWis * 0.25;
 
             }
-
+            int sumWishlist = 0;
             List<ClientGenrePrefences> clientPrefe = new List<ClientGenrePrefences>();
 
             foreach (var item in genreLibrary)
@@ -444,8 +445,10 @@ namespace MusicStore.Domain.Concrete
                 double tmpGenre = 0;
                 foreach (var item2 in genreWishlist)
                 {
+                   
                     if (item.Name == item2.Name)
                     {
+                        sumWishlist += item2.Id;
                         tmpGenre = (double)(item.Id + item2.Id * 0.25);
                     }
                 }
@@ -460,9 +463,13 @@ namespace MusicStore.Domain.Concrete
                     //Name = item.Name,
                     genreAppearances = Math.Round((tmpGenre * 100 / allGenre), 2),
                     genre = newGenre,
-                };
+                    sumLibrary = item.Id,
+                    sumWishlist = sumWishlist,
+                    };
                 clientPrefe.Add(preferences);
+                    sumWishlist = 0;
                 }
+               
             }
             return clientPrefe;
         }
@@ -561,9 +568,10 @@ namespace MusicStore.Domain.Concrete
                 double tmpArtist = 0;
                 foreach (var item2 in artistWishlist)
                 {
-                    sumWishlist = item2.ArtistId;
+                   
                     if (item.Name == item2.Name)
                     {
+                        sumWishlist += item2.ArtistId;
                         tmpArtist = (double)(item.ArtistId + item2.ArtistId * 0.25);
                     }
                 }
@@ -630,6 +638,8 @@ namespace MusicStore.Domain.Concrete
             {
                 favYear = favYear,
                 favCountry = favCountry,
+                numberLibrary = clientLibrary.Count(),
+                numberWishlist = clientWishlist.Count(),
             };
 
             return newPrefe;

@@ -12,7 +12,9 @@ namespace MusicStore.Domain.ClientPreferences
         public double genreAppearances { get; set; }
         
         public Genre genre { get; set; }
+        public int sumLibrary { get; set; }
 
+        public int sumWishlist { get; set; }
 
     }
 }

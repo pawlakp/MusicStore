@@ -15,5 +15,7 @@ namespace MusicStore.WebUI.Models
 
         public string favYear { get; set; }
         public string favCountry { get; set; }
+        public int numberLibrary { get; set; }
+        public int numberWishlist { get; set; }
     }
 }

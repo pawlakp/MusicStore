@@ -33,6 +33,15 @@ namespace MusicStore.WebUI.Controllers
            
             return View();
         }
+        
+     
+        public async Task<JsonResult> PieChart()
+        {
+            var listGenre = await clientRepo.GetClientGenrePreferences(1);
+            
+            //CSharpCornerEntities entities = new CSharpCornerEntities();
+            return Json(listGenre, JsonRequestBehavior.AllowGet);
+        }
 
         public async Task<ActionResult> GetPreferences()
         {
@@ -40,9 +49,9 @@ namespace MusicStore.WebUI.Controllers
             var listArtist = await clientRepo.GetClientArtistPreferences(1);
             var listLabel = await clientRepo.GetClientLabelPreferences(1);
 
-            var topArtist = listArtist.OrderByDescending(x => x.artistAppearances).Take(5);
+            var topArtist = listArtist.OrderByDescending(x => x.artistAppearances).Take(3);
             var topGenre = listGenre.OrderByDescending(x => x.genreAppearances);
-            var topLabel = listLabel.OrderByDescending(x => x.lableApperances).Take(5);
+            var topLabel = listLabel.OrderByDescending(x => x.lableApperances).Take(3);
 
             var rest = await clientRepo.GetClientRestPreferences(1);
 
@@ -53,7 +62,9 @@ namespace MusicStore.WebUI.Controllers
                 genreList = topGenre,
                 labelList = topLabel,
                 favCountry = rest.favCountry,
-                favYear = rest.favYear
+                favYear = rest.favYear,
+                numberLibrary = rest.numberLibrary,
+                numberWishlist = rest.numberWishlist
             }) ;
         }
         public async Task<ActionResult> AfterLogin(Accounts account)

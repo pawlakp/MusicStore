@@ -5,114 +5,300 @@
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 
-<h2>GetPreferences</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 
 
-@Model.favCountry
-@Model.favYear
+<link href="~/Content/c3.css" rel="stylesheet" />
+@*<link href="~/Content/bootstrap.css" rel="stylesheet" />*@
+<script src="~/Scripts/c3.min.js"></script>
+<script src="~/Scripts/d3.min.js"></script>
+@*<script src="~/Scripts/jquery-3.6.0.min.js"></script>*@
+<link href="~/Content/features.css" rel="stylesheet">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <svg id="music" viewBox="0 0 16 16">
+        <path d="M6 13c0 1.105-1.12 2-2.5 2S1 14.105 1 13c0-1.104 1.12-2 2.5-2s2.5.896 2.5 2zm9-2c0 1.105-1.12 2-2.5 2s-2.5-.895-2.5-2 1.12-2 2.5-2 2.5.895 2.5 2z" />
+        <path fill-rule="evenodd" d="M14 11V2h1v9h-1zM6 3v10H5V3h1z" />
+        <path d="M5 2.905a1 1 0 0 1 .9-.995l8-.8a1 1 0 0 1 1.1.995V3L5 4V2.905z" />
+    </svg>
 
+    <symbol id="people-circle" viewBox="0 0 16 16">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+    </symbol>
 
+    <symbol id="label" viewBox="0 0 16 16">
+        <path d="M8 7.982C9.664 6.309 13.825 9.236 8 13 2.175 9.236 6.336 6.31 8 7.982Z" />
+        <path d="M3.75 0a1 1 0 0 0-.8.4L.1 4.2a.5.5 0 0 0-.1.3V15a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V4.5a.5.5 0 0 0-.1-.3L13.05.4a1 1 0 0 0-.8-.4h-8.5Zm0 1H7.5v3h-6l2.25-3ZM8.5 4V1h3.75l2.25 3h-6ZM15 5v10H1V5h14Z" />
+    </symbol>
 
+</svg>
+<div class="row">
 
-<table class="table">
-    <tr>
-        <th></th>
-    </tr>
+    <div class="col-md-2 d-none d-md-block">
+        <div class="row">
 
-    @foreach (var item in Model.genreList)
-    {
+            <div class="col-md-12">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
 
+                        <h3 class="mb-0">Artyści</h3>
 
-        <tr>
-            <td>
-                @Html.DisplayFor(x => item.genre.Name)
-
-            </td>
-            <td>
-                @Html.DisplayFor(x => item.genreAppearances)
-
-            </td>
-
-
-        </tr>
-    }
-
-
-
-
-</table>
-<table class="table">
-    <tr>
-        <th></th>
-    </tr>
-
-
-
-
-    @foreach (var item in Model.artistList)
-    {
-
-
-        <tr>
-            <td>
-                @Html.DisplayFor(x => item.artist.Name)
-
-            </td>
-
-            <td>
-                @Html.DisplayFor(x => item.sumLibrary)
-
-            </td>
-            <td>
-                @Html.DisplayFor(x => item.sumWishlist)
-
-            </td>
-            <td>
-                @Html.DisplayFor(x => item.listAlbums.First().Name)
-
-            </td>
+                    </div>
+                </div>
+            </div>
+            @foreach (var item in Model.artistList)
+            {
+                <div class="col-md-12">
+                    <div class="card">
+                        <img src="@Url.Action("GetImage","Home", new { productId = item.listAlbums.First().Id })" class="card-img-top img-thumbnail " alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.artist.Name</h5>
+                        </div>
+                    </div>
+                </div>
+            }
 
 
 
-        </tr>
-    }
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative ">
+                    <div class="col p-4 d-flex flex-column position-static">
 
-</table>
+                        <h3 class="mb-0">Twoje preferencje</h3>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row g-4 py-5 row-cols-3 row-cols-lg-3">
+                <div class="feature col-4">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        <svg class="bi" width="1em" height="1em"><use xlink:href="#people-circle" /></svg>
+                    </div>
+
+                    <h4>Ulubiony artysta</h4>
+                    <h3>@Model.artistList.First().artist.Name</h3>
+
+                </div>
+                <div class="feature col-4">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        <svg class="bi" width="1em" height="1em"><use xlink:href="#music" /></svg>
+                    </div>
+                    <h4>Ulubiony gatunek</h4>
+                    <h3>@Model.genreList.First().genre.Name</h3>
+
+                </div>
+                <div class="feature col-4">
+                    <div class="feature-icon bg-primary bg-gradient">
+                        <svg class="bi" width="1em" height="1em"><use xlink:href="#label" /></svg>
+                    </div>
+                    <h4>Ulubiona wytwórnia</h4>
+                    <h3>@Model.labelList.First().label.Name</h3>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-12">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative ">
+                <div class="col p-4 d-flex flex-column position-static">
+
+                    <h5 class="mb-0">Szczegóły</h5>
+
+                </div>
+            </div>
+        </div>
+        <div id="pieChart"></div>
+
+        <table class="table table-hover table-responsive mt-5 table-borderless table-sm">
+            <tr>
+                <th>Gatunek</th>
+                <th>Liczba albumów w bibliotece</th>
+                <th>Liczba albumów na liście życzeń</th>
+            </tr>
+            @foreach (var item in Model.genreList)
+            {
 
 
-<table class="table">
-    <tr>
-        <th></th>
-    </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(x => item.genre.Name)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.sumLibrary)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.sumWishlist)
+
+                    </td>
 
 
+                </tr>
+            }
+            <tr style="height:15px;"></tr>
+            <tr>
+                <th>Artysta</th>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.artistList)
+            {
 
 
-    @foreach (var item in Model.labelList)
-    {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(x => item.artist.Name)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.sumLibrary)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.sumWishlist)
+
+                    </td>
 
 
-        <tr>
-            <td>
-                @Html.DisplayFor(x => item.label.Name)
+                </tr>
+            }
+            <tr style="height:15px;"></tr>
+            <tr>
+                <th>Nazwa wydawnictwa</th>
+                <th></th>
+                <th></th>
+            </tr>
 
-            </td>
-            <td>
-                @Html.DisplayFor(x => item.sumLibrary)
+            @{
+                var i = 0;
+            }
+            @foreach (var item in Model.labelList)
+            {
 
-            </td>
-            <td>
-                @Html.DisplayFor(x => item.sumWishlist)
+                //if (i == 2)
+                //{
+                //    break;
+                //}
+                <tr>
+                    <td>
+                        @Html.DisplayFor(x => item.label.Name)
 
-            </td>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.sumLibrary)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.sumWishlist)
+
+                    </td>
 
 
-        </tr>
-    }
+                </tr>
+                //i++;
+            }
+        </table>
+    </div>
+    <div class="col-md-2">
+        <div class="row">
 
-</table>
+            <div class="col-md-12">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+
+                        <h3 class="mb-0">Inne</h3>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-primary">Lata</strong>
+                        <h3 class="mb-0 mb-2">@Model.favYear</h3>
+
+                        <p class="card-text mb-auto">Więkoszość Twojej muzyki pochodzi z tych lat</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-primary">Kraj</strong>
+                        <h3 class="mb-0 mb-2">@Model.favCountry</h3>
+
+                        <p class="card-text mb-auto">Więkoszość Twojej muzyki pochodzi z tego kraju</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-primary">Biblioteka</strong>
+                        <h3 class="mb-0 mb-2">@Model.numberLibrary</h3>
+
+                        <p class="card-text mb-auto">Tyle masz albumów na bibliotece</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-primary">Lista życzeń</strong>
+                        <h3 class="mb-0 mb-2">@Model.numberWishlist</h3>
+
+                        <p class="card-text mb-auto">Tyle masz albumów na liście życzeń</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Client/PieChart",
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                successFunc(response);
+            },
+        });
+
+        function successFunc(jsondata) {
+            var data = {};
+            var genreNames = [];
+            jsondata.forEach(function (e) {
+                genreNames.push(e.genre.Name);
+                data[e.genre.Name] = e.genreAppearances;
+            })
+            var chart = c3.generate({
+                bindto: '#pieChart',
+                data: {
+                    json: [data],
+                    keys: {
+                        value: genreNames,
+                    },
+                    type: 'pie'
+                },
+                color: {
+                    pattern: ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5']
+                },
+            });
+        }
+    });
+</script>
+
 
