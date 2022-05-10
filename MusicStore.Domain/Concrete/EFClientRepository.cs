@@ -647,6 +647,81 @@ namespace MusicStore.Domain.Concrete
 
         }
 
+        public async Task<IEnumerable<Album>> GetLastPucharses(int clientId)
+        {
+            var orderList = await context.Order.Where(x=> x.ClientId == clientId).ToListAsync();
+            var lastOrder = orderList.OrderByDescending(x => x.Data).First();
+
+            var albumsOrder = await context.OrdersAlbums.Where(x => x.OrderId == lastOrder.Id).ToListAsync();
+            var albumsAll = await context.Album.ToListAsync();
+            
+            var albumsList = from x in albumsOrder
+                             join y in albumsAll on x.AlbumId equals y.Id
+                             select y;
+
+            return albumsList;
+
+
+        }
+
+        public async Task<IEnumerable<AlbumAllDetails>> GetClientSuggestions(int clientId)
+        {
+            var clientWishlist = await context.ClientWishlist.Where(x => x.ClientId == clientId).ToListAsync(); // pobranie listy życzeń klienta
+            var clientLibrary = await context.ClientLibrary.Where(x => x.ClientId == clientId).ToListAsync(); // pobranie biblioteki klienta
+            var allAlbums = await context.Album.ToListAsync();
+            var allArtist = await context.Artist.ToListAsync();
+
+
+            var clientGenrePreferences = await GetClientGenrePreferences(clientId);
+            var clientArtistPreferences = await GetClientArtistPreferences(clientId);
+            var clientLabelPreferences = await GetClientLabelPreferences(clientId);
+
+            var artistSuggestion = from x in allAlbums
+                                   join y in clientArtistPreferences on x.ArtistId equals y.artist.ArtistId
+                                   select x;
+            var labelSuggestion = from x in allAlbums
+                                   join y in clientLabelPreferences on x.LabelId equals y.label.Id
+                                   select x;
+            var genreSuggestion = from x in allAlbums
+                                  join y in clientGenrePreferences on x.GenreId equals y.genre.Id
+                                  select x;
+
+            List<AlbumAllDetails> albumList = new List<AlbumAllDetails>();
+
+            foreach(var item in artistSuggestion)
+            {
+                AlbumAllDetails album = new AlbumAllDetails
+                {
+                    album = item,
+                    artist = allArtist.Where(x => x.ArtistId == item.ArtistId).FirstOrDefault(),
+                };
+                albumList.Add(album);
+            }
+
+            foreach (var item in labelSuggestion)
+            {
+                AlbumAllDetails album = new AlbumAllDetails
+                {
+                    album = item,
+                    artist = allArtist.Where(x => x.ArtistId == item.ArtistId).FirstOrDefault(),
+                };
+                albumList.Add(album);
+            }
+            foreach (var item in genreSuggestion)
+            {
+                AlbumAllDetails album = new AlbumAllDetails
+                {
+                    album = item,
+                    artist = allArtist.Where(x => x.ArtistId == item.ArtistId).FirstOrDefault(),
+                };
+                albumList.Add(album);
+            }
+
+            return albumList;
+
+
+        }
+
 
 
 

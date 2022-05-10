@@ -122,36 +122,7 @@
         </div>
     </main>
 
-    
-    <script type="text/javascript">
-    var ID = document.getElementById('News');
-    var IDD = document.getElementById('Products');
-    var sendHttpRequest = (method, url) => {
-        var promise = new Promise((resolve, reject) => {
-            var xhr = new XMLHttpRequest();
-
-            xhr.open(method, url);
-
-            xhr.onload = () => {
-                resolve(xhr.response);
-            };
-
-            xhr.send();
-        });
-
-        return promise;
-    };
-
-    window.addEventListener('load', function () {
-        sendHttpRequest('GET', '@Url.Action("News", "Admin")').then((responseData) => { ID.innerHTML += responseData })
-        sendHttpRequest('GET', '@Url.Action("NumberAllbumsView", "Admin")').then((responseData) => {IDD.innerHTML += responseData})
-
-    })
-
-
-
-
-    </script>
+   
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script type="text/javascript">

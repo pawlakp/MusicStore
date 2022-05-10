@@ -27,7 +27,9 @@
             if (windowSize > 768) {
                 $('#Menu').show();
             }
-        }
+
+        } 
+       
     });
 
     $("#Text1").autocomplete({

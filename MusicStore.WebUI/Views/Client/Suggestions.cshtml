@@ -1,0 +1,15 @@
+﻿@model MusicStore.WebUI.Models.AlbumListViewModel
+
+<div class="album py-5 bg-light ml-0">
+    <div class="container">
+        <div class="row">
+            @foreach (var p in Model.AlbumsWithArtists)
+            {
+                <div class="col-md-3">
+                    @Html.Partial("AlbumSummary", p)
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

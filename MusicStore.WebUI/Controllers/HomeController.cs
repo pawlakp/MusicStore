@@ -15,7 +15,7 @@ namespace MusicStore.WebUI.Controllers
     public class HomeController : Controller
     {
        private IProductsRepository repository;
-        public int PageSize = 6;
+        public int PageSize = 8;
    
         public HomeController(IProductsRepository albumRepository)
         {
@@ -188,6 +188,7 @@ namespace MusicStore.WebUI.Controllers
         {
             var list = await repository.AllAlbumAsync();
             Album album = list.FirstOrDefault(p=> p.Id == productId); 
+            
             if(album != null)
             {
                 return File( album.ImageData,album.ImageMimeType);

@@ -29,62 +29,66 @@
     <header>
         <div class="fixed-top">
             <nav class="navbar navbar-dark bg-dark">
+                <div class="container-fluid">
+                    @Html.ActionLink("MusicStore", "Index", "Home", null, new { @class = "navbar-brand ml-1" })
 
-                @Html.ActionLink("MusicStore", "Index", "Home", null, new { @class = "navbar-brand float-left" })
+                    <div id="searchbar">
+                        <div class="buttons_nav d-flex">
+                            @*<form class="d-flex">*@
+                            @using (Html.BeginForm("Find", "Home", FormMethod.Get, new { @class = "d-flex" }))
+                            {
 
-                <div id="searchbar">
-                    <div class="buttons_nav d-flex">
-                        @*<form class="d-flex">*@
-                        @using (Html.BeginForm("Find", "Home", FormMethod.Get, new { @class = "d-flex" }))
+                                <input class="form-control me-2" type="search" placeholder="Search" id="Text1" aria-label="Search" name="searchedItem">
+
+                                <input class="btn btn-primary" type="submit" value="Search" />
+
+
+                            }
+
+
+                            @*</form>*@
+                        </div>
+                    </div>
+
+                    <div class="float-right">
+                        <div class="buttons_nav float-right">
+                            @Html.Action("Welcome", "Account")
+                        </div>
+                        <div class="buttons_nav float-right">
+                            @Html.Action("Summary", "Cart")
+                        </div>
+                    </div>
+
+
+                    <div id="hidebuttons">
+                        <button class="navbar-toggler" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <button type="button" class="navbar-toggler" style="text-decoration:none">
+                            @Html.ActionLink(" ", "Index", "Cart", null, new { @class = "bi bi-cart" })
+                        </button>
+                        @if (@Session["Id"] != null)
                         {
-
-                            <input class="form-control me-2" type="search" placeholder="Search" id="Text1" aria-label="Search" name="searchedItem">
-
-                            <input class="btn btn-primary" type="submit" value="Search" />
-
-
+                            <button type="button" class="navbar-toggler">
+                                @Html.ActionLink(" ", "UserPanel", "Account", new { id = @Session["Id"] }, new { @class = "bi bi-person" })
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="navbar-toggler">
+                                @Html.ActionLink(" ", "Login", "Account", null, new { @class = "bi bi-box-arrow-in-right" })
+                            </button>
                         }
 
-
-                        @*</form>*@
-                    </div>
-                </div>
-
-                <div class="float-right">
-                    <div class="buttons_nav float-right">
-                        @Html.Action("Welcome", "Account")
-                    </div>
-                    <div class="buttons_nav float-right">
-                        @Html.Action("Summary", "Cart")
-                    </div>
-                </div>
-
-
-                <div id="hidebuttons">
-                    <button class="navbar-toggler" type="button">
-                        <i class="bi bi-search"></i>
-                    </button>
-                    <button type="button" class="navbar-toggler" style="text-decoration:none">
-                        @Html.ActionLink(" ", "Index", "Cart", null, new { @class = "bi bi-cart" })
-                    </button>
-                    @if (@Session["Id"] != null)
-                    {
-                        <button type="button" class="navbar-toggler">
-                            @Html.ActionLink(" ", "UserPanel", "Account", new { id = @Session["Id"] }, new { @class = "bi bi-person" })
+                        <button type="button" id="menubutton" class="navbar-toggler">
+                            <a href="#"><i class="bi bi-list"></i></a>
                         </button>
-                    }
-                    else
-                    {
-                        <button type="button" class="navbar-toggler">
-                            @Html.ActionLink(" ", "Login", "Account", null, new { @class = "bi bi-box-arrow-in-right" })
-                        </button>
-                    }
+                    </div>
 
-                    <button type="button" id="menubutton" class="navbar-toggler">
-                        <a href="#"><i class="bi bi-list"></i></a>
-                    </button>
+
+
                 </div>
-
+                @*@Html.ActionLink("MusicStore", "Index", "Home", null, new { @class = "navbar-brand float-left" })*@
 
             </nav>
         </div>

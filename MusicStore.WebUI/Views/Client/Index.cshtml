@@ -34,24 +34,10 @@
                             <div class="col-md-12">
                                 <div class="card text-center">
                                     <div class="card-header">
-                                        Ulubione gatunki
-                                    </div>
-                                    <div class="card-body">
-                                        <div id="News"> 1. Rap</div>
-                                    </div>
-                                    <div class="card-footer text-muted">
-                                        Today
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="card text-center">
-                                    <div class="card-header">
                                         Ostatnie zakupy
                                     </div>
                                     <div class="card-body">
-                                        <div id="Products">1. Kwiat jabłoni <br /> 2. Drake <br /> Akcent</div>
+                                        <div id="LastPucharses"></div>
                                     </div>
                                     <div class="card-footer text-muted">
                                         2 days ago
@@ -85,13 +71,13 @@
                                 <p class="card-text d-none d-md-block">Poznaj swoje preferencje muzyczne!</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group  d-none d-md-block">
-                                        @Html.ActionLink("Twój gust", "GetPreferences", "Client",
+                                        @Html.ActionLink("Twój gust", "Preferences", "Client",
                                         new { returnUrl = Request.Url.PathAndQuery },
                                      new { @class = "btn btn-outline-success" })
                                     </div>
                                     <div class="card-body  d-block d-md-none">
                                         <p class="card-title w-100 d-block d-md-none">
-                                            @Html.ActionLink("Twój gust", "GetPreferences", "Client",
+                                            @Html.ActionLink("Twój gust", "Preferences", "Client",
                                             new { returnUrl = Request.Url.PathAndQuery },
                                             new { @class = "btn btn-outline-success w-100" })
                                         </p>
@@ -104,7 +90,7 @@
 
 
 
-                   
+
 
 
                 </div>
@@ -115,7 +101,7 @@
                     <div class="col-md-3">
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top img-thumbnail d-none d-md-block" src="~/Content/Image/wishlist3.jpg" alt="Card image cap" width="250" height="250">
-                            
+
                             <div class="card-body">
                                 <h4 class="card-title">Lista życzeń</h4>
                                 <p class="card-text d-none d-md-block">Tych albumów jeszcze nie kupiłeś!</p>
@@ -141,7 +127,7 @@
                     <div class="col-md-3">
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top img-thumbnail d-none d-md-block" src="~/Content/Image/orderspic.png" alt="Card image cap" width="250" height="250">
-                            
+
                             <div class="card-body">
                                 <h4 class="card-title"> Lista zamówień</h4>
                                 <p class="card-text d-none d-md-block">Przejrzyj swoje zamówienia!</p>
@@ -167,7 +153,7 @@
 
                     <div class="col-md-3">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top img-thumbnail d-none d-md-block" src="~/Content/Image/home.png" alt="Card image cap" width="250" height="250">                          
+                            <img class="card-img-top img-thumbnail d-none d-md-block" src="~/Content/Image/home.png" alt="Card image cap" width="250" height="250">
                             <div class="card-body">
                                 <h4 class="card-title">Twoje dane</h4>
                                 <p class="card-text d-none d-md-block">Przeglądaj, edytuj swoje dane!</p>
@@ -198,8 +184,8 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group d-none d-md-block">
                                         @*@Html.ActionLink("Ustawienia", "Settings", "Client",
-            new { id = @Session["Id"], returnUrl = Request.Url.PathAndQuery },
-            new { @class = "btn btn-outline-success" })*@
+                                            new { id = @Session["Id"], returnUrl = Request.Url.PathAndQuery },
+                                            new { @class = "btn btn-outline-success" })*@
 
                                         @Ajax.ActionLink("Zmień hasło", "ChangePassword", "Client", null,
                                   new AjaxOptions { Url = Url.Action("ChangePassword", new { id = @Session["Id"] }), OnSuccess = "changePasswordClient", Confirm = "Czy chcesz zmienić hasło użytkownika?" },
@@ -418,6 +404,33 @@
 
 
 
+<script type="text/javascript">
+    var ID = document.getElementById('LastPucharses');
+    var sendHttpRequest = (method, url) => {
+        var promise = new Promise((resolve, reject) => {
+            var xhr = new XMLHttpRequest();
+
+            xhr.open(method, url);
+
+            xhr.onload = () => {
+                resolve(xhr.response);
+            };
+
+            xhr.send();
+        });
+
+        return promise;
+    };
+
+    window.addEventListener('load', function () {
+        sendHttpRequest('GET', '@Url.Action("LastPucharses", "Client", new {id = Session["Id"]})').then((responseData) => { ID.innerHTML += responseData })
+       
+    })
+
+
+
+
+</script>
 
 
 

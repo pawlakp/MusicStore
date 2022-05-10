@@ -11,50 +11,52 @@
     <div class="col-md-8 mt-3">
 
         <h2>Lista zamówień</h2>
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Data)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Price)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
 
-                <tbody id="tableBody">
-                    @foreach (var item in Model)
-                    {
+     
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Data)
-                            </td>
-
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Price)
-                            </td>
-                            
-                            <td>
-                                 @Html.ActionLink("Details", "OrderDetails", new { id = item.Id }, new {@class= "btn btn-primary bi bi-bag-check-fill " })
-                            </td>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Data)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Price)
+                            </th>
+                            <th></th>
                         </tr>
-                    }
+                    </thead>
 
-                </tbody>
-            </table>
+                    <tbody id="tableBody">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Data, "{0:dd/MM/yyyy}")
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Price)zł
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink("Szczegóły", "OrderDetails", new { id = item.Id }, new { @class = "btn btn-primary bi bi-bag-check-fill " })
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+
         </div>
-
-
-    </div>
     <div class="col-md-2"></div>
 </div>
 

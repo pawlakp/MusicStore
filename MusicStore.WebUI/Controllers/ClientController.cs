@@ -43,17 +43,19 @@ namespace MusicStore.WebUI.Controllers
             return Json(listGenre, JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<ActionResult> GetPreferences()
+        public async Task<ActionResult> Preferences(int id)
         {
-            var listGenre = await clientRepo.GetClientGenrePreferences(1);
-            var listArtist = await clientRepo.GetClientArtistPreferences(1);
-            var listLabel = await clientRepo.GetClientLabelPreferences(1);
+            var client = await clientRepo.GetClientByAccountId(id);
+            var clientId = client.Id;
+            var listGenre = await clientRepo.GetClientGenrePreferences(clientId);
+            var listArtist = await clientRepo.GetClientArtistPreferences(clientId);
+            var listLabel = await clientRepo.GetClientLabelPreferences(clientId);
 
             var topArtist = listArtist.OrderByDescending(x => x.artistAppearances).Take(3);
             var topGenre = listGenre.OrderByDescending(x => x.genreAppearances);
             var topLabel = listLabel.OrderByDescending(x => x.lableApperances).Take(3);
 
-            var rest = await clientRepo.GetClientRestPreferences(1);
+            var rest = await clientRepo.GetClientRestPreferences(clientId);
 
 
             return View(new PreferencesViewModel()
@@ -232,6 +234,44 @@ namespace MusicStore.WebUI.Controllers
             
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        public async Task<ActionResult> GetAlbumDetail(int id)
+        {
+            var album = await productsRepo.GetAlbumDetailsAsync(id);
+            return View(album);
+
+
+        }
+
+        public async Task<PartialViewResult> LastPucharses(int id)
+        {
+            var clientId = await clientRepo.GetClientByAccountId(id);
+            var albumsList = await clientRepo.GetLastPucharses(clientId.Id);
+
+            return PartialView(albumsList);
+        }
+       
+
+        public async Task<PartialViewResult> Suggestions(int id)
+        {
+            var client = await clientRepo.GetClientByAccountId(id);
+            var clientId = client.Id;
+            Random rand = new Random();
+            var albumList = await clientRepo.GetClientSuggestions(clientId);
+            var suggestionList = albumList.OrderBy(x => rand.Next()).ToList();
+            
+
+
+
+            AlbumListViewModel model = new AlbumListViewModel
+            {
+                AlbumsWithArtists = suggestionList.Take(4),
+            };
+
+            return PartialView(model);
+        }
+
+
 
     }
 }

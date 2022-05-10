@@ -38,6 +38,8 @@ namespace MusicStore.Domain.Abstract
         Task<List<ClientArtistPreferences>> GetClientArtistPreferences(int clientId);
         Task<List<ClientLabelPreferences>> GetClientLabelPreferences(int clientId);
         Task<ClientRestPreferences> GetClientRestPreferences(int clientId);
+        Task<IEnumerable<Album>> GetLastPucharses(int clientId);
+        Task<IEnumerable<AlbumAllDetails>> GetClientSuggestions(int clientId);
             //Task<List<Genre>> GetClientPreferencesLibrary(int clientId);
 
 
