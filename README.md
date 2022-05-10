@@ -20,3 +20,7 @@ MusicStore ASP.NET MVC project
 1. full funcionality admin, user panel
 2. add AJAX to project
 3. improve views
+
+##  0.1
+1. full store funcionality
+2. full views
