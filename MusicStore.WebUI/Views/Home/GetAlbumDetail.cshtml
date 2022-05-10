@@ -4,7 +4,7 @@
 <script src="~/Scripts/Register.js"></script>
 <div class="container-fluid">
     <br />
-    <h4>AlbumDetails</h4>
+   
     <br />
     <div class="row">
         <div class="col-md-10 col-lg-7 col-xl-5" style="float:left;">
@@ -70,12 +70,18 @@
                         <dd>
                             @Html.DisplayFor(model => model.Price)
                         </dd>
-
+                        <dd>
+                            @Ajax.ActionLink("Dodaj do koszyka", "AddToCart", "Cart", null,
+          new AjaxOptions { Url = Url.Action("AddToCart", "Cart", new { productId = Model.Id }), OnSuccess = "addcart" },
+          new { @class = "btn btn-sm btn-danger  w-100" })
+                        </dd>
 
                     </dl>
                 </div>
                 <div class="col-lg-6">
+                    
                     <dl>
+                        <dd><b>Lista utworów</b></dd>
                         @{
                             int i = 1;
                         }
@@ -88,12 +94,16 @@
                             {
                                 i += 1;
                             }
+                            
 
                         }
 
                     </dl>
                 </div>
             </div>
+        </div>
+        <div class="col-lg-1">
+           
         </div>
     </div>
 </div>

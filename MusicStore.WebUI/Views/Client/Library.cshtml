@@ -1,7 +1,7 @@
 ﻿@model MusicStore.WebUI.Models.AlbumListViewModel
 
 @{
-    ViewBag.Title = "Biblitoteka";
+    ViewBag.Title = "Biblioteka";
      Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 
@@ -23,7 +23,7 @@
                     @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
                     {
                         <li class="@(i == Model.PagingInfo.CurrentPage ? "page-item active" : "page-item")">
-                            <a class="page-link" href="@Url.Action("List", new { page = i })">@i</a>
+                            <a class="page-link" href="@Url.Action("Library", new { id=Session["Id"],page = i })">@i</a>
                         </li>
 
                     }

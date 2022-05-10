@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MusicStore.Domain.Entities.AlbumAllDetails>
+
+@foreach (var p in Model)
+{
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            @if (p.album.ImageData != null)
+            {
+                <img class="card-img-top"
+                     ,
+                     src="@Url.Action("GetImage", "Home", new { productId = p.album.Id })" alt="Card image cap">
+            }
+            <div class="card-body">
+                <h5 class="card-title">p.album.Name</h5>
+                <p class="card-text">p.artist.Name</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        @Html.ActionLink("Szczegóły", "GetAlbumDetail", new { id = p.album.Id }, new { @class = "btn btn-sm btn-outline-secondary" })
+                        @if (Session["Login"] != null)
+                        {
+                            <button type="button" class="btn btn-sm btn-outline-primary">
+                                @Ajax.ActionLink(" ", "AddToWishList", "Client", null,
+                 new AjaxOptions { Url = Url.Action("AddToWishList", "Client", new { productId = p.album.Id, clientId = Session["Id"] }), OnSuccess = "addToWishlist" },
+                 new { @class = "btn btn-sm btn-warning d-none d-md-block float-end w-75 bi bi - balloon - heart" })
+                            </button>
+
+                        }
+
+                    </div>
+
+                    <div class="float-end">
+                        <a href="#" class="float-end">@p.album.Price.ToString("c")</a>
+                        @*@using (Html.BeginForm("AddToCart", "Cart"))
+                            {
+                                <input type="hidden" name="productId" value="@Model.album.AlbumId"></input>
+                                @Html.Hidden("productId", @Model.album.Id)
+                                @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                                <input type="submit" class="btn btn-success" value="Dodaj do koszyka" />
+                            }*@
+
+
+                        @Ajax.ActionLink("Dodaj do koszyka", "AddToCart", "Cart", null,
+             new AjaxOptions { Url = Url.Action("AddToCart", "Cart", new { productId = p.album.Id }), OnSuccess = "addcart" },
+             new { @class = "btn btn-sm btn-warning d-none d-md-block float-end w-75" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        }

@@ -13,6 +13,11 @@ namespace MusicStore.Domain.Entities
         public Genre genre { get; set; }
         public Label label { get; set; }
         public Country country { get; set; }
-        
+
+       
+
+
     }
+
 }
+

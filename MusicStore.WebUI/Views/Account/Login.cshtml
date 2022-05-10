@@ -5,8 +5,9 @@
     Layout = "~/Views/Shared/_LayoutLoginPage.cshtml";
 
 }
-<div class="container justify-content-center">
-    <div class="logreg-forms">
+
+<div class="container d-flex justify-content-center mt-2">
+    <div class="logreg-forms ">
         <h1 class="h3 mb-3 font-weight-normal" style="text-align: center">Zaloguj</h1>
         <br />
         @using (Html.BeginForm("Login", "Account", FormMethod.Post))
@@ -14,28 +15,32 @@
             @Html.AntiForgeryToken()
             @Html.ValidationSummary()
 
-    <div class="form-group">
-        @Html.TextBoxFor(m => m.Login, "", new { @class = "form-control form-control-lg", @placeholder = "Email" })
-        @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.Login, "", new { @class = "form-control form-control-lg", @placeholder = "Email" })
+                @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
 
-    </div>
-    <div class="form-group">
-        <span class="input-group-text" id="basic-addon1"></span>
-        @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg", @placeholder = "Hasło" })
-        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-    </div>
+            </div>
+            <div class="form-group">
+                <span class="input-group-text" id="basic-addon1"></span>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg", @placeholder = "Hasło" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
             <br />
             <div class="form-group">
-                <input type="submit" name="submit" class="btn btn-primary btn-block" value="Zaloguj" />
+                <input type="submit" name="submit" class="btn btn-danger btn-block w-100 btn-lg" value="Zaloguj" />
             </div>
         }
-        <a href="#" id="forgot_pswd" style="float:right;">Przypomnij hasło</a>
-        <br />
-        <hr>
 
-        @Html.ActionLink("Zarejestruj", "Register","Account", null, new { @class = "btn btn-block send-button tx-tfm", @button="type" })
-        @*<button class="btn btn-primary btn-block" type="button" id="registerButton"><i class="fas fa-user-plus"></i> Sign up New Account</button>*@
+
+
+        <button class="btn btn-warning float-end mt-2">Przypomnij hasło</button>
+
+        <br />
+        <br />
+      
+        <hr/>
+
+        @Html.ActionLink("Zarejestruj", "Register", "Account", null, new { @class = "btn btn-primary w-100 mb-2 mt-2" })
     </div>
-        <br>
-    </div>
+</div>
 

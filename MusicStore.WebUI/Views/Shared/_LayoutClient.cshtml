@@ -84,9 +84,12 @@
                                         new { @class = "dropdown-item" })
                                     </li>
                                     <li>
-                                        @Html.ActionLink("Ustawienia", "Settings", "Client",
+                                        @Ajax.ActionLink("Zmień hasło", "ChangePassword", "Client", null,
+                                        new AjaxOptions { Url = Url.Action("ChangePassword", new { id = @Session["Id"] }), OnSuccess = "changePasswordClient", Confirm = "Czy chcesz zmienić hasło użytkownika?" },
+                                        new { @class = "dropdown-item" })
+                                        @*@Html.ActionLink("Zmień hasło", "Settings", "Client",
                                          new { id = @Session["Id"], returnUrl = Request.Url.PathAndQuery },
-                                         new { @class = "dropdown-item" })
+                                         new { @class = "dropdown-item" })*@
 
                                     </li>
                                 </ul>

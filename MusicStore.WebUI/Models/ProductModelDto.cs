@@ -18,7 +18,7 @@ namespace MusicStore.WebUI.Models
         public int LabelId { get; set; }
         [Required(ErrorMessage = "Proszę podać rok")]
         [Display(Name = "Rok")]
-        public string Year { get; set; }
+        public int Year { get; set; }
         [Required(ErrorMessage = "Proszę podać gatunek")]
         [Display(Name = "Gatunek")]
         public int Genre { get; set; }

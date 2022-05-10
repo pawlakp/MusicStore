@@ -2,22 +2,47 @@
 
 
 
-    <div id="menu">
-        <ul class="list-group">
-            @Html.ActionLink("Home", "Index", "Home", null, new { @class = "list-group-item list-group-item-action", @style="word-break:break-all;" })
-            @foreach (var link in Model)
-            {
-                @Html.RouteLink(link.Name, new
-            {
-               controller = "Home",
-               action = "FiltrByGenre",
-               genre = link.Name,
-               page = 1
-            }, new
-                {
-                    @class = "list-group-item list-group-item-action"
-            + (link.Name == ViewBag.SelectedGenre ? "list-group-item list-group-item-action active" : "")
-            })
-            }
-        </ul>
+<h4>Kategorie</h4>
+<ul class="list-group">
+
+    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "list-group-item list-group-item-action", @style = "word-break:break-all;" })
+    @foreach (var link in Model)
+    {
+        @Html.RouteLink(link.Name, new
+    {
+       controller = "Home",
+       action = "FiltrByGenre",
+       genre = link.Name,
+       page = 1
+    }, new
+        {
+            @class = "list-group-item list-group-item-action"
+    + (link.Name == ViewBag.SelectedGenre ? "list-group-item list-group-item-action active" : "")
+    })
+    }
+</ul>
+<br />
+
+
+@using (Html.BeginForm("Index", "Home"))
+{
+    <div class="mt-2 mb-2">
+        <h5>Sortowanie</h5>
+        <select class="form-select" aria-label="Default select example" name="sort">
+            <option selected>Sortuj</option>
+            <option name="sort" value="Price">Od najniższej do najwyższej</option>
+            <option name="sort" value="dPrice">Od najwyższej do najniższej</option>
+            <option name="sort" value="Name">Od A do Z</option>
+            <option name="sort" value="dName">Od Z do A</option>
+        </select>
     </div>
+    <div class="mt-2 mb-2">
+        <h5>Cena</h5>
+        <input class="form-control me-2" type="search" aria-label="Search" name="price1" placeholder="Od">
+
+        <input class="form-control me-2" type="search" aria-label="Search" name="price2" placeholder="Do">
+
+    </div>
+    <input class="btn btn-outline-success w-100 mt-2" type="submit" value="Filtruj" />
+}
+

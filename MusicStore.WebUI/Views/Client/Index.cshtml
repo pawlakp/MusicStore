@@ -1,6 +1,6 @@
 ﻿@model MusicStore.Domain.Entities.Client
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Panel użytkownika";
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 
@@ -34,24 +34,10 @@
                             <div class="col-md-12">
                                 <div class="card text-center">
                                     <div class="card-header">
-                                        Ulubione gatunki
-                                    </div>
-                                    <div class="card-body">
-                                        <div id="News"> 1. Rap</div>
-                                    </div>
-                                    <div class="card-footer text-muted">
-                                        Today
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <div class="card text-center">
-                                    <div class="card-header">
                                         Ostatnie zakupy
                                     </div>
                                     <div class="card-body">
-                                        <div id="Products">1. Kwiat jabłoni <br /> 2. Drake <br /> Akcent</div>
+                                        <div id="LastPucharses"></div>
                                     </div>
                                     <div class="card-footer text-muted">
                                         2 days ago
@@ -62,13 +48,16 @@
                     </div>
                     <div class="col-md-3 d-block d-md-none">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top img-thumbnail" src="~/Content/Image/musicfolder.png" alt="Card image cap" width="250" height="250">
+                            <img class="card-img-top img-thumbnail d-none" src="~/Content/Image/musicfolder.png" alt="Card image cap" width="250" height="250">
                             <div class="card-body">
-                                <p class="card-title w-100">
+                                <h4 class="card-title"> Twoja muzyka</h4>
+
+                                <div class="d-flex justify-content-between align-items-center">
                                     @Html.ActionLink("Biblioteka", "Library", "Client",
-                     new { id = @Session["Id"] },
-                     new { @class = "btn btn-outline-success w-100" })
-                                </p>
+                                   new { id = @Session["Id"] },
+                                   new { @class = "btn btn-outline-success w-100" })
+                                </div>
+                                <p class="card-text"><small class="text-muted">Twoja muzyka!</small></p>
                             </div>
                         </div>
                     </div>
@@ -76,32 +65,32 @@
                     <div class="col-md-3">
                         <div class="card mb-4 box-shadow">
 
-                            <img class="card-img-top img-thumbnail" src="~/Content/Image/musicbrain.jpg" alt="Card image cap" width="250" height="250">
-                            <div class="card-body  d-block d-md-none">
-                                <p class="card-title w-100 d-block d-md-none">
-                                    @Html.ActionLink("Twój gust", "Preferences", "Client",
-                                    new { returnUrl = Request.Url.PathAndQuery },
-                                    new { @class = "btn btn-outline-success w-100" })
-                                </p>
-                            </div>
-                            <div class="card-body  d-none d-md-block">
+                            <img class="card-img-top img-thumbnail d-none d-md-block" src="~/Content/Image/musicbrain.jpg" alt="Card image cap" width="250" height="250">
+                            <div class="card-body">
                                 <h4 class="card-title ">Twój gust</h4>
-                                <p class="card-text">Poznaj swoje preferencje muzyczne!</p>
+                                <p class="card-text d-none d-md-block">Poznaj swoje preferencje muzyczne!</p>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
+                                    <div class="btn-group  d-none d-md-block">
                                         @Html.ActionLink("Twój gust", "Preferences", "Client",
                                         new { returnUrl = Request.Url.PathAndQuery },
                                      new { @class = "btn btn-outline-success" })
                                     </div>
-                                   
+                                    <div class="card-body  d-block d-md-none">
+                                        <p class="card-title w-100 d-block d-md-none">
+                                            @Html.ActionLink("Twój gust", "Preferences", "Client",
+                                            new { returnUrl = Request.Url.PathAndQuery },
+                                            new { @class = "btn btn-outline-success w-100" })
+                                        </p>
+                                    </div>
                                 </div>
+                                <p class="card-text d-block d-md-none"><small class="text-muted">Twoja muzyka!</small></p>
                             </div>
                         </div>
                     </div>
 
 
 
-                   
+
 
 
                 </div>
@@ -111,103 +100,107 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top img-thumbnail" src="~/Content/Image/wishlist3.jpg" alt="Card image cap" width="250" height="250">
-                            <div class="card-body  d-block d-md-none">
-                                <p class="card-title w-100 d-block d-md-none">
-                                    @Html.ActionLink("Lista życzeń", "Wishlist", "Client",
-                                        new { id = @Session["Id"], returnUrl = Request.Url.PathAndQuery },
-                                        new { @class = "btn btn-outline-success w-100" })
-                                </p>
-                            </div>
-                            <div class="card-body d-none d-md-block">
+                            <img class="card-img-top img-thumbnail d-none d-md-block" src="~/Content/Image/wishlist3.jpg" alt="Card image cap" width="250" height="250">
+
+                            <div class="card-body">
                                 <h4 class="card-title">Lista życzeń</h4>
-                                <p class="card-text">Tych albumów jeszcze nie kupiłeś!</p>
+                                <p class="card-text d-none d-md-block">Tych albumów jeszcze nie kupiłeś!</p>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
+                                    <div class="btn-group d-none d-md-block">
                                         @Html.ActionLink("Lista życzeń", "Wishlist", "Client",
                                        new { id = @Session["Id"], returnUrl = Request.Url.PathAndQuery },
                                        new { @class = "btn btn-outline-success" })
                                     </div>
-                                   
+                                    <div class="card-body  d-block d-md-none">
+                                        <p class="card-title w-100 d-block d-md-none">
+                                            @Html.ActionLink("Lista życzeń", "Wishlist", "Client",
+                                                new { id = @Session["Id"], returnUrl = Request.Url.PathAndQuery },
+                                                new { @class = "btn btn-outline-success w-100" })
+                                        </p>
+                                    </div>
                                 </div>
+                                <p class="card-text d-block d-md-none"><small class="text-muted">Tych albumów jeszcze nie kupiłeś!</small></p>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top img-thumbnail" src="~/Content/Image/orderspic.png" alt="Card image cap" width="250" height="250">
-                            <div class="card-body  d-block d-md-none">
-                                <p class="card-title w-100 d-block d-md-none">
-                                    @Html.ActionLink("Twoje zamówienia", "Orders", "Client",
-                                     new { id = @Session["Id"] },
-                                     new { @class = "btn btn-outline-success w-100" })
-                                </p>
-                            </div>
-                            <div class="card-body  d-none d-md-block">
+                            <img class="card-img-top img-thumbnail d-none d-md-block" src="~/Content/Image/orderspic.png" alt="Card image cap" width="250" height="250">
+
+                            <div class="card-body">
                                 <h4 class="card-title"> Lista zamówień</h4>
-                                <p class="card-text">Przejrzyj swoje zamówienia!</p>
+                                <p class="card-text d-none d-md-block">Przejrzyj swoje zamówienia!</p>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
+                                    <div class="btn-group d-none d-md-block">
                                         @Html.ActionLink("Twoje zamówienia", "Orders", "Client",
        new { id = @Session["Id"] },
        new { @class = "btn btn-outline-success" })
                                     </div>
-                                   
+                                    <div class="card-body  d-block d-md-none">
+                                        <p class="card-title w-100 d-block d-md-none">
+                                            @Html.ActionLink("Twoje zamówienia", "Orders", "Client",
+                                             new { id = @Session["Id"] },
+                                             new { @class = "btn btn-outline-success w-100" })
+                                        </p>
+                                    </div>
+
                                 </div>
+                                <p class="card-text d-block d-md-none"><small class="text-muted">Przejrzyj swoje zamówienia!</small></p>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top img-thumbnail" src="~/Content/Image/home.png" alt="Card image cap" width="250" height="250">
-                            <div class="card-body  d-block d-md-none">
-                                <p class="card-title w-100 d-block d-md-none">
-                                    @Html.ActionLink("Twoje dane", "DetailsAdress", "Client",
-                                      new { id = @Session["Id"], returnUrl = Request.Url.PathAndQuery },
-                                      new { @class = "btn btn-outline-success w-100" })
-                                </p>
-                            </div>
-                            <div class="card-body d-none d-md-block">
+                            <img class="card-img-top img-thumbnail d-none d-md-block" src="~/Content/Image/home.png" alt="Card image cap" width="250" height="250">
+                            <div class="card-body">
                                 <h4 class="card-title">Twoje dane</h4>
-                                <p class="card-text">Przeglądaj, edytuj swoje dane!</p>
+                                <p class="card-text d-none d-md-block">Przeglądaj, edytuj swoje dane!</p>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
+                                    <div class="btn-group d-none d-md-block">
                                         @Html.ActionLink("Twoje dane", "DetailsAdress", "Client",
                                        new { id = @Session["Id"], returnUrl = Request.Url.PathAndQuery },
                                        new { @class = "btn btn-outline-success" })
                                     </div>
-                                   
+                                    <div class="card-body  d-block d-md-none">
+                                        <p class="card-title w-100 d-block d-md-none">
+                                            @Html.ActionLink("Twoje dane", "DetailsAdress", "Client",
+                                              new { id = @Session["Id"], returnUrl = Request.Url.PathAndQuery },
+                                              new { @class = "btn btn-outline-success w-100" })
+                                        </p>
+                                    </div>
                                 </div>
+                                <p class="card-text d-block d-md-none"><small class="text-muted">Przeglądaj, edytuj swoje dane!</small></p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top img-thumbnail" src="~/Content/Image/settings.png" alt="Card image cap" width="250" height="250">
-                            <div class="card-body  d-block d-md-none">
-                                <p class="card-title w-100 d-block d-md-none">
-                                    @Html.ActionLink("Zmień hasło", "ChangePassword", "Client",
-         new { returnUrl = Request.Url.PathAndQuery },
-         new { @class = "btn btn-outline-success w-100" })
-                                </p>
-                            </div>
-                            <div class="card-body d-none d-md-block">
-                                <h4 class="card-title"> Ustawienia</h4>
-                                <p class="card-text">Ustawienia konta</p>
+                            <img class="card-img-top img-thumbnail d-none d-md-block" src="~/Content/Image/settings.png" alt="Card image cap" width="250" height="250">
+                            <div class="card-body">
+                                <h4 class="card-title "> Zmień hasło</h4>
+                                <p class="card-text  d-none d-md-block">Zmień swoje hasło</p>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
+                                    <div class="btn-group d-none d-md-block">
                                         @*@Html.ActionLink("Ustawienia", "Settings", "Client",
-                                         new { id = @Session["Id"], returnUrl = Request.Url.PathAndQuery },
-                                         new { @class = "btn btn-outline-success" })*@
+                                            new { id = @Session["Id"], returnUrl = Request.Url.PathAndQuery },
+                                            new { @class = "btn btn-outline-success" })*@
 
                                         @Ajax.ActionLink("Zmień hasło", "ChangePassword", "Client", null,
                                   new AjaxOptions { Url = Url.Action("ChangePassword", new { id = @Session["Id"] }), OnSuccess = "changePasswordClient", Confirm = "Czy chcesz zmienić hasło użytkownika?" },
                                    new { @class = "btn btn-outline-success" })
                                     </div>
-                                   
+                                    <div class="card-body  d-block d-md-none">
+                                        <p class="card-title w-100 d-block d-md-none">
+                                            @Ajax.ActionLink("Zmień hasło", "ChangePassword", "Client", null,
+                                 new AjaxOptions { Url = Url.Action("ChangePassword", new { id = @Session["Id"] }), OnSuccess = "changePasswordClient", Confirm = "Czy chcesz zmienić hasło użytkownika?" },
+                                  new { @class = "btn btn-outline-success w-100" })
+                                        </p>
+                                    </div>
+
                                 </div>
+                                <p class="card-text d-block d-md-none"><small class="text-muted">Zmień swoje hasło</small></p>
                             </div>
                         </div>
                     </div>
@@ -411,6 +404,33 @@
 
 
 
+<script type="text/javascript">
+    var ID = document.getElementById('LastPucharses');
+    var sendHttpRequest = (method, url) => {
+        var promise = new Promise((resolve, reject) => {
+            var xhr = new XMLHttpRequest();
+
+            xhr.open(method, url);
+
+            xhr.onload = () => {
+                resolve(xhr.response);
+            };
+
+            xhr.send();
+        });
+
+        return promise;
+    };
+
+    window.addEventListener('load', function () {
+        sendHttpRequest('GET', '@Url.Action("LastPucharses", "Client", new {id = Session["Id"]})').then((responseData) => { ID.innerHTML += responseData })
+       
+    })
+
+
+
+
+</script>
 
 
 

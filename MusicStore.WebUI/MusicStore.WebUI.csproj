@@ -128,6 +128,9 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\c3.css" />
+    <Content Include="Content\c3.min.css" />
+    <Content Include="Content\features.css" />
     <Content Include="Content\Image\add-music.svg" />
     <Content Include="Content\Image\addmusic.png" />
     <Content Include="Content\Image\adduser.png" />
@@ -151,8 +154,14 @@
     <Content Include="Content\LoginRegister.css" />
     <Content Include="Content\ErrorStyles.css" />
     <Content Include="Content\Image\favicon.ico" />
+    <Content Include="Content\signin.css" />
+    <Content Include="LICENSE.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\c3.js" />
+    <Content Include="Scripts\c3.min.js" />
+    <Content Include="Scripts\d3.js" />
+    <Content Include="Scripts\d3.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\MicrosoftAjax.debug.js" />
@@ -271,8 +280,10 @@
     <Compile Include="Models\OrderAlbumModelDto.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\AlbumListViewModel.cs" />
+    <Compile Include="Models\PreferencesViewModel.cs" />
     <Compile Include="Models\ProductModelDto.cs" />
     <Compile Include="Models\AccountModelDto.cs" />
+    <Compile Include="Models\SearchedListViewModel.cs" />
     <Compile Include="Models\SongModelDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -340,6 +351,13 @@
     <Content Include="Views\Admin\ListOrders.cshtml" />
     <Content Include="Views\Admin\OrderDetails.cshtml" />
     <Content Include="Views\Client\Wishlist.cshtml" />
+    <Content Include="Views\Home\Find.cshtml" />
+    <Content Include="Views\Home\ArtistDiscography.cshtml" />
+    <Content Include="Views\Home\Sorting.cshtml" />
+    <Content Include="Views\Client\Preferences.cshtml" />
+    <Content Include="Views\Client\GetAlbumDetail.cshtml" />
+    <Content Include="Views\Client\LastPucharses.cshtml" />
+    <Content Include="Views\Client\Suggestions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

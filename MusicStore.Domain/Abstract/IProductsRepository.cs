@@ -41,7 +41,13 @@ namespace MusicStore.Domain.Abstract
         Task<IEnumerable<AlbumAllDetails>> GetAlbumsToLibrary(List<int> albumsId);
         Task<AlbumDetails> GetAlbumDetailsAsync(int id);
         Task<List<SelectListItem>> GetAlbumsSelect();
+        Task<List<Album>> FindAlbum(string searched);
+        Task<List<Artist>> FindArtist(string searched);
+        Task<List<Song>> FindSong(string searched);
 
+        Task<IEnumerable<AlbumAllDetails>> FindAlbumWithDetails(string searchedItem);
+        Task<IEnumerable<AlbumAllDetails>> FindAlbumWithSong(string searchedItem);
+        Task<IEnumerable<AlbumAllDetails>> GetArtistDiscography(int id);
 
 
     }

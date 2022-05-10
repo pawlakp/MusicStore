@@ -96,8 +96,9 @@ namespace MusicStore.Domain.Concrete
         public async Task NewOrder(int clientId, List<int> albumsId, decimal price)
         {
             //pobranie daty systemowej
-            DateTime myDateTime = DateTime.Now;
+            DateTime myDateTime = DateTime.Now.Date;
             var nameOrder = GetLast() + "/" + DateTime.Now.ToString("yyyy");
+
             //utworzenie nowego zamówienia
             Order order = new Order()
             {

@@ -4,28 +4,78 @@
     ViewBag.Title = "Albumy";
 }
 
+
+
+
 <div class="album py-5 bg-light ml-0">
     <div class="container">
         <div class="row">
-            @foreach (var p in Model.AlbumsWithArtists)
-            {
-                <div class="col-md-4">
-                @Html.Partial("AlbumSummary", p)
+            <div class="col-md-12">
+                <div class="row">
+                    @if (Session["Id"] != null)
+                    {
+                        <h2>Propozycje</h2>
+                        <div id="Suggestions"></div>
+                    }
+
+                </div>
             </div>
-            }
+            <div class="col-md-12">
+
+                <div class="row">
+                    <h2>Nowości</h2>
+                    @foreach (var p in Model.AlbumsWithArtists)
+                    {
+                        <div class="col-md-3">
+                            @Html.Partial("AlbumSummary", p)
+                        </div>
+                    }
+
+                </div>
+                
+               
+            </div>
+            
         </div>
         <nav>
             <ul class="pagination justify-content-center flex-wrap">
                 @for (int i = 1; i <= Model.PagingInfo.TotalPages; i++)
                 {
                     <li class="@(i == Model.PagingInfo.CurrentPage ? "page-item active" : "page-item")">
-                        <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                        <a class="page-link" href="@Url.Action("Index", new { page = i, sort = ViewBag.sort, price1 = ViewBag.price1, price2=ViewBag.price2 })">@i</a>
                     </li>
 
                 }
             </ul>
         </nav>
     </div>
-    </div>
+</div>
 
 
+<script type="text/javascript">
+    var ID = document.getElementById('Suggestions');
+    var sendHttpRequest = (method, url) => {
+        var promise = new Promise((resolve, reject) => {
+            var xhr = new XMLHttpRequest();
+
+            xhr.open(method, url);
+
+            xhr.onload = () => {
+                resolve(xhr.response);
+            };
+
+            xhr.send();
+        });
+
+        return promise;
+    };
+
+    window.addEventListener('load', function () {
+        sendHttpRequest('GET', '@Url.Action("Suggestions", "Client", new {id = Session["Id"]})').then((responseData) => { ID.innerHTML += responseData })
+
+    })
+
+
+
+
+</script>

@@ -32,9 +32,8 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<Accounts> LoginAsync(string name, string password)
         {
-            var db = await AllAccountsAsync();
-            //var pass = GetMD5(password);
-            var user = db.Where(s => s.Login == name && s.Password == GetMD5(password)).FirstOrDefault();
+            var pass = GetMD5(password);
+            var user = await context.Account.Where(s => s.Login == name && s.Password == pass).FirstOrDefaultAsync();
             if (user != null && user.IsDeleted == false)
             {
                 return user;
@@ -47,9 +46,8 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<bool> ChangePassword(Accounts account)
         {
-            var db = await AllAccountsAsync();
-            //var pass = GetMD5(password);
-            var user = db.Where(s => s.Login == account.Login).FirstOrDefault();
+          
+            var user = await context.Account.Where(s => s.Login == account.Login).FirstOrDefaultAsync();
             if (user != null)
             {
                 user.Password = GetMD5(account.Password);
@@ -65,9 +63,9 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<Accounts> GetAccountAsync(int id)
         {
-            var db = await AllAccountsAsync();
-            //var pass = GetMD5(password);
-            var user = db.Where(s => s.Id == id).FirstOrDefault();
+            //var db = await AllAccountsAsync();
+            ////var pass = GetMD5(password);
+            var user = await context.Account.Where(s => s.Id == id).FirstOrDefaultAsync();
             
             if (user != null && user.IsDeleted ==false)
             {

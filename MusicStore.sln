@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicStore.Domain", "MusicS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicStore.WebUI", "MusicStore.WebUI\MusicStore.WebUI.csproj", "{A086A8DB-8987-4F53-892A-A4F6C2E9881C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicStore.UnitTests", "MusicStore.UnitTests\MusicStore.UnitTests.csproj", "{A4D34C42-222C-493A-A3FC-8650DCF12F8E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{A086A8DB-8987-4F53-892A-A4F6C2E9881C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A086A8DB-8987-4F53-892A-A4F6C2E9881C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A086A8DB-8987-4F53-892A-A4F6C2E9881C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4D34C42-222C-493A-A3FC-8650DCF12F8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4D34C42-222C-493A-A3FC-8650DCF12F8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4D34C42-222C-493A-A3FC-8650DCF12F8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4D34C42-222C-493A-A3FC-8650DCF12F8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
