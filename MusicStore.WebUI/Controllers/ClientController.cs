@@ -36,8 +36,25 @@ namespace MusicStore.WebUI.Controllers
 
         public async Task<ActionResult> GetPreferences()
         {
-            var list = await clientRepo.GetClientPreferences(1);
-            return View(list.OrderByDescending(x=>x.genreAppearances));
+            var listGenre = await clientRepo.GetClientGenrePreferences(1);
+            var listArtist = await clientRepo.GetClientArtistPreferences(1);
+            var listLabel = await clientRepo.GetClientLabelPreferences(1);
+
+            var topArtist = listArtist.OrderByDescending(x => x.artistAppearances).Take(5);
+            var topGenre = listGenre.OrderByDescending(x => x.genreAppearances);
+            var topLabel = listLabel.OrderByDescending(x => x.lableApperances).Take(5);
+
+            var rest = await clientRepo.GetClientRestPreferences(1);
+
+
+            return View(new PreferencesViewModel()
+            {
+                artistList = topArtist,
+                genreList = topGenre,
+                labelList = topLabel,
+                favCountry = rest.favCountry,
+                favYear = rest.favYear
+            }) ;
         }
         public async Task<ActionResult> AfterLogin(Accounts account)
         {

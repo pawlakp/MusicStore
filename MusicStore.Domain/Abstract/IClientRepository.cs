@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using MusicStore.Domain.Entities;
+using MusicStore.Domain.ClientPreferences;
+
 
 namespace MusicStore.Domain.Abstract
 {
@@ -32,8 +34,11 @@ namespace MusicStore.Domain.Abstract
         Task<List<ClientWishlist>> AllClientWishlistAsync();
         Task<List<int>> GetClientWishlist(int id);
         Task<bool> AddToClientWishlist(int clientId, int albumId);
-        Task<List<ClientGenrePrefences>> GetClientPreferences(int clientId);
-        //Task<List<Genre>> GetClientPreferencesLibrary(int clientId);
+        Task<List<ClientGenrePrefences>> GetClientGenrePreferences(int clientId);
+        Task<List<ClientArtistPreferences>> GetClientArtistPreferences(int clientId);
+        Task<List<ClientLabelPreferences>> GetClientLabelPreferences(int clientId);
+        Task<ClientRestPreferences> GetClientRestPreferences(int clientId);
+            //Task<List<Genre>> GetClientPreferencesLibrary(int clientId);
 
 
         }

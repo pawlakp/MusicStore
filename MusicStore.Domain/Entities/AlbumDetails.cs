@@ -12,7 +12,7 @@ namespace MusicStore.Domain.Entities
         public string Name { get; set; }
         public string Artist { get; set; }
         public string Label { get; set; }
-        public string Year { get; set; }
+        public int Year { get; set; }
         public string Genre { get; set; }
         public string Country { get; set; }
         public decimal Price { get; set; }

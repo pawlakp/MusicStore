@@ -271,6 +271,7 @@
     <Compile Include="Models\OrderAlbumModelDto.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\AlbumListViewModel.cs" />
+    <Compile Include="Models\PreferencesViewModel.cs" />
     <Compile Include="Models\ProductModelDto.cs" />
     <Compile Include="Models\AccountModelDto.cs" />
     <Compile Include="Models\SearchedListViewModel.cs" />

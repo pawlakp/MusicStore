@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MusicStore.Domain.Entities.ClientGenrePrefences>
+﻿@model MusicStore.WebUI.Models.PreferencesViewModel
 
 @{
     ViewBag.Title = "GetPreferences";
@@ -10,26 +10,109 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+
+@Model.favCountry
+@Model.favYear
+
+
+
+
 <table class="table">
+    <tr>
+        <th></th>
+    </tr>
 
-
-    @foreach (var item in Model)
+    @foreach (var item in Model.genreList)
     {
+
+
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.genre.Name)
+                @Html.DisplayFor(x => item.genre.Name)
+
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.genreAppearances)
+                @Html.DisplayFor(x => item.genreAppearances)
+
             </td>
 
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+
         </tr>
     }
 
-  
+
+
+
 </table>
+<table class="table">
+    <tr>
+        <th></th>
+    </tr>
+
+
+
+
+    @foreach (var item in Model.artistList)
+    {
+
+
+        <tr>
+            <td>
+                @Html.DisplayFor(x => item.artist.Name)
+
+            </td>
+
+            <td>
+                @Html.DisplayFor(x => item.sumLibrary)
+
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.sumWishlist)
+
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.listAlbums.First().Name)
+
+            </td>
+
+
+
+        </tr>
+    }
+
+</table>
+
+
+<table class="table">
+    <tr>
+        <th></th>
+    </tr>
+
+
+
+
+    @foreach (var item in Model.labelList)
+    {
+
+
+        <tr>
+            <td>
+                @Html.DisplayFor(x => item.label.Name)
+
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.sumLibrary)
+
+            </td>
+            <td>
+                @Html.DisplayFor(x => item.sumWishlist)
+
+            </td>
+
+
+        </tr>
+    }
+
+</table>
+

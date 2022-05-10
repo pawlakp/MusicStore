@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Security.Cryptography;
 using MusicStore.Domain.Abstract;
 using MusicStore.Domain.Entities;
+using MusicStore.Domain.ClientPreferences;
 using System.Data.Entity;
 using System.Threading;
 using System.Data.Entity.Infrastructure;
@@ -230,64 +231,130 @@ namespace MusicStore.Domain.Concrete
             }
         }
 
-        //public async Task<List<ClientPreferences>> GetClientPreferences(int clientId)
-        //{
-        //    var b = await GetClientPreferencesGenre(clientId);
-
-        //    return b;
-
-        //    //var LibraryPrefernce = await GetClientPreferencesGenreLibrary(clientId);
-        //    //var WishlistPrefernce = await GetClientPreferencesGenreWishlist(clientId);
-
-        //    //List<ClientPreferences> newPrefe = new List<ClientPreferences>();
-
-        //    //double all = 0;
-        //    //foreach (var item in LibraryPrefernce.OrderBy(x=>x.Name))
-        //    //{
-        //    //    double tmp = 0;
-        //    //    foreach (var item2 in WishlistPrefernce)
-        //    //    {
-        //    //        if (item.Name == item2.Name)
-        //    //        {
-        //    //            tmp = (double)(item.Id + item2.Id * 0.25);
-        //    //        }
-        //    //    }
-        //    //    all += tmp;
-        //    //}
-
-        //    //foreach (var item in LibraryPrefernce)
-        //    //{
-        //    //    double tmp = 0;
-        //    //    foreach (var item2 in WishlistPrefernce)
-        //    //    {
-        //    //        if (item.Name == item2.Name)
-        //    //        {
-        //    //            tmp = (double)(item.Id + item2.Id * 0.25);
-        //    //        }
-        //    //    }
-        //    //    var newGenre = await context.Genre.Where(x=> x.Name == item.Name).FirstOrDefaultAsync();  
-        //    //    ClientPreferences preferences = new ClientPreferences()
-        //    //    {
-        //    //        //wyst = tmp,
-        //    //        //Name = item.Name,
-        //    //        genreAppearances = (tmp*100/all),
-        //    //        genre = newGenre,
-        //    //    };
-        //    //    newPrefe.Add(preferences);
-
-        //    //}
+        public async Task<List<ClientLabelPreferences>> GetClientLabelPreferences(int clientId)
+        {
 
 
+            var clientWishlist = await context.ClientWishlist.Where(x => x.ClientId == clientId).ToListAsync(); // pobranie listy życzeń klienta
+            var clientLibrary = await context.ClientLibrary.Where(x => x.ClientId == clientId).ToListAsync(); // pobranie biblioteki klienta
+
+
+            var albumList = await context.Album.ToListAsync(); // lista wszystkich albumów
+            var labelList = await context.Label.ToListAsync(); //lista wszystkich gatunków
+            var artistList = await context.Artist.ToListAsync(); //lista wszystkich artystów
+
+
+            var listAlbumsWishlist = from x in clientWishlist
+                                     join y in albumList on x.AlbumId equals y.Id
+                                     select y; // pobranie detalów albumów z listy życzeń
+
+            var listAlbumsLibrary = from x in clientLibrary
+                                    join y in albumList on x.AlbumId equals y.Id
+                                    select y;  // pobranie detalów albumów z biblioteki
+
+
+            //preferowane gatunki
+            List<Label> labelWishlist = new List<Label>();
+            List<Label> labelLibrary = new List<Label>();
+
+            //preferowani artyści
+            //List<Artist> artistWishlist = new List<Artist>();
+            //List<Artist> artistLibrary = new List<Artist>();
+
+
+            //int liczbaWystąpień = 0;
+            int liczbaWystąpieńLib = 0;
+            int liczbaWystąpieńWis = 0;
+            double allLabel = 0;
+            //double allArtists = 0;
+
+            //liczenie gatunków
+            foreach (var item in labelList)
+            {
+                liczbaWystąpieńLib = 0;
+                liczbaWystąpieńWis = 0;
+
+
+                foreach (var item2 in listAlbumsWishlist)
+                {
+                    if (item.Id == item2.LabelId)
+                    {
+                        liczbaWystąpieńWis++;
+                    }
+                }
+
+
+                Label labelWish = new Label()
+                {
+                    Id = liczbaWystąpieńWis,
+                    Name = item.Name,
+                };
+
+
+                labelWishlist.Add(labelWish);
+
+                foreach (var item2 in listAlbumsLibrary)
+                {
+
+                    if (item.Id == item2.LabelId)
+                    {
+                        liczbaWystąpieńLib++;
+                    }
+                }
+
+                Label labelLib = new Label()
+                {
+                    Id = liczbaWystąpieńLib,
+                    Name = item.Name,
+                };
+
+                labelLibrary.Add(labelLib);
+
+                allLabel += (double)liczbaWystąpieńLib + liczbaWystąpieńWis * 0.25;
+
+            }
+            
+            int sumWishlist = 0;
+            List<ClientLabelPreferences> clientPrefe = new List<ClientLabelPreferences>();
+
+            foreach (var item in labelLibrary)
+            {
+                double tmpLabel = 0;
+               
+                foreach (var item2 in labelWishlist)
+                {
+                    sumWishlist = item2.Id;
+                    if (item.Name == item2.Name)
+                    {
+                        tmpLabel = (double)(item.Id + item2.Id * 0.25);
+                    }
+                }
+                if (tmpLabel > 0)
+                {
+
+
+                    var newGenre = await context.Label.Where(x => x.Name == item.Name).FirstOrDefaultAsync();
+                    ClientLabelPreferences preferences = new ClientLabelPreferences()
+                    {
+                        //wyst = tmp,
+                        //Name = item.Name,
+                        lableApperances = Math.Round((tmpLabel * 100 / allLabel),2),
+                        label = newGenre,
+                        sumLibrary = item.Id,
+                        sumWishlist = sumWishlist
+                    };
+                    clientPrefe.Add(preferences);
+                    sumWishlist = 0;
+                }
+            }
+            return clientPrefe;
+        }
 
 
 
-        //    //return newPrefe;
 
 
-        //}
-
-
-        public async Task<List<ClientGenrePrefences>> GetClientPreferences(int clientId)
+        public async Task<List<ClientGenrePrefences>> GetClientGenrePreferences(int clientId)
         {
 
 
@@ -370,90 +437,7 @@ namespace MusicStore.Domain.Concrete
 
             }
 
-            //liczenie artystów
-            //foreach (var item in artistList)
-            //{
-            //    liczbaWystąpieńLib = 0;
-            //    liczbaWystąpieńWis = 0;
-
-
-            //    foreach (var item2 in listAlbumsWishlist)
-            //    {
-            //        if (item.ArtistId == item2.ArtistId)
-            //        {
-            //            liczbaWystąpieńWis++;
-            //        }
-            //    }
-
-
-            //    Artist artistWish = new Artist()
-            //    {
-            //        ArtistId = liczbaWystąpieńWis,
-            //        Name = item.Name,
-            //    };
-
-
-            //    artistWishlist.Add(artistWish);
-
-            //    foreach (var item2 in listAlbumsLibrary)
-            //    {
-
-            //        if (item.ArtistId == item2.ArtistId)
-            //        {
-            //            liczbaWystąpieńLib++;
-            //        }
-            //    }
-
-            //    Artist artistLib = new Artist()
-            //    {
-            //        ArtistId = liczbaWystąpieńLib,
-            //        Name = item.Name,
-            //    };
-
-            //    artistLibrary.Add(artistLib);
-
-            //    allArtists += (double)liczbaWystąpieńLib + liczbaWystąpieńWis * 0.25;
-
-            //}
-
-
-
-            //foreach (var item in genresList)
-            //{
-            //    liczbaWystąpień = 0;
-            //    foreach (var item2 in listAlbums)
-            //    {
-
-            //        if (item.Id == item2.GenreId)
-            //        {
-            //            liczbaWystąpień++;
-            //        }
-            //    }
-            //    Genre genre = new Genre()
-            //    {
-            //        Id = liczbaWystąpień,
-            //        Name = item.Name,
-            //    };
-            //    preferencesLibrary.Add(genre);
-            //}
-
-
-
             List<ClientGenrePrefences> clientPrefe = new List<ClientGenrePrefences>();
-
-            //double all = 0;
-            //foreach (var item in preferencesLibrary.OrderBy(x => x.Name))
-            //{
-            //    double tmp = 0;
-            //    foreach (var item2 in preferencesWishlist)
-            //    {
-            //        if (item.Name == item2.Name)
-            //        {
-            //            tmp = (double)(item.Id + item2.Id * 0.25);
-            //        }
-            //    }
-            //    all += tmp;
-            //}
 
             foreach (var item in genreLibrary)
             {
@@ -474,37 +458,12 @@ namespace MusicStore.Domain.Concrete
                 {
                     //wyst = tmp,
                     //Name = item.Name,
-                    genreAppearances = (tmpGenre * 100 / allGenre),
+                    genreAppearances = Math.Round((tmpGenre * 100 / allGenre), 2),
                     genre = newGenre,
                 };
                 clientPrefe.Add(preferences);
                 }
             }
-
-
-            //foreach (var item in artistLibrary)
-            //{
-            //    double tmpGenre = 0;
-            //    foreach (var item2 in artistWishlist)
-            //    {
-            //        if (item.Name == item2.Name)
-            //        {
-            //            tmpGenre = (double)(item.ArtistId + item2.ArtistId * 0.25);
-            //        }
-            //    }
-            //    var newArtist = await context.Artist.Where(x => x.Name == item.Name).FirstOrDefaultAsync();
-            //    ClientGenrePreferences preferences = new ClientGenrePreferences()
-            //    {
-            //        //wyst = tmp,
-            //        //Name = item.Name,
-            //        artistAppearances = (tmpGenre * 100 / allArtists),
-            //        artist = newArtist,
-            //    };
-            //    clientPrefe.Add(preferences);
-
-            //}
-
-
             return clientPrefe;
         }
 
@@ -540,122 +499,142 @@ namespace MusicStore.Domain.Concrete
             //int liczbaWystąpień = 0;
             int liczbaWystąpieńLib = 0;
             int liczbaWystąpieńWis = 0;
-            double allGenre = 0;
             double allArtists = 0;
 
 
 
             //liczenie artystów
-            //foreach (var item in artistList)
-            //{
-            //    liczbaWystąpieńLib = 0;
-            //    liczbaWystąpieńWis = 0;
-
-
-            //    foreach (var item2 in listAlbumsWishlist)
-            //    {
-            //        if (item.ArtistId == item2.ArtistId)
-            //        {
-            //            liczbaWystąpieńWis++;
-            //        }
-            //    }
-
-
-            //    Artist artistWish = new Artist()
-            //    {
-            //        ArtistId = liczbaWystąpieńWis,
-            //        Name = item.Name,
-            //    };
-
-
-            //    artistWishlist.Add(artistWish);
-
-            //    foreach (var item2 in listAlbumsLibrary)
-            //    {
-
-            //        if (item.ArtistId == item2.ArtistId)
-            //        {
-            //            liczbaWystąpieńLib++;
-            //        }
-            //    }
-
-            //    Artist artistLib = new Artist()
-            //    {
-            //        ArtistId = liczbaWystąpieńLib,
-            //        Name = item.Name,
-            //    };
-
-            //    artistLibrary.Add(artistLib);
-
-            //    allArtists += (double)liczbaWystąpieńLib + liczbaWystąpieńWis * 0.25;
-
-            //}
-
-
-
-            //foreach (var item in genresList)
-            //{
-            //    liczbaWystąpień = 0;
-            //    foreach (var item2 in listAlbums)
-            //    {
-
-            //        if (item.Id == item2.GenreId)
-            //        {
-            //            liczbaWystąpień++;
-            //        }
-            //    }
-            //    Genre genre = new Genre()
-            //    {
-            //        Id = liczbaWystąpień,
-            //        Name = item.Name,
-            //    };
-            //    preferencesLibrary.Add(genre);
-            //}
-
-
-
-            List<ClientArtistPreferences> clientPrefe = new List<ClientArtistPreferences>();
-
-            //double all = 0;
-            //foreach (var item in preferencesLibrary.OrderBy(x => x.Name))
-            //{
-            //    double tmp = 0;
-            //    foreach (var item2 in preferencesWishlist)
-            //    {
-            //        if (item.Name == item2.Name)
-            //        {
-            //            tmp = (double)(item.Id + item2.Id * 0.25);
-            //        }
-            //    }
-            //    all += tmp;
-            //}
-
-
-
-            foreach (var item in artistLibrary)
+            foreach (var item in artistList)
             {
-                double tmpGenre = 0;
-                foreach (var item2 in artistWishlist)
+                liczbaWystąpieńLib = 0;
+                liczbaWystąpieńWis = 0;
+
+
+                foreach (var item2 in listAlbumsWishlist)
                 {
-                    if (item.Name == item2.Name)
+                    if (item.ArtistId == item2.ArtistId)
                     {
-                        tmpGenre = (double)(item.ArtistId + item2.ArtistId * 0.25);
+                        liczbaWystąpieńWis++;
                     }
                 }
-                var newArtist = await context.Artist.Where(x => x.Name == item.Name).FirstOrDefaultAsync();
-                ClientArtistPreferences preferences = new ClientArtistPreferences()
+
+
+                Artist artistWish = new Artist()
                 {
-                    //wyst = tmp,
-                    //Name = item.Name,
-                    artistAppearances = (tmpGenre * 100 / allArtists),
-                    artist = newArtist,
+                    ArtistId = liczbaWystąpieńWis,
+                    Name = item.Name,
                 };
-                clientPrefe.Add(preferences);
+
+
+                artistWishlist.Add(artistWish);
+
+                foreach (var item2 in listAlbumsLibrary)
+                {
+
+                    if (item.ArtistId == item2.ArtistId)
+                    {
+                        liczbaWystąpieńLib++;
+                    }
+                }
+
+                Artist artistLib = new Artist()
+                {
+                    ArtistId = liczbaWystąpieńLib,
+                    Name = item.Name,
+                };
+
+                artistLibrary.Add(artistLib);
+
+                allArtists += (double)liczbaWystąpieńLib + liczbaWystąpieńWis * 0.25;
 
             }
 
 
+            List<ClientArtistPreferences> clientPrefe = new List<ClientArtistPreferences>();
+
+
+
+            int sumWishlist = 0;
+
+            foreach (var item in artistLibrary)
+            {
+                double tmpArtist = 0;
+                foreach (var item2 in artistWishlist)
+                {
+                    sumWishlist = item2.ArtistId;
+                    if (item.Name == item2.Name)
+                    {
+                        tmpArtist = (double)(item.ArtistId + item2.ArtistId * 0.25);
+                    }
+                }
+                if(tmpArtist > 0)
+                {
+                    var newArtist = await context.Artist.Where(x => x.Name == item.Name).FirstOrDefaultAsync();
+                    ClientArtistPreferences preferences = new ClientArtistPreferences()
+                    {
+
+                        artistAppearances = Math.Round((tmpArtist * 100 / allArtists), 2),
+                        artist = newArtist,
+                        sumLibrary = item.ArtistId,
+                        sumWishlist = sumWishlist,
+                        listAlbums = listAlbumsLibrary.Where(x=> x.ArtistId == newArtist.ArtistId).ToList(),
+                    };
+                    clientPrefe.Add(preferences);
+                }
+                sumWishlist = 0;
+            }
+
+
             return clientPrefe;
+        }
+
+        public async Task<ClientRestPreferences> GetClientRestPreferences(int clientId)
+        {
+
+
+            var clientWishlist = await context.ClientWishlist.Where(x => x.ClientId == clientId).ToListAsync(); // pobranie listy życzeń klienta
+            var clientLibrary = await context.ClientLibrary.Where(x => x.ClientId == clientId).ToListAsync(); // pobranie biblioteki klienta
+
+
+            var albumList = await context.Album.ToListAsync(); // lista wszystkich albumów
+            var artistList = await context.Artist.ToListAsync(); //lista wszystkich artystów
+
+
+            var listAlbumsWishlist = from x in clientWishlist
+                                     join y in albumList on x.AlbumId equals y.Id
+                                     select y; // pobranie detalów albumów z listy życzeń
+
+            var listAlbumsLibrary = from x in clientLibrary
+                                    join y in albumList on x.AlbumId equals y.Id
+                                    select y;  // pobranie detalów albumów z biblioteki
+
+
+
+            var listAlbumsunder2000 = listAlbumsLibrary.Where(x => x.Year < 2000).ToList();
+            var listAlbumsover2000 = listAlbumsLibrary.Where(x => x.Year >= 2000).ToList();
+
+            string favYear = "Obydwa";
+
+            if (listAlbumsunder2000.Count() >= listAlbumsover2000.Count()) favYear = "Klasyczna";
+            else favYear = "Nowoczesna";
+
+            var listAlbumsPoland = listAlbumsLibrary.Where(x => x.CountryId == 1);
+            var listAlbumsOther = listAlbumsLibrary.Where(x => x.CountryId == 2).ToList();
+
+            string favCountry = "Obydwa";
+
+            if (listAlbumsPoland.Count() > listAlbumsOther.Count()) favCountry = "Polska";
+            else favCountry = "Zagraniczna";
+
+            ClientRestPreferences newPrefe = new ClientRestPreferences
+            {
+                favYear = favYear,
+                favCountry = favCountry,
+            };
+
+            return newPrefe;
+
+
         }
 
 
