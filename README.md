@@ -24,3 +24,6 @@ MusicStore ASP.NET MVC project
 ##  0.1
 1. full store funcionality
 2. full views
+
+##  0.2
+1. update of application
