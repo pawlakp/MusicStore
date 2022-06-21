@@ -6,7 +6,7 @@
             <b>Twój koszyk:</b>
             @Model.ComputeTotalValue().ToString("c")
         </span>*@
-        @Html.ActionLink("Zamów", "Index", "Cart",
+        @Html.ActionLink(" Zamów", "Index", "Cart",
                  new { returnUrl = Request.Url.PathAndQuery },
-                 new { @class = "btn btn-outline-success" })
+                 new { @class = "btn btn-outline-success bi bi-cart" })
     </form>

@@ -20,6 +20,7 @@ namespace MusicStore.Domain.Abstract
         Task<bool> AddSongsAsync(List<Song> songs);
         Task<List<Song>> AllSongAsync();
         Task<List<Label>> AllLabelAsync();
+        Task<IEnumerable<AlbumAllDetails>> AllAlbumsDetails();
 
 
         Task<IEnumerable<AlbumAllDetails>> GetAlbumWithArtistAsync();
@@ -48,6 +49,7 @@ namespace MusicStore.Domain.Abstract
         Task<IEnumerable<AlbumAllDetails>> FindAlbumWithDetails(string searchedItem);
         Task<IEnumerable<AlbumAllDetails>> FindAlbumWithSong(string searchedItem);
         Task<IEnumerable<AlbumAllDetails>> GetArtistDiscography(int id);
+     
 
 
     }

@@ -39,9 +39,9 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        
-                        @Html.ActionLink("Details", "OrderDetails", new { id = item.Id }) |
-                       
+
+                        @Html.ActionLink("Szczegóły", "OrderDetails", new { id = item.Id }, new { @class = "btn btn-primary bi bi-bag-check-fill " })
+
                     </td>
                 </tr>
             }

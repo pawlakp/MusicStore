@@ -16,6 +16,9 @@ namespace MusicStore.WebUI.Models
         public int HouseNumber { get; set; }
         public int ApartamentNumber { get; set; }
 
+        public string State { get; set; }
+        public string Country { get; set; }
+
         //Klient 
         public string FirstName { get; set; }
         public string Surname { get; set; }

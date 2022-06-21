@@ -124,30 +124,20 @@ namespace MusicStore.Domain.Concrete
 
         public async Task<List<int>> GetClientLibraryAsync(int id)
         {
-            //var libraries = await AllClientLibrariesAsync();
-
-
-            var productRecord = from e in context.ClientLibrary
+            var clientLibrary = from e in context.ClientLibrary
                                 where e.ClientId == id
                                 select e.AlbumId;
 
-
-
-            return await productRecord.ToListAsync();
+            return await clientLibrary.ToListAsync();
         }
 
         public async Task<List<int>> GetClientWishlist(int id)
         {
-            //var libraries = await AllClientWishlistAsync();
-
-
-            var productRecord = from e in context.ClientWishlist
+            var clientWishlist = from e in context.ClientWishlist
                                 where e.ClientId == id
                                 select e.AlbumId;
 
-
-
-            return await productRecord.ToListAsync();
+            return await clientWishlist.ToListAsync();
         }
 
         public async Task<Cart> ClientHaveAlbum(int clientId, Cart cart)
@@ -366,51 +356,48 @@ namespace MusicStore.Domain.Concrete
             var albumList = await context.Album.ToListAsync(); // lista wszystkich albumów
             var genresList = await context.Genre.ToListAsync(); //lista wszystkich gatunków
             var artistList = await context.Artist.ToListAsync(); //lista wszystkich artystów
-            
-            
-            var listAlbumsWishlist = from x in clientWishlist
-                             join y in albumList on x.AlbumId equals y.Id
-                             select y; // pobranie detalów albumów z listy życzeń
+
 
             var listAlbumsLibrary = from x in clientLibrary
                                     join y in albumList on x.AlbumId equals y.Id
-                                     select y;  // pobranie detalów albumów z biblioteki
+                                    select y;  // pobranie  albumów z biblioteki
 
 
-            //preferowane gatunki
-            List<Genre> genreWishlist = new List<Genre>();
-            List<Genre> genreLibrary = new List<Genre>();
+            var listAlbumsWishlist = from x in clientWishlist
+                                     join y in albumList on x.AlbumId equals y.Id
+                                     select y; // pobranie albumów z listy życzeń
 
-            //preferowani artyści
-            //List<Artist> artistWishlist = new List<Artist>();
-            //List<Artist> artistLibrary = new List<Artist>();
           
 
-            //int liczbaWystąpień = 0;
-            int liczbaWystąpieńLib = 0;
-            int liczbaWystąpieńWis = 0;
+            
+            List<Genre> genreWishlist = new List<Genre>(); //lista gatunków na liście życzeń
+            List<Genre> genreLibrary = new List<Genre>(); //lista gatunków w bibliotece
+
+            
+            int numLibrary = 0;
+            int numWishlist = 0;
             double allGenre = 0;
-            //double allArtists = 0;
+            
 
             //liczenie gatunków
             foreach (var item in genresList)
             {
-                liczbaWystąpieńLib = 0;
-                liczbaWystąpieńWis = 0;
+                numLibrary = 0;
+                numWishlist = 0;
 
 
                 foreach (var item2 in listAlbumsWishlist)
                 {
                     if (item.Id == item2.GenreId)
                     {
-                        liczbaWystąpieńWis++;
+                        numWishlist++;
                     }
                 }
 
 
                 Genre genreWish = new Genre()
                 {
-                    Id = liczbaWystąpieńWis,
+                    Id = numWishlist,
                     Name = item.Name,
                 };
 
@@ -422,58 +409,57 @@ namespace MusicStore.Domain.Concrete
 
                     if (item.Id == item2.GenreId)
                     {
-                        liczbaWystąpieńLib++;
+                        numLibrary++;
                     }
                 }
 
                 Genre genreLib = new Genre()
                 {
-                    Id = liczbaWystąpieńLib,
+                    Id = numLibrary,
                     Name = item.Name,
                 };
 
                 genreLibrary.Add(genreLib);
 
-                allGenre += (double)liczbaWystąpieńLib + liczbaWystąpieńWis * 0.25;
+                allGenre += (double)numLibrary + numWishlist * 0.25;
 
             }
+
+
             int sumWishlist = 0;
-            List<ClientGenrePrefences> clientPrefe = new List<ClientGenrePrefences>();
+
+            List<ClientGenrePrefences> clientPrefe = new List<ClientGenrePrefences>(); //Lista preferowanych gatunków
 
             foreach (var item in genreLibrary)
             {
-                double tmpGenre = 0;
+                double tmpGenre = 0; 
                 foreach (var item2 in genreWishlist)
                 {
                    
                     if (item.Name == item2.Name)
                     {
-                        sumWishlist += item2.Id;
-                        tmpGenre = (double)(item.Id + item2.Id * 0.25);
+                        sumWishlist += item2.Id; //zliczanie liczby albumów na liście życzeń
+                        tmpGenre = (double)(item.Id + item2.Id * 0.25); // liczba wystąpień razem
                     }
                 }
                 if(tmpGenre > 0)
                 {
+                    var newGenre = await context.Genre.Where(x => x.Name == item.Name).FirstOrDefaultAsync(); //pobranie gatunku z bazy
+                        ClientGenrePrefences preferences = new ClientGenrePrefences()
+                                {
+                    
+                                genreAppearances = Math.Round((tmpGenre * 100 / allGenre), 2), // % liczby wystąpień
+                                genre = newGenre, //gatunek
+                                sumLibrary = item.Id, //liczba albumów w bibliotece 
+                                sumWishlist = sumWishlist, //liczba albumów na liście życzeń
+                                };
 
-                
-                var newGenre = await context.Genre.Where(x => x.Name == item.Name).FirstOrDefaultAsync();
-                    ClientGenrePrefences preferences = new ClientGenrePrefences()
-                {
-                    //wyst = tmp,
-                    //Name = item.Name,
-                    genreAppearances = Math.Round((tmpGenre * 100 / allGenre), 2),
-                    genre = newGenre,
-                    sumLibrary = item.Id,
-                    sumWishlist = sumWishlist,
-                    };
-                clientPrefe.Add(preferences);
+                    clientPrefe.Add(preferences);
                     sumWishlist = 0;
-                }
-               
+                }  
             }
             return clientPrefe;
         }
-
 
         public async Task<List<ClientArtistPreferences>> GetClientArtistPreferences(int clientId)
         {
@@ -722,6 +708,7 @@ namespace MusicStore.Domain.Concrete
 
         }
 
+      
 
 
 

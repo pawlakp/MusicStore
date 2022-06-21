@@ -116,7 +116,25 @@ namespace MusicStore.WebUI.Controllers
         public async Task<ActionResult> DetailsAdress(int id)
         {
             var client = await clientRepo.GetClientByAccountId(id);
-            return View(await clientRepo.GetAdressesAsync(client.Id));
+            var adress = await clientRepo.GetAdressesAsync(client.Id);
+
+            ClientModelDto clientDetails = new ClientModelDto
+            {
+                City = adress.City,
+                Town = adress.Town,
+                PostCode = adress.PostCode,
+                Street = adress.Street,
+                HouseNumber = adress.HouseNumber,
+                ApartamentNumber = adress.ApartamentNumber,
+                State = adress.State,
+                Country = adress.Country,
+                FirstName = client.FirstName,
+                Surname = client.Surname,
+                PhoneNumber = client.PhoneNumber,
+                ClientId = client.Id,
+
+            };
+            return View(clientDetails);
         }
         
         public async Task<ActionResult> EditAdress(int id)
@@ -135,16 +153,16 @@ namespace MusicStore.WebUI.Controllers
         {
            
             var clientId = await clientRepo.GetClientByAccountId(id);
-            var a = await clientRepo.GetClientLibraryAsync(clientId.Id);
-            var b = await productsRepo.GetAlbumsToLibrary(a);
+            var albumsId = await clientRepo.GetClientLibraryAsync(clientId.Id);
+            var albumsList = await productsRepo.GetAlbumsToLibrary(albumsId);
             AlbumListViewModel model = new AlbumListViewModel
             {
-                AlbumsWithArtists = b.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
+                AlbumsWithArtists = albumsList.OrderBy(p => p.album.ArtistId).Skip((page - 1) * PageSize).Take(PageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = b.Count()
+                    TotalItems = albumsList.Count()
                 },
             };
 

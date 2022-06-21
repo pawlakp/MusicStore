@@ -16,8 +16,11 @@ namespace MusicStore.Domain.Entities
         [Required(ErrorMessage = "Proszę podać hasło")]
         [Display(Name = "Hasło")]
         public string Password { get; set; }
+        [Display(Name = "Administator")]
         public bool IsAdmin { get; set; }
+        [Display(Name = "Czy wymagana jest zmiana hasła?")]
         public bool IsPasswordChangeRequired { get; set; }
+        [Display(Name = "Czy użytkownik jest usunięty?")]
         public bool IsDeleted { get; set; }
     }
 }

@@ -90,7 +90,7 @@ namespace MusicStore.WebUI.Controllers
         {
             //var list = await products.GetAlbumWithArtistAsync();
             //return View(list.AsEnumerable());
-            var apiModel = await products.GetAlbumWithArtistAsync();
+            var apiModel = await products.AllAlbumsDetails();
             AlbumListViewModel model = new AlbumListViewModel
             {
                 AlbumsWithArtists = apiModel.OrderBy(p => p.album.Id).Skip((page - 1) * PageSize).Take(PageSize),
@@ -104,6 +104,35 @@ namespace MusicStore.WebUI.Controllers
 
 
             return View(model);
+        }
+
+        public async Task<ActionResult> DetailsAlbum(int id)
+        {
+            var album = await products.GetAlbumDetailsAsync(id);
+            return View(album);
+        }
+
+        public async Task<ActionResult> DetailsClient(int id)
+        {
+            var client = await clients.GetClientByAccountId(id);
+            var adress = await clients.GetAdressesAsync(client.Id);
+
+            ClientModelDto clientDetails = new ClientModelDto
+            {
+                City = adress.City,
+                Town = adress.Town,
+                PostCode = adress.PostCode,
+                Street = adress.Street,
+                HouseNumber = adress.HouseNumber,
+                ApartamentNumber = adress.ApartamentNumber,
+                State = adress.State,
+                Country = adress.Country,
+                FirstName = client.FirstName,
+                Surname = client.Surname,
+                PhoneNumber = client.PhoneNumber,
+
+            };
+            return View(clientDetails);
         }
 
         public async Task<ActionResult> AddAlbum()
@@ -264,10 +293,10 @@ namespace MusicStore.WebUI.Controllers
         {
             var client = await accounts.AllAccountsAsync();
             var albumList = await products.AllAlbumAsync();
-
+            var clientList = client.Where(x => x.IsAdmin == false).ToList();
             return View(new AssignAlbumModelDto
             {
-              ClientsList = client,
+              ClientsList = clientList,
               AlbumsList = albumList
             });
         }

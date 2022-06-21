@@ -46,6 +46,37 @@ namespace MusicStore.Domain.Concrete
 
         }
 
+         public async Task<IEnumerable<AlbumAllDetails>> AllAlbumsDetails()
+        {
+            var artistsList = await AllArtistAsync();
+            var albumsList = await AllAlbumAsync();
+            var genreList = await AllGenreAsync();
+            var labelsList = await AllLabelAsync();
+            var countriesList = await AllCountriesAsync();
+
+
+            var productRecord = from e in albumsList
+                                join x in artistsList on e.ArtistId equals x.ArtistId into table1
+                                from x in table1.ToList()
+                                join y in genreList on e.GenreId equals y.Id into table2
+                                from y in table2.ToList()
+                                join z in labelsList on e.LabelId equals z.Id into table3
+                                from z in table3.ToList()
+                                join a in countriesList on e.CountryId equals a.Id into table4
+                                from a in table4.ToList()
+                                select new AlbumAllDetails
+                                {
+                                    album = e,
+                                    artist = x,
+                                    genre = y,
+                                    label = z,
+                                    country = a
+                                };
+
+            return productRecord;
+
+        }
+
         //pobieranie albumu według określonego gatunku
         public async Task<IEnumerable<AlbumAllDetails>> GetFiltredAlbumAsync(int genre)
         {
