@@ -1,6 +1,9 @@
 # MusicStore
 MusicStore ASP.NET MVC project
 
+# Description:
+Music store application with the possibility of determining the customer's musical preferences. During the design of the application, in addition to the functionality of the client, the creation of a module that allows to manage the store was taken into account. This makes the management of the offer, or users, much clearer and simpler. In order to define the client's music preferences, an algorithm was developed, using the client's purchase decisions, whose task is to find the greatest number of appearances of a given genre, artist and music label. The application was based on the MVC pattern. In the process of its construction was used ASP.NET technology.
+
 # Version:
 ##  0.0.0.1   
 1. create connect with database Album
